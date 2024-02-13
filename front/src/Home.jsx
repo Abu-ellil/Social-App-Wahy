@@ -1,20 +1,34 @@
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Post from "./components/Post";
-import { getAllPosts } from "./redux/redux";
+import { getAllPosts, likePost } from "./redux/redux";
 import axios from "axios";
 import useInfinitScroll from "./hooks/useInfinitScroll";
 
 function Home() {
+  const user = useSelector(state=>state.user)
   const [query, setQuery] = useState("");
+  const [commentText, setCommentText] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
-
+  const [isLiked, setIsLiked] = useState(false);
   const { posts, hasMore, loading } = useInfinitScroll(query, pageNumber);
+
+  const dispatch = useDispatch();
+
+   const handleLike = (postId, isLiked) => {
+     setIsLiked((prevIsLiked) => !prevIsLiked);
+     dispatch(likePost(postId, user.id, !isLiked));
+   };
+
+  const handleComment = (postId, commentText) => {
+    dispatch(addComment(postId, commentText));
+    setCommentText("");
+  };
 
   const observer = useRef();
   const lastPostRef = useCallback(
     (node) => {
-      console.log(posts)
+      console.log(posts);
       if (loading) return;
 
       if (observer.current) observer.current.disconnect();
@@ -29,14 +43,28 @@ function Home() {
     },
     [loading, hasMore]
   );
-
   return (
     <div>
       {posts.map((post, index) => {
         if (posts.length === index + 1) {
-          return <Post key={post.id} ref={lastPostRef} post={post} />;
+          return (
+            <Post
+              key={post.id}
+              ref={lastPostRef}
+              post={post}
+              onLike={() => handleLike(post._id, isLiked)}
+              onComment={(commentText) => handleComment(post._id, commentText)}
+            />
+          );
         } else {
-          return <Post key={post.id} post={post} />;
+          return (
+            <Post
+              key={post.id}
+              post={post}
+              onLike={() => handleLike(post._id, isLiked)}
+              onComment={(commentText) => handleComment(post._id, commentText)}
+            />
+          );
         }
       })}
       {loading && <p>Loading more posts...</p>}

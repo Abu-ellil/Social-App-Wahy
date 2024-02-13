@@ -132,4 +132,33 @@ async function getPost(req, res, next) {
   next();
 }
 
+router.post("/posts/:postId/like", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    const userId = req.body.userId; // Assuming user ID is sent in request body
+    const isLiked = post.likes.includes(userId);
+
+    if (isLiked) {
+      // Unlike the post
+      post.likes = post.likes.filter((id) => id.toString() !== userId);
+    } else {
+      // Like the post
+      post.likes.push(userId);
+    }
+
+    await post.save();
+
+    res.json({
+      message: `Post ${post._id} is ${isLiked ? "unliked" : "liked"}`,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = { router };

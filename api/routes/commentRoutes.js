@@ -13,11 +13,11 @@ router.get("/posts/:postId/comments", async (req, res) => {
   }
 });
 
-// CREATE a new comment
+/// CREATE a new comment
 router.post("/posts/:postId/comments", async (req, res) => {
   const comment = new Comment({
     postId: req.params.postId,
-    user: req.body.user, // Assuming user ID is sent in request body
+    user: req.body.user, // Assuming user ID is sent in the request body
     text: req.body.text,
     username: req.body.username,
   });

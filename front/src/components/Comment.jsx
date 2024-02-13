@@ -1,11 +1,15 @@
-// Comment.jsx
 import React from "react";
 
-const Comment = ({ text, user }) => {
+const Comment = ({ comment, onDelete }) => {
+  const handleDelete = async () => {
+    // Call onDelete function to handle the delete action
+    onDelete(comment._id);
+  };
+
   return (
-    <div>
-      <p>{text}</p>
-      <p>Comment by: {user}</p>
+    <div className="comment">
+      <p>{comment.text}</p>
+      <button onClick={handleDelete}>Delete</button>
     </div>
   );
 };

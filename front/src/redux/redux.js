@@ -13,6 +13,9 @@ const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
 const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 const GET_USER_AVATAR_SUCCESS = "GET_USER_AVATAR_SUCCESS";
 const GET_ALL_POSTS_SUCCESS = "GET_ALL_POSTS_SUCCESS";
+const LIKE_POST_SUCCESS = "LIKE_POST_SUCCESS";
+
+
 
 // Action Creators
 const loginUserSuccess = (userData) => ({
@@ -53,7 +56,10 @@ const updatePostsSuccess = (posts) => ({
   type: GET_ALL_POSTS_SUCCESS,
   payload: posts,
 });
-
+const likePostSuccess = (postId, isLiked) => ({
+  type: LIKE_POST_SUCCESS,
+  payload: { postId, isLiked },
+});
 
 
 
@@ -175,12 +181,29 @@ const getUserAvatar = (userId) => {
     }
   };
 };
+const likePost = (postId, userId, isLiked) => {
+  return async (dispatch) => {
+    try {
+      // Make the API call to like/unlike the post
+      await axios.post(`http://localhost:3030/api/posts/${postId}/like`, {
+        userId,
+      });
+
+      // Dispatch the action to update the state with the new liked status
+      dispatch(likePostSuccess(postId, isLiked));
+    } catch (error) {
+      console.error("Error liking/unliking post:", error);
+      // Handle error if needed
+    }
+  };
+};
 
 // Initial State
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   posts: [], 
   comments: [], 
+  likes:[]
 };
 
 // Reducer
@@ -271,5 +294,6 @@ export {
   addComment,
   getUserAvatar,
   getAllPosts,
-  updatePosts
+  updatePosts,
+  likePost,
 };

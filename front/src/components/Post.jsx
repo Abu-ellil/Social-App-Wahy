@@ -1,14 +1,29 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import "./Post.css"; // Import the CSS file
 
-const Post = forwardRef(({ post }, ref) => {
+const Post = forwardRef(({ post, onLike, onComment }, ref) => {
   const [user, setUser] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
     if (post && post.user) {
       setUser(post.user);
     }
-  }, [post]);
+    setIsLiked(post.likes.includes(user?.id));
+  }, [post, user]);
+
+  const handleLike = async () => {
+    setIsLiked((prevIsLiked) => !prevIsLiked);
+    // Call onLike function to handle the like action
+    onLike(post._id, isLiked);
+  };
+
+  const handleComment = async () => {
+    // Call onComment function to handle the comment action
+    onComment(post._id, commentText);
+    setCommentText(""); // Clear comment text
+  };
 
   return (
     <div ref={ref} className="post">
@@ -23,11 +38,12 @@ const Post = forwardRef(({ post }, ref) => {
             <p>{post.description}</p>
             {post.image && <img src={post.image} alt="Post" />}
             <div className="actions">
-              <button>Like</button>
-              <button>Comment</button>
+              <p>{post.likes.length}</p>
+              <button onClick={handleLike}>
+                {isLiked ? "Unlike" : "Like"}
+              </button>
+              <button onClick={handleComment}>Comment</button>
             </div>
-            <div className="likes">Likes: {post.likes.length}</div>
-            <div className="comments">Comments: {post.comments.length}</div>
           </div>
         </>
       ) : (
