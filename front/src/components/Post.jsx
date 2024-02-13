@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import "./Post.css"; // Import the CSS file
 
-function Post({ post }) {
+const Post = forwardRef(({ post }, ref) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ function Post({ post }) {
   }, [post]);
 
   return (
-    <div className="post">
+    <div ref={ref} className="post">
       {user ? (
         <>
           <div className="user-info">
@@ -35,6 +35,6 @@ function Post({ post }) {
       )}
     </div>
   );
-}
+});
 
 export default Post;
