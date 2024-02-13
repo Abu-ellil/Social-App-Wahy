@@ -50,8 +50,22 @@ router.get("/posts", async (req, res) => {
 });
 
 // GET a single post by ID
-router.get("/posts/:id", getPost, (req, res) => {
-  res.json(res.post);
+// GET a single post by ID
+router.get("/posts/:id", getPost, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+      .populate("user")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+          model: "User",
+        },
+      });
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 // CREATE a new post

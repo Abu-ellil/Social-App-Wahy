@@ -20,9 +20,8 @@ const Post = forwardRef(({ post, onLike, onComment }, ref) => {
   };
 
   const handleComment = async () => {
-    // Call onComment function to handle the comment action
     onComment(post._id, commentText);
-    setCommentText(""); // Clear comment text
+    setCommentText("");
   };
 
   return (
@@ -45,6 +44,20 @@ const Post = forwardRef(({ post, onLike, onComment }, ref) => {
               <button onClick={handleComment}>Comment</button>
             </div>
           </div>
+          {/* Render comments */}
+          <div className="comments">
+            {post.comments.map((comment) => (
+              <div key={comment._id} className="comment">
+                {comment.user && comment.user.profilePhoto && (
+                  <img
+                    src={comment.user.profilePhoto.url}
+                    alt="Comment User Profile"
+                  />
+                )}
+                <p>{comment.text}</p>
+              </div>
+            ))}
+          </div>
         </>
       ) : (
         <h1>No Posts</h1>
@@ -54,3 +67,4 @@ const Post = forwardRef(({ post, onLike, onComment }, ref) => {
 });
 
 export default Post;
+

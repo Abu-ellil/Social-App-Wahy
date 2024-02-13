@@ -6,13 +6,17 @@ const router = express.Router();
 // GET all comments for a specific post
 router.get("/posts/:postId/comments", async (req, res) => {
   try {
-    const comments = await Comment.find({ postId: req.params.postId });
+    const comments = await Comment.find({ postId: req.params.postId }).populate(
+      {
+        path: "user",
+        select: "username profilePhoto",
+      }
+    );
     res.json(comments);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
 /// CREATE a new comment
 router.post("/posts/:postId/comments", async (req, res) => {
   const comment = new Comment({
@@ -21,7 +25,7 @@ router.post("/posts/:postId/comments", async (req, res) => {
     text: req.body.text,
     username: req.body.username,
   });
-
+console.log(comment);
   try {
     const newComment = await comment.save();
     res.status(201).json(newComment);

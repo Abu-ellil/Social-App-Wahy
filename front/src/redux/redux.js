@@ -225,11 +225,11 @@ const addPost = (postFormData) => {
   };
 };
 
-const addComment = (commentData) => {
+const addComment = (postId, commentData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "http://localhost:3030/api/comments",
+        `http://localhost:3030/api/posts/${postId}/comments`,
         commentData
       );
       dispatch(addCommentSuccess(response.data));
