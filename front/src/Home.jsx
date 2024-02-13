@@ -19,20 +19,20 @@ function Home() {
     setIsLiked((prevIsLiked) => !prevIsLiked);
     dispatch(likePost(postId, user.id, !isLiked));
   };
-const handleComment = (postId, commentText) => {
-  dispatch(
-    addComment(postId, {
-      user: user._id,
-      text: commentText,
-      username: "example",
-    })
-  );
-  setCommentText("");
-};
+  const handleComment = (postId, commentText) => {
+    dispatch(
+      addComment(postId, {
+        user: user._id,
+        text: commentText,
+        username: "example",
+      })
+    );
+    setCommentText("");
+  };
   const observer = useRef();
   const lastPostRef = useCallback(
     (node) => {
-      
+      console.log(posts);
       if (loading) return;
 
       if (observer.current) observer.current.disconnect();
@@ -47,35 +47,95 @@ const handleComment = (postId, commentText) => {
     },
     [loading, hasMore]
   );
-
   return (
     <div>
-      {posts.map((post, index) => (
-        <div key={post.id}>
-          <Post
-            post={post}
-            onLike={() => handleLike(post._id, isLiked)}
-            onComment={(commentText) => handleComment(post._id, commentText)}
-          />
-          <form>
-            <input
-              type="text"
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Enter your comment..."
-            />
-            <button
-              type="button"
-              onClick={() => handleComment(post._id, commentText)}
-            >
-              Comment
-            </button>
-          </form>
-        </div>
-      ))}
+      {posts.map((post, index) => {
+        if (posts.length === index + 1) {
+          return (
+            <div key={post.id} ref={lastPostRef}>
+              <Post
+                post={post}
+                onLike={() => handleLike(post._id, isLiked)}
+                onComment={(commentText) =>
+                  handleComment(post._id, commentText)
+                }
+              />
+              <form>
+                <input
+                  type="text"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Enter your comment..."
+                />
+                <button
+                  type="button"
+                  onClick={() => handleComment(post._id, commentText)}
+                >
+                  Comment
+                </button>
+              </form>
+            </div>
+          );
+        } else {
+          return (
+            <div key={post.id}>
+              <Post
+                post={post}
+                onLike={() => handleLike(post._id, isLiked)}
+                onComment={(commentText) =>
+                  handleComment(post._id, commentText)
+                }
+              />
+              <form>
+                <input
+                  type="text"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Enter your comment..."
+                />
+                <button
+                  type="button"
+                  onClick={() => handleComment(post._id, commentText)}
+                >
+                  Comment
+                </button>
+              </form>
+            </div>
+          );
+        }
+      })}
       {loading && <p>Loading more posts...</p>}
     </div>
   );
 }
+//   return (
+//     <div>
+//       {posts.map((post, index) => (
+//         <div key={post.id}>
+//           <Post
+//             post={post}
+//             onLike={() => handleLike(post._id, isLiked)}
+//             onComment={(commentText) => handleComment(post._id, commentText)}
+//           />
+//           <form>
+//             <input
+//               type="text"
+//               value={commentText}
+//               onChange={(e) => setCommentText(e.target.value)}
+//               placeholder="Enter your comment..."
+//             />
+//             <button
+//               type="button"
+//               onClick={() => handleComment(post._id, commentText)}
+//             >
+//               Comment
+//             </button>
+//           </form>
+//         </div>
+//       ))}
+//       {loading && <p>Loading more posts...</p>}
+//     </div>
+//   );
+// }
 
 export default Home;

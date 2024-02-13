@@ -26,7 +26,13 @@ const loginUserSuccess = (userData) => ({
 const logoutUser = () => ({
   type: LOGOUT_USER,
 });
-
+export const updateUserRequest = () => ({
+  type: "UPDATE_USER_REQUEST",
+});
+export const updateUserFailure = (error) => ({
+  type: "UPDATE_USER_FAILURE",
+  payload: error,
+});
 const addPostSuccess = (post) => ({
   type: ADD_POST_SUCCESS,
   payload: post,
@@ -61,6 +67,13 @@ const likePostSuccess = (postId, isLiked) => ({
   payload: { postId, isLiked },
 });
 
+// Initial State
+const initialState = {
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  posts: [], 
+  comments: [], 
+  likes:[]
+};
 
 
 // Async Action Creator
@@ -105,7 +118,8 @@ const updatePosts = (page = 1) => {
 const updateUser = (userData) => {
   return async (dispatch) => {
     try {
-      // Make the API call to update user information
+      dispatch(updateUserRequest()); // Dispatch loading action
+
       const response = await axios.patch(
         `http://localhost:3030/users/me/${userData._id}`,
         userData,
@@ -116,14 +130,11 @@ const updateUser = (userData) => {
         }
       );
 
-      // Dispatch the action to update user information in the store
       dispatch(updateUserSuccess(response.data.user));
-
-      // Optionally, update local storage with the new user data
       localStorage.setItem("user", JSON.stringify(response.data.user));
     } catch (error) {
+      dispatch(updateUserFailure(error.message));
       console.error("Error updating user information:", error);
-      // Handle error if needed
     }
   };
 };
@@ -198,13 +209,6 @@ const likePost = (postId, userId, isLiked) => {
   };
 };
 
-// Initial State
-const initialState = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
-  posts: [], 
-  comments: [], 
-  likes:[]
-};
 
 // Reducer
 
@@ -296,4 +300,5 @@ export {
   getAllPosts,
   updatePosts,
   likePost,
+  
 };

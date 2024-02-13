@@ -63,17 +63,28 @@ router.patch("/me/:id", async (req, res) => {
   );
 
   if (!isValidOperation) {
+    console.error("Invalid updates:", updates);
     return res.status(400).send({ error: "Invalid updates!" });
   }
 
   try {
+    // Find the user by ID
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).send({ error: "User not found" });
+    }
+
+    // Update the user with the provided data
     updates.forEach((update) => {
-      req.user[update] = req.body[update];
+      user[update] = req.body[update];
     });
 
-    await req.user.save();
-    res.send(req.user);
+    // Save the updated user
+    await user.save();
+    res.send(user);
   } catch (error) {
+    console.error("Error updating user:", error);
     res.status(400).send(error);
   }
 });

@@ -1,7 +1,7 @@
 // Import necessary libraries
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../redux/redux";
+import { updateUser, updateUserRequest } from "../redux/redux";
 import axios from "axios";
 
 const EditProfile = ({ token }) => {
@@ -37,22 +37,18 @@ const EditProfile = ({ token }) => {
 
   const handleUserInfoUpdate = async () => {
     try {
-      const updatedUserData = {
-        username,
-        email,
-      };
+      // Dispatch the action to indicate the start of the update
+      dispatch(updateUserRequest());
 
-      await axios.patch(`http://localhost:3030/users/me/${user._id}`, updatedUserData, {
-        headers: {
-          Authorization: token,
-        },
-      });
+      // ... existing code
 
-      const updatedUser = { ...user, ...updatedUserData };
-      dispatch(updateUser(updatedUser));
-      setSuccessMessage("User information updated successfully");
+      // Optionally, update local storage with the new user data
+      localStorage.setItem("user", JSON.stringify(response.data.user));
     } catch (error) {
-      console.error("Error updating user information:", error.response?.data.message || "Unknown error");
+      console.error(
+        "Error updating user information:",
+        error.response?.data.message || "Unknown error"
+      );
       setError("Error updating user information");
     }
   };
