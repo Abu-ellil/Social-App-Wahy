@@ -1,0 +1,37 @@
+/* Post.css */
+.post {
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.post-content {
+  margin-top: 10px;
+}
+.post-content img {
+  border-radius: 10px;
+}
+
+.actions button {
+  margin-right: 10px;
+}
+
+.likes,
+.comments {
+  margin-top: 10px;
+  font-style: italic;
+}
