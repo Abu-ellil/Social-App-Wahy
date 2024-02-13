@@ -107,9 +107,11 @@ router
 
     const result = await cloudinaryUploadImage(imagePath);
 
-    if (user.profilePhoto?.publicId !== null) {
-      await cloudinaryRemoveImage(user.profilePhoto.publicId);
-    }
+  if (user.profilePhoto && user.profilePhoto.publicId) {
+    await cloudinaryRemoveImage(user.profilePhoto.publicId);
+    user.profilePhoto = { url: null, publicId: null };
+    await user.save();
+  }
 
     user.profilePhoto = {
       url: result.secure_url,
@@ -139,15 +141,15 @@ router
         user.profilePhoto.url
       );
 
-      res.writeHead(200, {
-        "Content-Type": "image/png", // Adjust the content type based on your avatar format
+      res.writeHead(200, { 
+        "Content-Type": "image/png", 
       });
 
       res.end(Buffer.from(avatarBuffer, "binary"));
     } catch (err) {
       console.error("Error fetching avatar:", err);
-      res.status(500).json({ message: "Internal Server Error" });
-    }
+      res.status(500).json({ message: "file too larg" });
+    } 
   });
 
 router.route("/:id").get(async (req, res) => {

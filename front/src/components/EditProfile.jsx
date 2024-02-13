@@ -3,6 +3,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, updateUserRequest } from "../redux/redux";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import "./EditProfile.css"; // Import the CSS file
 
 const EditProfile = ({ token }) => {
   const user = useSelector((state) => state.user);
@@ -34,38 +38,36 @@ const EditProfile = ({ token }) => {
       setEmail(value);
     }
   };
-
- const handleUserInfoUpdate = async () => {
-   try {
-     // Dispatch the action to indicate the start of the update
-     dispatch(updateUserRequest());
-
-     // Make the API call to update user information
-     const response = await axios.patch(
-       `http://localhost:3030/users/me/${user._id}`,
-       { username, email },
-       {
-         headers: {
-           Authorization: token,
-         },
-       }
-     );
-
-     // Dispatch the action to update user information in the store
-     dispatch(updateUser(response.data));
-
-     // Optionally, update local storage with the new user data
-     localStorage.setItem("user", JSON.stringify(response.data));
-
-     setSuccessMessage("User information updated successfully");
-   } catch (error) {
-     console.error(
-       "Error updating user information:",
-       error.response?.data.message || "Unknown error"
-     );
-     setError("Error updating user information");
-   }
+ const handleLogout = () => {
+   localStorage.removeItem("token");
+   localStorage.removeItem("user");
+   window.location.reload();
  };
+  const handleUserInfoUpdate = async () => {
+    try {
+      dispatch(updateUserRequest());
+      const response = await axios.patch(
+        `http://localhost:3030/users/me/${user._id}`,
+        { username, email },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      dispatch(updateUser(response.data));
+      handleLogout()
+      toast.success("Username and email updated successfully LOGIN again");
+      setSuccessMessage("Username and email updated successfully");
+    } catch (error) {
+      console.error(
+        "Error updating user information:",
+        error.response?.data.message || "Unknown error"
+      );
+      setError("Error updating username and email");
+      toast.error("Error updating username and email");
+    }
+  };
 
   const handleFileChange = (e) => {
     setAvatar(e.target.files[0]);
@@ -88,31 +90,28 @@ const EditProfile = ({ token }) => {
       );
 
       const updatedImageUrl = response.data.profilePhoto.url;
-
-      // Assuming the user object is updated with the new avatar URL
       const updatedUser = { ...user, profilePhoto: { url: updatedImageUrl } };
-
-      // Dispatch the action to update user information in Redux
       dispatch(updateUser(updatedUser));
-
+      toast.success("User avatar updated successfully");
       setSuccessMessage("User avatar updated successfully");
+      handleLogout()
     } catch (error) {
       console.error("Error updating user avatar:", error);
       setError(
         "Error updating user avatar: " +
           (error.response?.data.message || "Unknown error")
       );
+      toast.error("Error updating user avatar");
     }
   };
 
-
   return (
-
     <div className="edit-profile-container">
       <h2>Edit Profile</h2>
+      <ToastContainer />
       {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      {successMessage && <p>{successMessage}</p>}
+      {error && <p className="error">Error: {error}</p>}
+      {successMessage && <p className="success">Success: {successMessage}</p>}
       {!loading && !error && (
         <div>
           <form className="user-info-form" onSubmit={(e) => e.preventDefault()}>
@@ -137,7 +136,7 @@ const EditProfile = ({ token }) => {
             </label>
             <br />
             <button
-              className="btn"
+              className="btn btn-update"
               type="button"
               onClick={handleUserInfoUpdate}
             >
@@ -147,7 +146,7 @@ const EditProfile = ({ token }) => {
           <br />
           <form className="avatar-form" onSubmit={(e) => e.preventDefault()}>
             <label>
-              Avatar:
+              Avatar: 
               <input type="file" name="avatar" onChange={handleFileChange} />
             </label>
             <br />
@@ -161,7 +160,11 @@ const EditProfile = ({ token }) => {
               <p>No avatar available</p>
             )}
             <br />
-            <button className="btn" type="button" onClick={handleAvatarUpdate}>
+            <button
+              className="btn btn-update"
+              type="button"
+              onClick={handleAvatarUpdate}
+            >
               Update Avatar
             </button>
           </form>

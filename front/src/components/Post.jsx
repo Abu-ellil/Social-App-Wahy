@@ -1,6 +1,6 @@
-// Post.js
-
 import React, { forwardRef, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Post.css"; // Import the CSS file
 
 const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
@@ -34,8 +34,9 @@ const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
 
   const handleDeleteComment = async (commentId) => {
     onDeleteComment(post._id, commentId);
+    toast.success("Comment deleted successfully!");
   };
-console.log(post.user._id)
+
   return (
     <div ref={ref} className="post">
       {user ? (
@@ -59,7 +60,6 @@ console.log(post.user._id)
             <div>
               {post.comments.map((comment) => (
                 <div key={comment._id} className="comment">
-                  {console.log(comment.user.id)}
                   {comment.user && comment.user.profilePhoto && (
                     <img
                       src={comment.user.profilePhoto.url}

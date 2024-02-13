@@ -1,7 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Post from "./components/Post";
-import { getAllPosts, likePost, addComment } from "./redux/redux"; // Make sure to import addComment
+import { getAllPosts, likePost, addComment } from "./redux/redux";
 import axios from "axios";
 import useInfinitScroll from "./hooks/useInfinitScroll";
 
@@ -20,6 +22,7 @@ function Home() {
     setIsLiked((prevIsLiked) => !prevIsLiked);
     dispatch(likePost(postId, user.id, !isLiked));
   };
+
   const handleComment = (postId, commentText) => {
     dispatch(
       addComment(postId, {
@@ -29,11 +32,13 @@ function Home() {
       })
     );
     setCommentText("");
+    toast.success("Comment added successfully!");
   };
+
   const observer = useRef();
+
   const lastPostRef = useCallback(
     (node) => {
-      console.log(posts);
       if (loading) return;
 
       if (observer.current) observer.current.disconnect();
@@ -51,34 +56,32 @@ function Home() {
 
   const handleDeleteComment = async (postId, commentId) => {
     try {
-      // Make a DELETE request to your backend API to delete the comment
       const response = await axios.delete(
         `${apiUrl}/${user._id}/comments/${commentId}`
       );
-
-      // Check if the comment was successfully deleted
       if (response.status === 200) {
         console.log(
           `Comment ${commentId} deleted successfully for post ${postId}`
         );
-        // Implement additional logic if needed
+        toast.success("Comment deleted successfully!");
       } else {
         console.error(
           `Failed to delete comment ${commentId} for post ${postId}`
         );
-        // Handle the error appropriately
+        toast.error("Failed to delete comment");
       }
     } catch (error) {
       console.error("Error deleting comment:", error);
-      // Handle the error appropriately
+      toast.error("Error deleting comment");
     }
   };
+
   return (
-    <div>
+    <div className="home">
       {posts.map((post, index) => {
         if (posts.length === index + 1) {
           return (
-            <div key={post.id} ref={lastPostRef}>
+            <div className="post-wrapper" key={post.id} ref={lastPostRef}>
               <Post
                 onDeleteComment={handleDeleteComment}
                 post={post}
@@ -105,7 +108,7 @@ function Home() {
           );
         } else {
           return (
-            <div key={post.id}>
+            <div className="post-wrapper" key={post.id}>
               <Post
                 post={post}
                 onLike={() => handleLike(post._id, isLiked)}
@@ -133,6 +136,7 @@ function Home() {
         }
       })}
       {loading && <p>Loading more posts...</p>}
+      <ToastContainer />
     </div>
   );
 }

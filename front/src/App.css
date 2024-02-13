@@ -3,19 +3,30 @@
   padding: 0;
   box-sizing: border-box;
 }
+#root{
+  min-height: 100vh;
+  width: 100%;
+}
 body{
   min-height: 100vh;
-  background-color: #202022;
+  /* background-color: #202022; */
 }
 .app {
-  max-width: 1280px;
   display: flex;
-  flex-direction: column;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
+.hmoe{
 
+  grid-area: auto;
+}
+section {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 20px;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -50,4 +61,14 @@ body{
 
 .read-the-docs {
   color: #888;
+}
+.home-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.home{
+  width: 500px;
 }

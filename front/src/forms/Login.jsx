@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/redux";
-// import { useHistory } from "react-router-dom"; // Import useHistory for navigation
-import "./Login.css"; // Import CSS file for styling
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
   const dispatch = useDispatch();
- 
- 
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = useState(false); // State to track loading status
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,18 +25,21 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Set loading to true while the request is in progress
+    setIsLoading(true);
+
     try {
-      // Dispatch login action
       await dispatch(loginUser(formData));
-      setIsLoading(false); // Set loading to false after successful login
-      // Redirect/navigate home
-      //   history.push("/"); // Assuming "/" is the route for home
+      setIsLoading(false);
+      // Display a success toast
+      toast.success("Login successful!");
+      navigate("/");
     } catch (error) {
       console.error("Login failed", error);
-      setIsLoading(false); // Set loading to false if login fails
-      // Handle error, such as displaying an error message
+      setIsLoading(false);
+      // Display an error toast
+      toast.error("Login failed. Please check your credentials.");
     }
+    
   };
 
   return (
@@ -62,6 +66,7 @@ function Login() {
           {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 }

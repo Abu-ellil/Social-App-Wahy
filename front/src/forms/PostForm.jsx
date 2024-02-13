@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify"; // Import the toast module
+import "react-toastify/dist/ReactToastify.css"; // Import the default styles
 
 import "./PostForm.css";
 
@@ -14,7 +16,6 @@ function PostForm() {
     category: "",
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,8 +42,18 @@ function PostForm() {
         formDataToSend
       );
 
-       // Assuming onPostSubmit is provided and correct
+      // Notify user on successful submission
+      toast.success("Post submitted successfully!", {
+        position: "top-right",
+        autoClose: 3000, // Close the notification after 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
 
+      // Clear the form and file input on successful submission
       setFormData({
         title: "",
         description: "",
@@ -51,7 +62,17 @@ function PostForm() {
       setFiles([]);
       setLoading(false);
     } catch (error) {
-      setError(error.message);
+      // Notify user on error
+      toast.error(`Error: ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000, // Close the notification after 5 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
       setLoading(false);
     }
   };
@@ -59,7 +80,6 @@ function PostForm() {
   return (
     <form className="post-form" onSubmit={handleSubmit}>
       <h2>Create a New Post</h2>
-      {error && <div className="error">{error}</div>}
       <div>
         <label htmlFor="title">Title:</label>
         <input

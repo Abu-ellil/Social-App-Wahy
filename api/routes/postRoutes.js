@@ -44,6 +44,29 @@ router.get("/posts", async (req, res) => {
   }
 });
 
+// GET all posts for user
+router.get("/:id/posts", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).populate("posts");
+
+    if (!user) {
+      return res.status(404).send({ error: "User not found" });
+    }
+
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        posts: user.posts,
+      },
+    });
+  } catch (err) {
+    console.error("Error fetching user posts:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 // GET all posts
 router.get("/posts", async (req, res) => {
   try {
@@ -54,7 +77,6 @@ router.get("/posts", async (req, res) => {
   }
 });
 
-// GET a single post by ID
 // GET a single post by ID
 router.get("/posts/:id", getPost, async (req, res) => {
   try {

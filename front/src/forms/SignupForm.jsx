@@ -1,8 +1,8 @@
-// SignupForm.jsx
-
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signupUser } from "../redux/redux";
+import { toast } from "react-toastify"; // Import the toast module
+import "react-toastify/dist/ReactToastify.css"; // Import the default styles
 import "./Form.css";
 
 function SignupForm() {
@@ -21,9 +21,37 @@ function SignupForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(signupUser(formData));
+
+    try {
+      // Dispatch signup action
+      await dispatch(signupUser(formData));
+
+      // Notify user on successful signup
+      toast.success("Signup successful! Please log in.", {
+        position: "top-right",
+        autoClose: 5000, // Close the notification after 5 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      // Optionally, redirect to login page or handle login process
+    } catch (error) {
+      // Notify user on error
+      toast.error(`Error: ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000, // Close the notification after 5 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
 
   return (
