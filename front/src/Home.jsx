@@ -6,6 +6,7 @@ import axios from "axios";
 import useInfinitScroll from "./hooks/useInfinitScroll";
 
 function Home() {
+  const apiUrl = import.meta.env.VITE_API_SERVER_URL;
   const user = useSelector((state) => state.user);
   const [query, setQuery] = useState("");
   const [commentText, setCommentText] = useState("");
@@ -47,6 +48,31 @@ function Home() {
     },
     [loading, hasMore]
   );
+
+  const handleDeleteComment = async (postId, commentId) => {
+    try {
+      // Make a DELETE request to your backend API to delete the comment
+      const response = await axios.delete(
+        `${apiUrl}/${user._id}/comments/${commentId}`
+      );
+
+      // Check if the comment was successfully deleted
+      if (response.status === 200) {
+        console.log(
+          `Comment ${commentId} deleted successfully for post ${postId}`
+        );
+        // Implement additional logic if needed
+      } else {
+        console.error(
+          `Failed to delete comment ${commentId} for post ${postId}`
+        );
+        // Handle the error appropriately
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      // Handle the error appropriately
+    }
+  };
   return (
     <div>
       {posts.map((post, index) => {
@@ -54,6 +80,7 @@ function Home() {
           return (
             <div key={post.id} ref={lastPostRef}>
               <Post
+                onDeleteComment={handleDeleteComment}
                 post={post}
                 onLike={() => handleLike(post._id, isLiked)}
                 onComment={(commentText) =>
@@ -82,6 +109,7 @@ function Home() {
               <Post
                 post={post}
                 onLike={() => handleLike(post._id, isLiked)}
+                onDeleteComment={handleDeleteComment}
                 onComment={(commentText) =>
                   handleComment(post._id, commentText)
                 }
@@ -108,34 +136,5 @@ function Home() {
     </div>
   );
 }
-//   return (
-//     <div>
-//       {posts.map((post, index) => (
-//         <div key={post.id}>
-//           <Post
-//             post={post}
-//             onLike={() => handleLike(post._id, isLiked)}
-//             onComment={(commentText) => handleComment(post._id, commentText)}
-//           />
-//           <form>
-//             <input
-//               type="text"
-//               value={commentText}
-//               onChange={(e) => setCommentText(e.target.value)}
-//               placeholder="Enter your comment..."
-//             />
-//             <button
-//               type="button"
-//               onClick={() => handleComment(post._id, commentText)}
-//             >
-//               Comment
-//             </button>
-//           </form>
-//         </div>
-//       ))}
-//       {loading && <p>Loading more posts...</p>}
-//     </div>
-//   );
-// }
 
 export default Home;

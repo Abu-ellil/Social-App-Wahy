@@ -62,10 +62,10 @@ router.patch("/me/:id", async (req, res) => {
     allowedUpdates.includes(update)
   );
 
-  if (!isValidOperation) {
-    console.error("Invalid updates:", updates);
-    return res.status(400).send({ error: "Invalid updates!" });
-  }
+  // if (!isValidOperation) {
+  //   console.error("Invalid updates:", updates);
+  //   return res.status(400).send({ error: "Invalid updates!" });
+  // }
 
   try {
     // Find the user by ID

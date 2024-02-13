@@ -1,5 +1,6 @@
 const express = require("express");
 const Comment = require("../models/Comment.js");
+const User = require("../models/User.js");
 
 const router = express.Router();
 
@@ -25,7 +26,6 @@ router.post("/posts/:postId/comments", async (req, res) => {
     text: req.body.text,
     username: req.body.username,
   });
-console.log(comment);
   try {
     const newComment = await comment.save();
     res.status(201).json(newComment);
@@ -35,13 +35,22 @@ console.log(comment);
 });
 
 // DELETE a comment by ID
-router.delete("/comments/:id", async (req, res) => {
+router.delete("/:user/comments/:id", async (req, res) => {
+  const user = req.params.user;
+
   try {
     const comment = await Comment.findById(req.params.id);
+
+    // console.log(comment.user.toJSON())
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
-    await comment.remove();
+    if (comment.user.toJSON()== user) {
+      await Comment.findByIdAndDelete(req.params.id);
+      
+    }
+    
+    
     res.json({ message: "Deleted Comment" });
   } catch (err) {
     res.status(500).json({ message: err.message });

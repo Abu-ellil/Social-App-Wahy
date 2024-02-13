@@ -35,23 +35,37 @@ const EditProfile = ({ token }) => {
     }
   };
 
-  const handleUserInfoUpdate = async () => {
-    try {
-      // Dispatch the action to indicate the start of the update
-      dispatch(updateUserRequest());
+ const handleUserInfoUpdate = async () => {
+   try {
+     // Dispatch the action to indicate the start of the update
+     dispatch(updateUserRequest());
 
-      // ... existing code
+     // Make the API call to update user information
+     const response = await axios.patch(
+       `http://localhost:3030/users/me/${user._id}`,
+       { username, email },
+       {
+         headers: {
+           Authorization: token,
+         },
+       }
+     );
 
-      // Optionally, update local storage with the new user data
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-    } catch (error) {
-      console.error(
-        "Error updating user information:",
-        error.response?.data.message || "Unknown error"
-      );
-      setError("Error updating user information");
-    }
-  };
+     // Dispatch the action to update user information in the store
+     dispatch(updateUser(response.data));
+
+     // Optionally, update local storage with the new user data
+     localStorage.setItem("user", JSON.stringify(response.data));
+
+     setSuccessMessage("User information updated successfully");
+   } catch (error) {
+     console.error(
+       "Error updating user information:",
+       error.response?.data.message || "Unknown error"
+     );
+     setError("Error updating user information");
+   }
+ };
 
   const handleFileChange = (e) => {
     setAvatar(e.target.files[0]);

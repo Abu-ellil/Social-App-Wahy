@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Post Schema
 const PostSchema = new mongoose.Schema(
   {
     title: {
@@ -18,7 +17,7 @@ const PostSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User", // Reference to the User model
       required: true,
     },
     category: {
@@ -46,14 +45,13 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
-// Populate Comment For This Post
 PostSchema.virtual("comments", {
   ref: "Comment",
   foreignField: "postId",
   localField: "_id",
+  justOne: false,
 });
 
-// Post Model
 const Post = mongoose.model("Post", PostSchema);
 
 module.exports = Post;

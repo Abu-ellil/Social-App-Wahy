@@ -35,3 +35,9 @@
   margin-top: 10px;
   font-style: italic;
 }
+.comment{
+  color: azure;
+}
+.comment img{
+  height: 25px;
+}

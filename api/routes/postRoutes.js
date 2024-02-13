@@ -26,8 +26,13 @@ router.get("/posts", async (req, res) => {
     if (page) {
       posts = await Post.find()
         .populate("user")
-        .populate("comments")
-        .sort({ createdAt: -1 }) // Sort by creation date in descending order
+        .populate({
+  path: "comments",
+  populate: {
+    path: "user",
+    model: "User",
+  },
+}).sort({ createdAt: -1 })
         .skip((page - 1) * perPage)
         .limit(perPage);
     } else {

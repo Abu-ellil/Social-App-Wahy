@@ -1,17 +1,27 @@
+// Post.js
+
 import React, { forwardRef, useEffect, useState } from "react";
 import "./Post.css"; // Import the CSS file
 
-const Post = forwardRef(({ post, onLike, onComment }, ref) => {
+const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
   const [user, setUser] = useState(null);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); // Default to false
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
     if (post && post.user) {
       setUser(post.user);
     }
-    setIsLiked(post.likes.includes(user?.id));
-  }, [post, user]);
+
+    // Load like status from local storage on component mount
+    const storedLikeStatus = localStorage.getItem(`post_${post._id}_like`);
+    setIsLiked(storedLikeStatus === "true");
+  }, [post]);
+
+  useEffect(() => {
+    // Save like status to local storage whenever it changes
+    localStorage.setItem(`post_${post._id}_like`, isLiked);
+  }, [post._id, isLiked]);
 
   const handleLike = async () => {
     setIsLiked((prevIsLiked) => !prevIsLiked);
@@ -22,6 +32,11 @@ const Post = forwardRef(({ post, onLike, onComment }, ref) => {
   const handleComment = async () => {
     onComment(post._id, commentText);
     setCommentText("");
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    // Call onDeleteComment function to handle the comment deletion
+    onDeleteComment(post._id, commentId);
   };
 
   return (
@@ -55,6 +70,10 @@ const Post = forwardRef(({ post, onLike, onComment }, ref) => {
                   />
                 )}
                 <p>{comment.text}</p>
+                {/* Delete button for each comment */}
+                <button onClick={() => handleDeleteComment(comment._id)}>
+                  Delete
+                </button>
               </div>
             ))}
           </div>
@@ -67,4 +86,3 @@ const Post = forwardRef(({ post, onLike, onComment }, ref) => {
 });
 
 export default Post;
-
