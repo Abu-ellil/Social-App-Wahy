@@ -4,12 +4,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { CiHeart } from "react-icons/ci";
 import "./Post.css";
 import { FaHeart } from "react-icons/fa";
+import { FiSend } from "react-icons/fi";
+
 
 const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [commentText, setCommentText] = useState("");
-console.log(post)
+
   useEffect(() => {
     if (post && post.user) {
       setUser(post.user);
@@ -55,6 +57,43 @@ console.log(post)
     toast.success("Comment deleted successfully!");
   };
 
+  const timeDifference = (timestamp) => {
+    const currentTime = new Date();
+    const postTime = new Date(timestamp);
+    const differenceInSeconds = Math.floor((currentTime - postTime) / 1000);
+
+    if (differenceInSeconds < 60) {
+      return `${differenceInSeconds}s`;
+    } else if (differenceInSeconds < 3600) {
+      const minutes = Math.floor(differenceInSeconds / 60);
+      return `${minutes}m`;
+    } else if (differenceInSeconds < 86400) {
+      const hours = Math.floor(differenceInSeconds / 3600);
+      return `${hours}h`;
+    } else {
+      const days = Math.floor(differenceInSeconds / 86400);
+      return `${days}d`;
+    }
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: post.title,
+          text: post.description,
+          url: window.location.href,
+        });
+        toast.success("Post shared successfully!");
+      } catch (error) {
+        toast.error("Error sharing post. Please try again.");
+        console.error("Error sharing post:", error);
+      }
+    } else {
+      toast.error("Web Share API is not supported in this browser.");
+    }
+  };
+
   return (
     <div ref={ref} className="post">
       {user ? (
@@ -64,11 +103,12 @@ console.log(post)
             <p>{user.username}</p>
           </div>
           <div className="post-content">
-            <p>{post.createdAt}</p>
             <h2>{post.title}</h2>
+            <p>Created {timeDifference(post.createdAt)} ago</p>
             <p>{post.description}</p>
             {post.image && <img src={post.image} alt="Post" />}
             <div className="actions">
+              <p>{post.likes.length}</p>
               <button onClick={handleLike}>
                 {post.likes.includes(user._id) ? (
                   <FaHeart className="like" />
@@ -76,7 +116,10 @@ console.log(post)
                   <CiHeart className="liked" />
                 )}
               </button>
-              <p>{post.likes.length}</p>
+
+              <button onClick={handleShare}>
+                <FiSend className=" FiSend" />
+              </button>
             </div>
           </div>
           <div className="comments">
@@ -90,6 +133,7 @@ console.log(post)
                     />
                   )}
                   <p>{comment.text}</p>
+                  <p>{timeDifference(comment.createdAt)} ago</p>
                   {comment.user.id === user._id && (
                     <button onClick={() => handleDeleteComment(comment._id)}>
                       Delete

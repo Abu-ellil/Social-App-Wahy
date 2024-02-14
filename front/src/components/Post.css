@@ -65,12 +65,10 @@ outline:transparent ;
 color: red;
 }
 .liked,
-.like{
+.like, .FiSend{
 font-size: 35px;
 }
-.liked{
-  
-}
+
 .post .actions button {
   background: none;
   border: none;
