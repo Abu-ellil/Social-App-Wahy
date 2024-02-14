@@ -6,7 +6,6 @@ import "./Post.css";
 import { FaHeart } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
 
-
 const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
@@ -19,7 +18,7 @@ const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
   }, [post]);
 
   useEffect(() => {
-   post.likes
+    post.likes;
   }, [post._id, isLiked]);
 
   const handleLike = async () => {
@@ -108,40 +107,41 @@ const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
             <p>{post.description}</p>
             {post.image && <img src={post.image} alt="Post" />}
             <div className="actions">
-              <p>{post.likes.length}</p>
-              <button onClick={handleLike}>
-                {post.likes.includes(user._id) ? (
-                  <FaHeart className="like" />
-                ) : (
-                  <CiHeart className="liked" />
-                )}
-              </button>
-
+              <div className="likes-info">
+                <button onClick={handleLike}>
+                  {post.likes.includes(user._id) ? (
+                    <FaHeart className="like" />
+                  ) : (
+                    <CiHeart className="liked" />
+                  )}
+                </button>
+              </div>
               <button onClick={handleShare}>
                 <FiSend className=" FiSend" />
               </button>
             </div>
+            <div className="likes-counter"><p>{post.likes.length} likes</p></div>
+            
           </div>
           <div className="comments">
-            <div>
-              {post.comments.map((comment) => (
-                <div key={comment._id} className="comment">
-                  {comment.user && comment.user.profilePhoto && (
-                    <img
-                      src={comment.user.profilePhoto.url}
-                      alt="Comment User Profile"
-                    />
-                  )}
-                  <p>{comment.text}</p>
-                  <p>{timeDifference(comment.createdAt)} ago</p>
-                  {comment.user.id === user._id && (
-                    <button onClick={() => handleDeleteComment(comment._id)}>
-                      Delete
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
+            {post.comments.map((comment) => (
+              <div key={comment._id} className="comment">
+                {comment.user && comment.user.profilePhoto && (
+                  <img
+                    src={comment.user.profilePhoto.url}
+                    alt="Comment User Profile"
+                  />
+                )}
+                <p>{comment.text}</p>
+
+                {comment.user.id === user._id && (
+                  <button onClick={() => handleDeleteComment(comment._id)}>
+                    Delete
+                  </button>
+                )}
+                <p>{timeDifference(comment.createdAt)} ago</p>
+              </div>
+            ))}
           </div>
         </>
       ) : (

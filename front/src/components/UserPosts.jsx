@@ -147,13 +147,13 @@ const UserPosts = ({ userId }) => {
                     <p>{post.description}</p>
                     <p>{post.category}</p>
                     <img src={post.image} alt={post.title} />
-                    <div>
+                    <div className="edite-del-container">
                       {/* Edit button */}
-                      <button onClick={() => handleEdit(post._id, post)}>
+                      <button className="btn" onClick={() => handleEdit(post._id, post)}>
                         Edit
                       </button>
                       {/* Delete button */}
-                      <button onClick={() => handleDelete(post._id)}>
+                      <button className="btn" onClick={() => handleDelete(post._id)}>
                         Delete
                       </button>
                     </div>

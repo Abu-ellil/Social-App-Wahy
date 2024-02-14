@@ -30,7 +30,7 @@ const SideMenu = () => {
       </NavLink>
 
       {token && (
-        <NavLink to="/" className="navbar-link">
+        <NavLink to="/search" className="navbar-link">
           <FaSearch className="ico" />
           <h2>Search</h2>
         </NavLink>

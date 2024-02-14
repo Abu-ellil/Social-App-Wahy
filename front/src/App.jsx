@@ -10,6 +10,7 @@ import SignupForm from "./forms/SignupForm.jsx";
 import SideMenu from "./components/SideMenu.jsx";
 import { useSelector } from "react-redux";
 import UserPosts from "./components/UserPosts.jsx";
+import SearchableComponent from "./search/SearchableComponent.jsx";
 
 function App() {
   const user = useSelector(state=>state.user)
@@ -26,6 +27,8 @@ function App() {
     <div className="app">
       <Router>
         <SideMenu />
+
+        <SearchableComponent/>
         <section className="home-container">
           <Navbar />
 
