@@ -1,36 +1,44 @@
 // Search.js
-import React, { useState } from "react";
-import axios from "axios";
-import "./Search.css";
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // You may need to install axios using npm or yarn
 
 const Search = ({ apiUrl, onSearchResults, setLoading }) => {
   const [query, setQuery] = useState("");
 
-  const handleSearch = async () => {
-    try {
-      setLoading(true); // Set loading state to true before making the request
-      const response = await axios.get(`${apiUrl}/search?q=${query}`);
-      const searchResults = response.data.results;
-      onSearchResults(searchResults);
-    } catch (error) {
-      console.error("Error searching:", error);
-    } finally {
-      setLoading(false); // Set loading state to false after the request completes
-    }
+  useEffect(() => {
+    const fetchResults = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${apiUrl}/search?q=${query}`);
+        onSearchResults(response.data);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const delayTimer = setTimeout(() => {
+      if (query.trim() !== "") {
+        fetchResults();
+      }
+    }, 500); // Set a delay of 500 milliseconds to wait for user to stop typing
+
+    return () => clearTimeout(delayTimer);
+  }, [query, apiUrl, onSearchResults, setLoading]);
+
+  const handleInputChange = (event) => {
+    setQuery(event.target.value);
   };
 
   return (
-    <div className="SearchContainer">
+    <div>
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Enter search query"
-        className="SearchInput"
+        onChange={handleInputChange}
+        placeholder="Search..."
       />
-      <button onClick={handleSearch} className="SearchButton">
-        Search
-      </button>
     </div>
   );
 };

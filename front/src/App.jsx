@@ -28,7 +28,6 @@ function App() {
       <Router>
         <SideMenu />
 
-        <SearchableComponent/>
         <section className="home-container">
           <Navbar />
 
@@ -52,7 +51,8 @@ function App() {
                 token ? <EditProfile token={token} userID={user._id} /> : null
               }
             />
-            <Route path="/my-posts" element={<UserPosts/>} />
+            <Route path="/my-posts" element={<UserPosts />} />
+            <Route path="/search" element={<SearchableComponent />} />
           </Routes>
         </section>
       </Router>
