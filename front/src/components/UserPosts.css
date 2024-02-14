@@ -1,25 +1,48 @@
-/* UserPosts.css */
-
 .user-posts-container {
-  max-width: 600px;
-  margin: 20px auto;
+  max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .posts-list {
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .post-item {
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
-.post-item h3 {
-  margin-bottom: 5px;
+.post-item img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
 }
+
+.edit-form {
+  margin-top: 20px;
+}
+
+.edit-form input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.edit-form button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-form button.cancel {
+  background-color: #f44336;
+}
+

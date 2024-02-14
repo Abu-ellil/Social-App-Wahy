@@ -8,13 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./EditProfile.css"; // Import the CSS file
 
-const EditProfile = ({ token }) => {
+const EditProfile = ({ token, userID }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); 
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -23,10 +23,8 @@ const EditProfile = ({ token }) => {
       const { username, email } = user;
       setUsername(username);
       setEmail(email);
-      setLoading(false);
     } else {
       setError("User not found");
-      setLoading(false);
     }
   }, [user]);
 
@@ -38,14 +36,11 @@ const EditProfile = ({ token }) => {
       setEmail(value);
     }
   };
- const handleLogout = () => {
-   localStorage.removeItem("token");
-   localStorage.removeItem("user");
-   window.location.reload();
- };
+
   const handleUserInfoUpdate = async () => {
     try {
       dispatch(updateUserRequest());
+      setLoading(true); // Set loading to true during the update
       const response = await axios.patch(
         `http://localhost:3030/users/me/${user._id}`,
         { username, email },
@@ -56,9 +51,10 @@ const EditProfile = ({ token }) => {
         }
       );
       dispatch(updateUser(response.data));
-      handleLogout()
-      toast.success("Username and email updated successfully LOGIN again");
       setSuccessMessage("Username and email updated successfully");
+      toast.success(
+        "Username and email updated successfully. Please log in again."
+      );
     } catch (error) {
       console.error(
         "Error updating user information:",
@@ -66,6 +62,8 @@ const EditProfile = ({ token }) => {
       );
       setError("Error updating username and email");
       toast.error("Error updating username and email");
+    } finally {
+      setLoading(false); // Set loading back to false after the update or an error
     }
   };
 
@@ -77,7 +75,7 @@ const EditProfile = ({ token }) => {
     try {
       const formData = new FormData();
       formData.append("avatar", avatar);
-
+setLoading(true);
       const response = await axios.patch(
         `http://localhost:3030/users/${user._id}/avatar`,
         formData,
@@ -92,9 +90,9 @@ const EditProfile = ({ token }) => {
       const updatedImageUrl = response.data.profilePhoto.url;
       const updatedUser = { ...user, profilePhoto: { url: updatedImageUrl } };
       dispatch(updateUser(updatedUser));
+      setLoading(false);
       toast.success("User avatar updated successfully");
       setSuccessMessage("User avatar updated successfully");
-      handleLogout()
     } catch (error) {
       console.error("Error updating user avatar:", error);
       setError(
@@ -109,7 +107,7 @@ const EditProfile = ({ token }) => {
     <div className="edit-profile-container">
       <h2>Edit Profile</h2>
       <ToastContainer />
-      {loading && <p>Loading...</p>}
+      {loading && <div className="loading-spinner"></div>}
       {error && <p className="error">Error: {error}</p>}
       {successMessage && <p className="success">Success: {successMessage}</p>}
       {!loading && !error && (
@@ -146,7 +144,7 @@ const EditProfile = ({ token }) => {
           <br />
           <form className="avatar-form" onSubmit={(e) => e.preventDefault()}>
             <label>
-              Avatar: 
+              Avatar:
               <input type="file" name="avatar" onChange={handleFileChange} />
             </label>
             <br />

@@ -8,14 +8,15 @@ import EditProfile from "./components/EditProfile";
 import Home from "./Home.jsx";
 import SignupForm from "./forms/SignupForm.jsx";
 import SideMenu from "./components/SideMenu.jsx";
+import { useSelector } from "react-redux";
+import UserPosts from "./components/UserPosts.jsx";
 
 function App() {
-  const userID = useGetUserID();
+  const user = useSelector(state=>state.user)
   const [token, setToken] = useState(false);
 
   useEffect(() => {
-    // Check if a token is stored in localStorage on component mount
-    const storedToken = localStorage.getItem("token");
+    const storedToken = useGetUserID();
     if (storedToken) {
       setToken(storedToken);
     }
@@ -23,14 +24,11 @@ function App() {
 
   return (
     <div className="app">
-
-     
-      
       <Router>
-         <SideMenu />
+        <SideMenu />
         <section className="home-container">
-        <Navbar />
-        
+          <Navbar />
+
           <Routes>
             <Route path="/login" element={!token ? <Login /> : null} />
             <Route path="/register" element={!token ? <SignupForm /> : null} />
@@ -42,15 +40,16 @@ function App() {
             <Route
               path="/edit-profile"
               element={
-                token ? <EditProfile token={token} userID={userID} /> : null
+                token ? <EditProfile token={token} userID={user._id} /> : null
               }
             />
             <Route
               path="/edit-profile"
               element={
-                token ? <EditProfile token={token} userID={userID} /> : null
+                token ? <EditProfile token={token} userID={user._id} /> : null
               }
             />
+            <Route path="/my-posts" element={<UserPosts/>} />
           </Routes>
         </section>
       </Router>

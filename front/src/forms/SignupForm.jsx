@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signupUser } from "../redux/redux";
-import { toast } from "react-toastify"; // Import the toast module
-import "react-toastify/dist/ReactToastify.css"; // Import the default styles
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoadingSpinner from "../components/LoadingSpinner";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Form.css";
 
 function SignupForm() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
+const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,34 +27,28 @@ function SignupForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      // Dispatch signup action
+  
       await dispatch(signupUser(formData));
-
-      // Notify user on successful signup
-      toast.success("Signup successful! Please log in.", {
-        position: "top-right",
-        autoClose: 5000, // Close the notification after 5 seconds
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      // Optionally, redirect to login page or handle login process
+      toast.success("Signup successful! Please log in.");
+ navigate("/");
+    
     } catch (error) {
-      // Notify user on error
+     
       toast.error(`Error: ${error.message}`, {
         position: "top-right",
-        autoClose: 5000, // Close the notification after 5 seconds
+        autoClose: 5000, 
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
       });
+    } finally {
+      setLoading(false); 
+       navigate("/");
     }
   };
 
@@ -80,7 +78,9 @@ function SignupForm() {
         onChange={handleChange}
         required
       />
-      <button type="submit">Sign Up</button>
+      <button type="submit" disabled={loading}>
+        {loading ? <LoadingSpinner /> : "Sign Up"}
+      </button>
     </form>
   );
 }

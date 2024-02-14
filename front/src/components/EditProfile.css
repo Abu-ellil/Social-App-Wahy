@@ -1,4 +1,5 @@
 .edit-profile-container {
+  position: relative;
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
@@ -53,3 +54,4 @@ p {
 .success {
   color: #008000;
 }
+

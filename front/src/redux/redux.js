@@ -130,8 +130,8 @@ const updateUser = (userData) => {
         }
       );
 
-      dispatch(updateUserSuccess(response.data.user));
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      dispatch(updateUserSuccess(response.data));
+      localStorage.setItem("user", JSON.stringify(response.data));
     } catch (error) {
       dispatch(updateUserFailure(error.message));
       console.error("Error updating user information:", error);

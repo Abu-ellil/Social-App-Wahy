@@ -17,6 +17,33 @@ const fs = require("fs");
 
 const router = express.Router();
 
+
+
+
+async function getPost(req, res, next) {
+  let post;
+  try {
+    post = await Post.findById(req.params.id)
+      .populate("user")
+      .populate("comments");
+    if (post == null) {
+      return res.status(404).json({ message: "Cannot find post" });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+
+  res.post = post;
+  next();
+}
+
+
+
+
+
+
+
+
 // GET all posts with pagination
 router.get("/posts", async (req, res) => {
   const page = parseInt(req.query.page);
@@ -44,8 +71,13 @@ router.get("/posts", async (req, res) => {
   }
 });
 
+
+
+
+
 // GET all posts for user
 router.get("/:id/posts", async (req, res) => {
+ 
   try {
     const userId = req.params.id;
     const user = await User.findById(userId).populate("posts");
@@ -67,6 +99,10 @@ router.get("/:id/posts", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+
+
+
 // GET all posts
 router.get("/posts", async (req, res) => {
   try {
@@ -77,23 +113,7 @@ router.get("/posts", async (req, res) => {
   }
 });
 
-// GET a single post by ID
-router.get("/posts/:id", getPost, async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id)
-      .populate("user")
-      .populate({
-        path: "comments",
-        populate: {
-          path: "user",
-          model: "User",
-        },
-      });
-    res.json(post);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+
 
 // CREATE a new post
 router.post("/posts", photoUpload.single("image"), async (req, res) => {
@@ -147,31 +167,17 @@ router.patch("/posts/:id", getPost, async (req, res) => {
 });
 
 // DELETE a post by ID
-router.delete("/posts/:id", getPost, async (req, res) => {
+router.delete("/posts/:id", async (req, res) => {
+ 
+ 
+  
   try {
-    await res.post.remove();
+    await Post.findByIdAndDelete(req.params.id);
     res.json({ message: "Deleted Post" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
-async function getPost(req, res, next) {
-  let post;
-  try {
-    post = await Post.findById(req.params.id)
-      .populate("user")
-      .populate("comments");
-    if (post == null) {
-      return res.status(404).json({ message: "Cannot find post" });
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-
-  res.post = post;
-  next();
-}
 
 router.post("/posts/:postId/like", async (req, res) => {
   try {

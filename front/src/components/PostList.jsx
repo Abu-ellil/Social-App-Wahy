@@ -5,7 +5,7 @@ import "./PostList.css";
 import { useGetUserID } from "../hooks/useGetUserID";
 import Post from "./Post";
 
-const serverUrl = "http://localhost:3030/api";
+const apiUrl = import.meta.env.VITE_API_SERVER_URL;
 
 const PostList = ({ user, token }) => {
   const [posts, setPosts] = useState([]);
@@ -14,7 +14,7 @@ const PostList = ({ user, token }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`${serverUrl}/posts`);
+        const response = await axios.get(`${apiUrl}/api/posts`);
         setPosts(response.data);
       } catch (error) {
         console.error(
@@ -32,7 +32,7 @@ const PostList = ({ user, token }) => {
       const updatedPosts = posts.filter((post) => post._id !== postId);
       setPosts(updatedPosts);
 
-      await axios.delete(`${serverUrl}/posts/${userID}/${postId}`, {
+      await axios.delete(`${apiUrl}/posts/${userID}/${postId}`, {
         headers: { Authorization: token },
       });
     } catch (error) {
@@ -42,14 +42,14 @@ const PostList = ({ user, token }) => {
       );
 
       // Note: This might trigger too many requests, you may want to consider handling this differently
-      const response = await axios.get(`${serverUrl}/posts`);
+      const response = await axios.get(`${apiUrl}/posts`);
       setPosts(response.data);
     }
   };
 
   const onDeleteComment = async (postId, commentId) => {
     try {
-      await axios.delete(`${serverUrl}/posts/${postId}/comment/${commentId}`, {
+      await axios.delete(`${apiUrl}/posts/${postId}/comment/${commentId}`, {
         headers: { Authorization: token },
       });
 
@@ -69,10 +69,7 @@ const PostList = ({ user, token }) => {
         "Error deleting comment:",
         error.response?.data.message || "Unknown error"
       );
-
-      // Handle the error gracefully, you can display a user-friendly message or log it
-      // For now, you can simply re-fetch the posts to ensure consistency
-      const response = await axios.get(`${serverUrl}/posts`);
+      const response = await axios.get(`${apiUrl}/posts`);
       setPosts(response.data);
     }
   };

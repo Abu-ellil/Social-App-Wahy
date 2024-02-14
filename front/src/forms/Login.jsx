@@ -3,10 +3,14 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Login.css";
+import { useGetUserID } from "../hooks/useGetUserID";
+import { FaHome } from "react-icons/fa";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function Login() {
+  const token = useGetUserID();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -39,35 +43,45 @@ function Login() {
       // Display an error toast
       toast.error("Login failed. Please check your credentials.");
     }
-    
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form className="login-form" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Login"}
-        </button>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      {!token ? (
+        <div className="login-container">
+          <h2>Login</h2>
+          <form className="login-form" onSubmit={handleSubmit}>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? "Logging in..." : "Login"}
+            </button>
+          </form>
+          {isLoading && <LoadingSpinner />} <ToastContainer />
+        </div>
+      ) : (
+        <>
+          <NavLink to="/" className="navbar-link">
+            <FaHome className="ico" />
+            <h2> Go Home 👌👌👌👌</h2>
+          </NavLink>
+        </>
+      )}
+    </>
   );
 }
 

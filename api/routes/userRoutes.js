@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Update profile route
+// Update profile route  
 router.patch("/me/:id", async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["username", "email", "password", "bio"];
@@ -112,7 +112,6 @@ router
     user.profilePhoto = { url: null, publicId: null };
     await user.save();
   }
-
     user.profilePhoto = {
       url: result.secure_url,
       publicId: result.public_id,

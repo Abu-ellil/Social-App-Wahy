@@ -5,7 +5,7 @@ const useInfinitScroll = (query, pageNumber) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [hasMore, setHasMore] = useState(true); // Initially set to true to allow loading for the first time
+  const [hasMore, setHasMore] = useState(true); 
 
   useEffect(() => {
     setPosts([]);
@@ -19,7 +19,7 @@ const useInfinitScroll = (query, pageNumber) => {
         setLoading(true);
         const apiUrl = import.meta.env.VITE_API_SERVER_URL;
         const response = await axios.get(
-          `${apiUrl}/posts?page=${pageNumber}&query=${query}`,
+          `${apiUrl}/api/posts?page=${pageNumber}&query=${query}`,
           {
             headers: {
               "Content-Type": "application/json",

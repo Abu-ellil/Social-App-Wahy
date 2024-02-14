@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify"; // Import the toast module
-import "react-toastify/dist/ReactToastify.css"; // Import the default styles
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoadingSpinner from "../components/LoadingSpinner";
 import "./PostForm.css";
 
 function PostForm() {
@@ -42,10 +42,9 @@ function PostForm() {
         formDataToSend
       );
 
-      // Notify user on successful submission
       toast.success("Post submitted successfully!", {
         position: "top-right",
-        autoClose: 3000, // Close the notification after 3 seconds
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -53,7 +52,6 @@ function PostForm() {
         progress: undefined,
       });
 
-      // Clear the form and file input on successful submission
       setFormData({
         title: "",
         description: "",
@@ -62,10 +60,9 @@ function PostForm() {
       setFiles([]);
       setLoading(false);
     } catch (error) {
-      // Notify user on error
       toast.error(`Error: ${error.message}`, {
         position: "top-right",
-        autoClose: 5000, // Close the notification after 5 seconds
+        autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -78,51 +75,56 @@ function PostForm() {
   };
 
   return (
-    <form className="post-form" onSubmit={handleSubmit}>
-      <h2>Create a New Post</h2>
-      <div>
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="description">Description:</label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="category">Category:</label>
-        <input
-          type="text"
-          id="category"
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <input
-          type="file"
-          onChange={(ev) => setFiles(ev.target.files)}
-          accept="image/*"
-        />
-      </div>
-      <button type="submit" disabled={loading}>
-        {loading ? "Loading..." : "Submit"}
-      </button>
-    </form>
+    <>
+      <form className="post-form" onSubmit={handleSubmit}>
+        <h2>Create a New Post</h2>
+        <div>
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="description">Description:</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="category">Category:</label>
+          <input
+            type="text"
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="file"
+            onChange={(ev) => setFiles(ev.target.files)}
+            accept="image/*"
+          />
+        </div>
+        <button type="submit" disabled={loading}>
+          {loading ? "Loading..." : "Submit"}
+        </button>
+        {loading && <LoadingSpinner />}{" "}
+        {/* Display LoadingSpinner while loading */}
+      </form>
+      <ToastContainer />
+    </>
   );
 }
 

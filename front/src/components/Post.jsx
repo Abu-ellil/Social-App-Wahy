@@ -1,11 +1,11 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./Post.css"; // Import the CSS file
+import "./Post.css";
 
 const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
   const [user, setUser] = useState(null);
-  const [isLiked, setIsLiked] = useState(false); // Default to false
+  const [isLiked, setIsLiked] = useState(false); 
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
       setUser(post.user);
     }
 
-    // Load like status from local storage on component mount
+    
     const storedLikeStatus = localStorage.getItem(`post_${post._id}_like`);
     setIsLiked(storedLikeStatus === "true");
   }, [post]);
@@ -53,7 +53,6 @@ const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
               <p>{post.likes.length}</p>
             </div>
           </div>
-          {/* Render comments */}
           <div className="comments">
             <button onClick={handleLike}>{isLiked ? "Unlike" : "Like"}</button>
 
@@ -67,7 +66,6 @@ const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
                     />
                   )}
                   <p>{comment.text}</p>
-                  {/* Delete button for each comment */}
                   {comment.user.id === user._id && (
                     <button onClick={() => handleDeleteComment(comment._id)}>
                       Delete

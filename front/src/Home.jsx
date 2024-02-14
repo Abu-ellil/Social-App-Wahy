@@ -6,6 +6,7 @@ import Post from "./components/Post";
 import { getAllPosts, likePost, addComment } from "./redux/redux";
 import axios from "axios";
 import useInfinitScroll from "./hooks/useInfinitScroll";
+import LoadingSpinner from "./components/LoadingSpinner"; // Import the LoadingSpinner component
 
 function Home() {
   const apiUrl = import.meta.env.VITE_API_SERVER_URL;
@@ -57,7 +58,7 @@ function Home() {
   const handleDeleteComment = async (postId, commentId) => {
     try {
       const response = await axios.delete(
-        `${apiUrl}/${user._id}/comments/${commentId}`
+        `${apiUrl}/api/${user._id}/comments/${commentId}`
       );
       if (response.status === 200) {
         console.log(
@@ -135,7 +136,8 @@ function Home() {
           );
         }
       })}
-      {loading && <p>Loading more posts...</p>}
+      {loading && <LoadingSpinner />}{" "}
+      {/* Display LoadingSpinner while loading */}
       <ToastContainer />
     </div>
   );

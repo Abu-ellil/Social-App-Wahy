@@ -1,3 +1,4 @@
 export const useGetUserID = () => {
-  return window.localStorage.getItem("userID");
+  const token = window.localStorage.getItem("token");
+  return token
 };
