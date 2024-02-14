@@ -58,3 +58,29 @@
   border-radius: 50%;
   background-image: none;
 }
+
+.like{
+background-color: transparent;
+outline:transparent ;
+color: red;
+}
+.liked,
+.like{
+font-size: 35px;
+}
+.liked{
+  
+}
+.post .actions button {
+  background: none;
+  border: none;
+  outline: none; 
+  cursor: pointer;
+}
+
+
+.post .actions button {
+  padding: 5px 10px;
+  color: #333;
+  font-weight: bold;
+}
