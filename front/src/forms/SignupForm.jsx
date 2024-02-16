@@ -50,7 +50,8 @@ function SignupForm() {
   };
 
   return (
-    <div>
+    <div className="login-container">
+      <h2>Sign Up</h2>
       <form className="form" onSubmit={handleSubmit}>
         <input
           type="text"

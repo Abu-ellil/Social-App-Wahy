@@ -24,3 +24,8 @@
 .form button:hover {
   background-color: #0056b3;
 }
+.login-container p{
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}

@@ -34,13 +34,11 @@ function Login() {
     try {
       await dispatch(loginUser(formData));
       setIsLoading(false);
-      // Display a success toast
       toast.success("Login successful!");
       navigate("/");
     } catch (error) {
       console.error("Login failed", error);
       setIsLoading(false);
-      // Display an error toast
       toast.error("Login failed. Please check your credentials.");
     }
   };
@@ -51,6 +49,7 @@ function Login() {
         <div className="login-container">
           <h2>Login</h2>
           <form className="login-form" onSubmit={handleSubmit}>
+            <p>Email:</p>
             <input
               type="email"
               name="email"
@@ -59,6 +58,7 @@ function Login() {
               onChange={handleChange}
               required
             />
+            <p>password:</p>
             <input
               type="password"
               name="password"
