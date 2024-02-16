@@ -81,7 +81,7 @@ const getAllPosts = (page = 1) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `https://wahy-social-app-api.onrender.com/api/posts?page=${page}`
+        `${apiUrl}/api/posts?page=${page}`
       );
 
       // Extract the total pages from the response headers
@@ -100,7 +100,7 @@ const updatePosts = (page = 1) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `https://wahy-social-app-api.onrender.com/api/posts?page=${page}`
+        `${apiUrl}/api/posts?page=${page}`
       );
 
       // Extract the total pages from the response headers
@@ -118,10 +118,10 @@ const updatePosts = (page = 1) => {
 const updateUser = (userData) => {
   return async (dispatch) => {
     try {
-      dispatch(updateUserRequest()); 
+      dispatch(updateUserRequest()); // Dispatch loading action
 
       const response = await axios.patch(
-        `https://wahy-social-app-api.onrender.com/users/me/${userData._id}`,
+        `${apiUrl}/users/me/${userData._id}`,
         userData,
         {
           headers: {
@@ -145,7 +145,7 @@ const signupUser = (userData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "https://wahy-social-app-api.onrender.com/users/signup",
+        "${apiUrl}/users/signup",
         userData
       );
       dispatch(signupUserSuccess(response.data.user));
@@ -163,7 +163,7 @@ const loginUser = (credentials) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "https://wahy-social-app-api.onrender.com/users/login",
+        "${apiUrl}/users/login",
         credentials
       );
       dispatch(loginUserSuccess(response.data.user));
@@ -181,7 +181,7 @@ const getUserAvatar = (userId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `https://wahy-social-app-api.onrender.com/users/${userId}/avatar`
+        `${apiUrl}/users/${userId}/avatar`
       );
       const avatarData = response.data; // Assuming the image data is in the response
 
@@ -196,7 +196,7 @@ const likePost = (postId, userId, isLiked) => {
   return async (dispatch) => {
     try {
       // Make the API call to like/unlike the post
-      await axios.post(`https://wahy-social-app-api.onrender.com/api/posts/${postId}/like`, {
+      await axios.post(`${apiUrl}/api/posts/${postId}/like`, {
         userId,
       });
 
@@ -218,7 +218,7 @@ const addPost = (postFormData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "https://wahy-social-app-api.onrender.com/api/posts",
+        "${apiUrl}/api/posts",
         postFormData
       );
       dispatch(addPostSuccess(response.data));
@@ -233,7 +233,7 @@ const addComment = (postId, commentData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        `https://wahy-social-app-api.onrender.com/api/posts/${postId}/comments`,
+        `${apiUrl}/api/posts/${postId}/comments`,
         commentData
       );
       dispatch(addCommentSuccess(response.data));
