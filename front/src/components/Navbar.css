@@ -14,25 +14,16 @@
 
 .navbar-item {
   padding: 1rem;
-  /* width: 60px; */
   margin: 0;
 }
-.user-status{
+.user-status {
   display: flex;
   align-items: center;
   flex-direction: column;
-
-  justify-content:center;
+  justify-content: center;
 }
-/* .navbar-link {
-  width: 100%;
-  text-decoration: none;
-  color: white;
-  padding: 8px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-} */
-.nav-user-image{
+
+.nav-user-image {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -42,13 +33,11 @@
   background-color: #555;
 }
 
-/* Style for the logout button */
 .navbar-link.logout-button {
   cursor: pointer;
 }
 
-/* Adjust styles based on your design preferences */
-.user-image{
+.user-image {
   border-radius: 50%;
   height: 50px;
 }

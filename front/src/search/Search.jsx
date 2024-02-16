@@ -22,7 +22,7 @@ const Search = ({ apiUrl, onSearchResults, setLoading }) => {
       if (query.trim() !== "") {
         fetchResults();
       }
-    }, 500); // Set a delay of 500 milliseconds to wait for user to stop typing
+    }, 1000);
 
     return () => clearTimeout(delayTimer);
   }, [query, apiUrl, onSearchResults, setLoading]);
@@ -32,7 +32,7 @@ const Search = ({ apiUrl, onSearchResults, setLoading }) => {
   };
 
   return (
-    <div>
+    <div className="search-container">
       <input
         type="text"
         value={query}

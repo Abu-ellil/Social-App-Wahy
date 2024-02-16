@@ -1,34 +1,42 @@
 const express = require("express");
 const User = require("../models/User");
 const Post = require("../models/Post");
+const Comment = require("../models/Comment"); // Import Comment model
 const router = express.Router();
 
 router.get("/search", async (req, res) => {
   try {
     const query = req.query.q.toLowerCase();
 
-    // Assuming you have access to both users and posts data
-    const users = await User.find();
-    const posts = await Post.find();
+    // Search for users
+    const userResults = await User.find({
+      $or: [
+        { username: { $regex: new RegExp(query, "i") } },
+        { email: { $regex: new RegExp(query, "i") } },
+      ],
+    });
 
-    // Assuming User and Post models have the required fields (e.g., username, email, title, description, category)
-
-    const userResults = users.filter(
-      (user) =>
-        user.username.toLowerCase().includes(query) ||
-        user.email.toLowerCase().includes(query)
-    );
-
-    // Use populate to fetch the user information associated with each post
+    // Search for posts and populate user and comments
     const postResults = await Post.find({
       $or: [
         { title: { $regex: new RegExp(query, "i") } },
         { description: { $regex: new RegExp(query, "i") } },
         { category: { $regex: new RegExp(query, "i") } },
       ],
-    }).populate("user"); // populate the 'user' field
+    })
+      .populate({
+        path: "user",
+        select: "username email profilePhoto posts",
+      })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+          select: "username",
+        },
+      });
 
-    res.json({ userResults, postResults });
+    res.status(200).json({ userResults, postResults });
   } catch (error) {
     console.error("Error searching:", error);
     res.status(500).json({ error: "Internal Server Error" });

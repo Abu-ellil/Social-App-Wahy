@@ -21,29 +21,46 @@
   border-radius: 4px;
   cursor: pointer;
 }
-
+.SearchResulContainer {
+  
+  width: 60%;
+}
 .SearchResults {
+  height: 100px;
   margin-top: 20px;
 }
 
 .SearchResultsList {
+  
   list-style-type: none;
   padding: 0;
 }
 
 .SearchResultItem {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 8px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  cursor: pointer;
 }
 
-
-
+.SearchResultsList img {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  display: block;
+  overflow: hidden;
+}
 
 /* PostDetails.css */
 .PostDetailsContainer {
   position: fixed;
+  display: block;
   top: 50%;
   left: 55%;
   transform: translate(-50%, -50%);
@@ -52,10 +69,11 @@
   background-color: white;
   padding: 20px;
   border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+  box-shadow:0px 0px 200px 80px rgba(0, 0, 0, 0.562);
+  
 }
-
-button {
+.PostDetailsContainer button {
   background-color: #007bff;
   color: white;
   padding: 8px 16px;
@@ -63,21 +81,77 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.PostDetailsContainer button:hover {
   background-color: #0056b3;
 }
 
-h2 {
+.PostDetailsContainer h2 {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-p {
+.PostDetailsContainer p {
   margin-bottom: 10px;
 }
 
-img {
+.PostDetailsContainer img {
   max-width: 100%;
   height: auto;
   margin-top: 10px;
+}
+
+
+/* UserDetails.css */
+.UserDetailsContainer {
+   position: absolute;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -1%);
+  width: 80%;
+  max-width: 600px;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow:0px 0px 200px 80px rgba(0, 0, 0, 0.562);
+  margin: 20px auto; 
+}
+
+.UserDetailsContainer button {
+  background-color: #408df1;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.UserDetailsContainer button:hover {
+  background-color: #0f13f8;
+}
+
+.UserDetailsContainer h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.UserDetailsContainer p {
+  margin-bottom: 10px;
+}
+
+.UserDetailsContainer img {
+  max-width: 100%;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.UserDetailsContainer ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.UserDetailsContainer ul li {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #0000005d;
 }

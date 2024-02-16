@@ -71,16 +71,21 @@ router.get("/posts", async (req, res) => {
   }
 });
 
-
-
-
-
 // GET all posts for user
 router.get("/:id/posts", async (req, res) => {
- 
   try {
     const userId = req.params.id;
-    const user = await User.findById(userId).populate("posts");
+    const user = await User.findById(userId)
+      .populate({
+        path: "posts",
+        populate: {
+          path: "comments",
+          populate: {
+            path: "user",
+          }, 
+        },
+      })
+      .exec();
 
     if (!user) {
       return res.status(404).send({ error: "User not found" });
@@ -91,6 +96,7 @@ router.get("/:id/posts", async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
+        profilePhoto: user.profilePhoto,
         posts: user.posts,
       },
     });
@@ -99,7 +105,6 @@ router.get("/:id/posts", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 
 
 

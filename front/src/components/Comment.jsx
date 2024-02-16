@@ -1,15 +1,30 @@
 import React from "react";
+import { FaTrash } from "react-icons/fa";
+import "./comment.css"
 
-const Comment = ({ comment, onDelete }) => {
+const Comment = ({ comment, onDelete, user, timeDifference }) => {
   const handleDelete = async () => {
-    // Call onDelete function to handle the delete action
     onDelete(comment._id);
   };
 
   return (
     <div className="comment">
-      <p>{comment.text}</p>
-      <button onClick={handleDelete}>Delete</button>
+      {comment.user && comment.user.profilePhoto && (
+        <img src={comment.user.profilePhoto.url} alt="Comment User Profile" />
+      )}
+      <div className="comment-text-time">
+        <p>{comment.text}</p>
+        <p className="time-stamp">{timeDifference(comment.createdAt)} ago</p>
+      </div>
+      
+      {comment.user._id === user._id && (
+        <button
+          className="delete-comment-btn"
+          onClick={() => handleDelete(comment._id)}
+        >
+          <FaTrash />
+        </button>
+      )}
     </div>
   );
 };

@@ -1,16 +1,17 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CiHeart } from "react-icons/ci";
 import "./Post.css";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaTrash } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
+import Comment from "./Comment";
 
-const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
+const Post = ({ post, onLike, onComment, onDeleteComment ,postUser}) => {
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [commentText, setCommentText] = useState("");
-
+console.log(post)
   useEffect(() => {
     if (post && post.user) {
       setUser(post.user);
@@ -94,11 +95,11 @@ const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
   };
 
   return (
-    <div ref={ref} className="post">
+    <div className="post">
       {user ? (
         <>
           <div className="user-info">
-            <img src={user.profilePhoto.url} alt="User Profile" />
+            <img src={post && user.profilePhoto.url} alt="User Profile" />
             <p>{user.username}</p>
           </div>
           <div className="post-content">
@@ -120,27 +121,19 @@ const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
                 <FiSend className=" FiSend" />
               </button>
             </div>
-            <div className="likes-counter"><p>{post.likes.length} likes</p></div>
-            
+            <div className="likes-counter">
+              <p>{post.likes.length} likes</p>
+            </div>
           </div>
           <div className="comments">
             {post.comments.map((comment) => (
-              <div key={comment._id} className="comment">
-                {comment.user && comment.user.profilePhoto && (
-                  <img
-                    src={comment.user.profilePhoto.url}
-                    alt="Comment User Profile"
-                  />
-                )}
-                <p>{comment.text}</p>
-
-                {comment.user.id === user._id && (
-                  <button onClick={() => handleDeleteComment(comment._id)}>
-                    Delete
-                  </button>
-                )}
-                <p>{timeDifference(comment.createdAt)} ago</p>
-              </div>
+              <Comment
+                key={comment._id}
+                comment={comment}
+                user={user}
+                timeDifference={timeDifference}
+                onDelete={handleDeleteComment}
+              />
             ))}
           </div>
         </>
@@ -149,6 +142,6 @@ const Post = forwardRef(({ post, onLike, onComment, onDeleteComment }, ref) => {
       )}
     </div>
   );
-});
+};
 
 export default Post;
