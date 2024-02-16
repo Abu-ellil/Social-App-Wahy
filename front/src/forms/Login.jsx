@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../redux/redux";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { NavLink, useNavigate } from "react-router-dom";
-import "./Login.css";
-import { useGetUserID } from "../hooks/useGetUserID";
 import { FaHome } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useGetUserToken } from "../hooks/useGetUserToken";
+import { loginUser } from "../redux/redux";
+import "./Login.css";
 
 function Login() {
-  const token = useGetUserID();
+  const token = useGetUserToken();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({

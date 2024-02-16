@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
-import "./comment.css"
+import "./comment.css";
 
 const Comment = ({ comment, onDelete, user, timeDifference }) => {
   const handleDelete = async () => {

@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CiHeart } from "react-icons/ci";
+import { useGetUserId } from "../hooks/useGetUserId.js";
 import "./Post.css";
 import { FaHeart, FaTrash } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
 import Comment from "./Comment";
 
 const Post = ({ post, onLike, onComment, onDeleteComment ,postUser}) => {
+  const userId = useGetUserId()
+  console.log(userId);
+  const [showAllComments, setShowAllComments] = useState(false);
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [commentText, setCommentText] = useState("");
-console.log(post)
   useEffect(() => {
     if (post && post.user) {
       setUser(post.user);
@@ -110,7 +113,7 @@ console.log(post)
             <div className="actions">
               <div className="likes-info">
                 <button onClick={handleLike}>
-                  {post.likes.includes(user._id) ? (
+                  {post.likes.includes(userId) ? (
                     <FaHeart className="like" />
                   ) : (
                     <CiHeart className="liked" />
@@ -125,16 +128,32 @@ console.log(post)
               <p>{post.likes.length} likes</p>
             </div>
           </div>
+          {/* Comments section */}
           <div className="comments">
-            {post.comments.map((comment) => (
-              <Comment
-                key={comment._id}
-                comment={comment}
-                user={user}
-                timeDifference={timeDifference}
-                onDelete={handleDeleteComment}
-              />
-            ))}
+            {showAllComments
+              ? post.comments.map((comment) => (
+                  <Comment
+                    key={comment._id}
+                    comment={comment}
+                    user={user}
+                    timeDifference={timeDifference}
+                    onDelete={handleDeleteComment}
+                  />
+                ))
+              : post.comments
+                  .slice(0, 3)
+                  .map((comment) => (
+                    <Comment
+                      key={comment._id}
+                      comment={comment}
+                      user={user}
+                      timeDifference={timeDifference}
+                      onDelete={handleDeleteComment}
+                    />
+                  ))}
+            {post.comments.length > 3 && !showAllComments && (
+              <button onClick={() => setShowAllComments(true)}>See More</button>
+            )}
           </div>
         </>
       ) : (

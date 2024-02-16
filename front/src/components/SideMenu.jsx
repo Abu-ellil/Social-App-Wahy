@@ -1,20 +1,20 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import "./sideMenu.css";
-import { NavLink } from "react-router-dom";
-import { RiLoginCircleLine, RiLogoutCircleLine } from "react-icons/ri";
 import {
   FaHome,
-  FaSearch,
-  FaWpexplorer,
   FaPlusCircle,
   FaRegUser,
+  FaSearch,
+  FaWpexplorer,
 } from "react-icons/fa";
-import { useGetUserID } from "../hooks/useGetUserID";
+import { RiLoginCircleLine, RiLogoutCircleLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { useGetUserToken } from "../hooks/useGetUserToken";
+import "./sideMenu.css";
 
 const SideMenu = () => {
   const user = useSelector((state) => state.user);
- const token =  useGetUserID()
+  const token = useGetUserToken();
 
   const handleLogout = () => {
     localStorage.removeItem("token");

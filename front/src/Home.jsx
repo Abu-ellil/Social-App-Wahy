@@ -137,7 +137,6 @@ function Home() {
         }
       })}
       {loading && <LoadingSpinner />}{" "}
-      {/* Display LoadingSpinner while loading */}
       <ToastContainer />
     </div>
   );

@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Home from "./Home.jsx";
+import EditProfile from "./components/EditProfile";
+import Navbar from "./components/Nav.jsx";
+import SideMenu from "./components/SideMenu.jsx";
+import UserPosts from "./components/UserPosts.jsx";
 import Login from "./forms/Login.jsx";
 import PostForm from "./forms/PostForm.jsx";
-import Navbar from "./components/Nav.jsx";
-import { useGetUserID } from "./hooks/useGetUserID";
-import EditProfile from "./components/EditProfile";
-import Home from "./Home.jsx";
 import SignupForm from "./forms/SignupForm.jsx";
-import SideMenu from "./components/SideMenu.jsx";
-import { useSelector } from "react-redux";
-import UserPosts from "./components/UserPosts.jsx";
+import { useGetUserToken } from "./hooks/useGetUserToken.jsx";
 import SearchableComponent from "./search/SearchableComponent.jsx";
 
 function App() {
-  const user = useSelector(state=>state.user)
+  const user = useSelector((state) => state.user);
   const [token, setToken] = useState(false);
 
   useEffect(() => {
-    const storedToken = useGetUserID();
+    const storedToken = useGetUserToken();
     if (storedToken) {
       setToken(storedToken);
     }
