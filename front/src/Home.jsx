@@ -118,7 +118,7 @@ function Home() {
                   handleComment(post._id, commentText)
                 }
               />
-              <form>
+              <form className="add-comment-form">
                 <input
                   type="text"
                   value={commentText}
@@ -126,6 +126,7 @@ function Home() {
                   placeholder="Enter your comment..."
                 />
                 <button
+                  className="comment-btn"
                   type="button"
                   onClick={() => handleComment(post._id, commentText)}
                 >

@@ -1,4 +1,7 @@
 .comment {
+  background-color: rgba(153, 153, 153, 0.582)1e1;
+}
+.comment {
   width: 100%;
   display: flex;
   align-items: center;
@@ -7,7 +10,7 @@
 
 .comment-text-time {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .time-stamp {
@@ -33,12 +36,32 @@
   display: flex;
   align-items: center;
   justify-content: start;
-  background-color: #02041649;
   border-radius: 12px;
   margin-bottom: 5px;
-  padding: 3px;
 }
 
+.comment-btn, .see-more-btn{
+  cursor: pointer;
+}
+.comment-btn{
+  padding: 8px;
+  border-radius: 12px;
+  background-color: #0878f8;
+  margin-bottom: 12px;
+}
+.see-more-btn{
+  background-color: #333;
+  padding: 0 10px;
+}
+.add-comment-form{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+    margin-bottom: 0px;
+    border: 1px solid #ccc;
+    border-radius: 12px
+}
 .delete-comment-btn {
   background-color: #34db3400;
   color: #f80808;
@@ -60,9 +83,20 @@
   }
 
   .comment {
-    padding: 5px;
+    font-size: small;
+    font-weight: 500;
+    line-height: 10px;
+    padding: 0px;
+    gap: 0rem
   }
-
+  .post {
+    margin: 3px;
+    padding: 0px;
+  }
+.comment-text-time {
+    display: flex;
+    gap: 1rem;
+}
   .delete-comment-btn {
     padding: 6px 10px;
   }

@@ -7,10 +7,14 @@ import "./Post.css";
 import { FaHeart, FaTrash } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
 import Comment from "./Comment";
+import PostDetails from "../search/PostDetails.jsx";
+
+
 
 const Post = ({ post, onLike, onComment, onDeleteComment ,postUser}) => {
   const userId = useGetUserId()
-  console.log(userId);
+  const [showPostDetails, setShowPostDetails] = useState(false);
+
   const [showAllComments, setShowAllComments] = useState(false);
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
@@ -24,7 +28,13 @@ const Post = ({ post, onLike, onComment, onDeleteComment ,postUser}) => {
   useEffect(() => {
     post.likes;
   }, [post._id, isLiked]);
+const handlePostClick = () => {
+  setShowPostDetails(true);
+};
 
+const handleClosePostDetails = () => {
+  setShowPostDetails(false);
+};
   const handleLike = async () => {
     try {
       await onLike(post._id, !isLiked);
@@ -109,7 +119,9 @@ const Post = ({ post, onLike, onComment, onDeleteComment ,postUser}) => {
             <h2>{post.title}</h2>
             <p>Created {timeDifference(post.createdAt)} ago</p>
             <p>{post.description}</p>
-            {post.image && <img src={post.image} alt="Post" />}
+            {post.image && (
+              <img src={post.image} alt="Post" onClick={handlePostClick} />
+            )}
             <div className="actions">
               <div className="likes-info">
                 <button onClick={handleLike}>
@@ -151,13 +163,25 @@ const Post = ({ post, onLike, onComment, onDeleteComment ,postUser}) => {
                       onDelete={handleDeleteComment}
                     />
                   ))}
-            {post.comments.length > 3 && !showAllComments && (
-              <button onClick={() => setShowAllComments(true)}>See More</button>
+            {post.comments.length > 3 && (
+              <button
+                className="see-more-btn"
+                onClick={() =>
+                  setShowAllComments(
+                    (prevShowAllComments) => !prevShowAllComments
+                  )
+                }
+              >
+                {showAllComments ? "See Less" : "See More"}
+              </button>
             )}
           </div>
         </>
       ) : (
         <h1>No Posts</h1>
+      )}
+      {showPostDetails && (
+        <PostDetails post={post} onCloseDetails={handleClosePostDetails} />
       )}
     </div>
   );
