@@ -3,7 +3,7 @@ import { thunk } from "redux-thunk";
 import axios from "axios";
 
 const token = localStorage.getItem("token");
-const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+const apiUrl = 'https://wahy-social-app-api.onrender.com';
 // Action Types
 const SIGNUP_USER_SUCCESS = "SIGNUP_USER_SUCCESS";
 const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";

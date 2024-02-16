@@ -9,7 +9,7 @@ import useInfinitScroll from "./hooks/useInfinitScroll";
 import LoadingSpinner from "./components/LoadingSpinner"; // Import the LoadingSpinner component
 
 function Home() {
-  const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+  const apiUrl = "https://wahy-social-app-api.onrender.com"
   const user = useSelector((state) => state.user);
   const [query, setQuery] = useState("");
   const [commentText, setCommentText] = useState("");

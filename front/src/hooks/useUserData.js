@@ -9,7 +9,7 @@ const useUserData = (userId) => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3030/users/${userId}`
+          `https://wahy-social-app-api.onrender.com/users/${userId}`
         );
         setUserData(response.data);
         setLoading(false);

@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const UserPosts = ({ userId }) => {
   const user = useSelector((state) => state.user);
-  const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+  const apiUrl = "https://wahy-social-app-api.onrender.com/";
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editPostId, setEditPostId] = useState(null);

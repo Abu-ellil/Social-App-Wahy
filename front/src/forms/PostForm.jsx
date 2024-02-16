@@ -38,7 +38,7 @@ function PostForm() {
       formDataToSend.append("image", files[0]);
 
       const response = await axios.post(
-        "http://localhost:3030/api/posts",
+        "https://wahy-social-app-api.onrender.com/api/posts",
         formDataToSend
       );
 

@@ -8,7 +8,7 @@ import { FaUser, FaRegNewspaper } from "react-icons/fa";
 import axios from "axios";
 
 const SearchableComponent = () => {
-  const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+  const apiUrl = "https://wahy-social-app-api.onrender.com";
   const [userResults, setUserResults] = useState([]);
   const [postResults, setPostResults] = useState([]);
   const [loading, setLoading] = useState(false);

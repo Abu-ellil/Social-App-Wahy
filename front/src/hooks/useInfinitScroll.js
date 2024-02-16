@@ -17,7 +17,7 @@ const useInfinitScroll = (query, pageNumber) => {
     const getPosts = async () => {
       try {
         setLoading(true);
-        const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+        const apiUrl = "https://wahy-social-app-api.onrender.com/";
         const response = await axios.get(
           `${apiUrl}/api/posts?page=${pageNumber}&query=${query}`,
           {

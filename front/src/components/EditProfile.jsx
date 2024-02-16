@@ -42,7 +42,7 @@ const EditProfile = ({ token, userID }) => {
       dispatch(updateUserRequest());
       setLoading(true); // Set loading to true during the update
       const response = await axios.patch(
-        `http://localhost:3030/users/me/${user._id}`,
+        `https://wahy-social-app-api.onrender.com/users/me/${user._id}`,
         { username, email },
         {
           headers: {
@@ -77,7 +77,7 @@ const EditProfile = ({ token, userID }) => {
       formData.append("avatar", avatar);
 setLoading(true);
       const response = await axios.patch(
-        `http://localhost:3030/users/${user._id}/avatar`,
+        `https://wahy-social-app-api.onrender.com/users/${user._id}/avatar`,
         formData,
         {
           headers: {
