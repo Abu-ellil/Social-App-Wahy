@@ -7,9 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useGetUserToken } from "../hooks/useGetUserToken";
 import { loginUser } from "../redux/redux";
+import { useTranslation } from "react-i18next";
 import "./Login.css";
 
 function Login() {
+  const { t } = useTranslation();
   const token = useGetUserToken();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,12 +36,12 @@ function Login() {
     try {
       await dispatch(loginUser(formData));
       setIsLoading(false);
-      toast.success("Login successful!");
+      toast.success(t("loginSuccessMessage"));
       navigate("/");
     } catch (error) {
       console.error("Login failed", error);
       setIsLoading(false);
-      toast.error("Login failed. Please check your credentials.");
+      toast.error(t("loginFailureMessage"));
     }
   };
 
@@ -47,32 +49,32 @@ function Login() {
     <>
       {!token ? (
         <div className="login-container">
-          <h2>Login</h2>
+          <h2>{t("loginTitle")}</h2>
           <form className="login-form" onSubmit={handleSubmit}>
-            <p>Email:</p>
+            <p>{t("emailLabel")}</p>
             <input
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder={t("emailPlaceholder")}
               value={formData.email}
               onChange={handleChange}
               required
             />
-            <p>password:</p>
+            <p>{t("passwordLabel")}</p>
             <input
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder={t("passwordPlaceholder")}
               value={formData.password}
               onChange={handleChange}
               required
             />
             <button type="submit" disabled={isLoading}>
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading ? t("loggingIn") : t("loginButton")}
             </button>
           </form>
           <div>
-            <p>Don't have an account? <NavLink to="/register">Register</NavLink></p>
+            <p>{t("noAccountMessage")} <NavLink to="/register">{t("registerLink")}</NavLink></p>
           </div>
           {isLoading && <LoadingSpinner />} <ToastContainer />
         </div>
@@ -80,7 +82,7 @@ function Login() {
         <>
           <NavLink to="/" className="navbar-link">
             <FaHome className="ico" />
-            <h2> Go Home 👌👌👌👌</h2>
+            <h2>{t("goHomeMessage")}</h2>
           </NavLink>
         </>
       )}

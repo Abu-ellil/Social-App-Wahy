@@ -14,10 +14,15 @@ const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 const GET_USER_AVATAR_SUCCESS = "GET_USER_AVATAR_SUCCESS";
 const GET_ALL_POSTS_SUCCESS = "GET_ALL_POSTS_SUCCESS";
 const LIKE_POST_SUCCESS = "LIKE_POST_SUCCESS";
-
+const SET_LANGUAGE = "SET_LANGUAGE";
 
 
 // Action Creators
+const setLanguage = (language) => ({
+  type: SET_LANGUAGE,
+  payload: language,
+});
+
 const loginUserSuccess = (userData) => ({
   type: LOGIN_USER_SUCCESS,
   payload: userData,
@@ -70,9 +75,10 @@ const likePostSuccess = (postId, isLiked) => ({
 // Initial State
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
-  posts: [], 
-  comments: [], 
-  likes:[]
+  posts: [],
+  comments: [],
+  likes: [],
+  language: "en",
 };
 
 
@@ -145,7 +151,7 @@ const signupUser = (userData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "${apiUrl}/users/signup",
+        `${apiUrl}/users/signup`,
         userData
       );
       dispatch(signupUserSuccess(response.data.user));
@@ -163,7 +169,7 @@ const loginUser = (credentials) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "${apiUrl}/users/login",
+        `${apiUrl}/users/login`,
         credentials
       );
       dispatch(loginUserSuccess(response.data.user));
@@ -218,7 +224,7 @@ const addPost = (postFormData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "${apiUrl}/api/posts",
+        `${apiUrl}/api/posts`,
         postFormData
       );
       dispatch(addPostSuccess(response.data));
@@ -248,6 +254,7 @@ const addComment = (postId, commentData) => {
 // Reducer
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    
     case "SIGNUP_USER_SUCCESS":
       return {
         ...state,
@@ -273,15 +280,20 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: action.payload.posts,
-        totalPages: action.payload.totalPages, // Add totalPages to the state
+        totalPages: action.payload.totalPages, 
       };
     
     case "ADD_POST_SUCCESS":
       return { ...state, posts: [...state.posts, action.payload] };
     case "ADD_COMMENT_SUCCESS":
       return { ...state, comments: [...state.comments, action.payload] };
+    case SET_LANGUAGE:
+      return {
+        ...state,
+        language: action.payload,
+      };
     default:
-      return state;
+    return state;
   }
 };
 
@@ -300,5 +312,5 @@ export {
   getAllPosts,
   updatePosts,
   likePost,
-  
+  setLanguage,
 };

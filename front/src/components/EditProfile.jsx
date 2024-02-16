@@ -105,6 +105,7 @@ setLoading(true);
 
   return (
     <div className="edit-profile-container">
+      <LanguageToggle/>
       <h2>Edit Profile</h2>
       <ToastContainer />
       {loading && <div className="loading-spinner"></div>}
