@@ -100,7 +100,7 @@ const updatePosts = (page = 1) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `/api/posts?page=${page}`
+        `https://wahy-social-app-api.onrender.com/api/posts?page=${page}`
       );
 
       // Extract the total pages from the response headers
