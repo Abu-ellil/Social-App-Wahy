@@ -4,13 +4,16 @@
   align-items: center;
   margin-bottom: 10px;
 }
+
 .comment-text-time {
   display: flex;
   gap: 1rem;
 }
+
 .time-stamp {
   color: brown;
 }
+
 .comment img {
   width: 30px;
   height: 30px;
@@ -26,11 +29,10 @@
   color: red;
 }
 
-
 .comment {
   display: flex;
   align-items: center;
-  justify-content:start;
+  justify-content: start;
   background-color: #02041649;
   border-radius: 12px;
   margin-bottom: 5px;
@@ -51,7 +53,17 @@
   border-radius: 12px;
 }
 
-/* input {
-  padding: 8px;
-  margin-right: 10px;
-} */
+@media only screen and (max-width: 768px) {
+  .comment img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .comment {
+    padding: 5px;
+  }
+
+  .delete-comment-btn {
+    padding: 6px 10px;
+  }
+}

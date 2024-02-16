@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  FaHome,
-  FaPlusCircle,
-  FaRegUser,
-  FaSearch,
-  FaWpexplorer,
-} from "react-icons/fa";
+import { FaHome, FaPlusCircle, FaRegUser, FaSearch, FaWpexplorer } from "react-icons/fa";
 import { RiLoginCircleLine, RiLogoutCircleLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -46,7 +40,7 @@ const SideMenu = () => {
       {token && (
         <NavLink to="/post-form" className="navbar-link">
           <FaPlusCircle className="ico" />
-          <h2>Creat</h2>
+          <h2>Create</h2>
         </NavLink>
       )}
 
@@ -62,22 +56,21 @@ const SideMenu = () => {
               alt="User"
               className="user-image"
             />
-
             <h3>{user.username}</h3>
           </NavLink>
           <button onClick={handleLogout} className="logout-btn btn">
             <RiLogoutCircleLine className="ico" />
-            <h2>Logout</h2>
+            <h2 className="log-text">Logout</h2>
           </button>
         </>
       ) : (
         <>
           <NavLink to="/register" className="navbar-link">
-            <h2>Register</h2>
+            <h2 className="log-text">Register</h2>
           </NavLink>
           <NavLink to="/login" className="navbar-link">
             <RiLoginCircleLine className="ico login-icon" />
-            <h2>LOGIN</h2>
+            <h2 className="log-text">LOGIN</h2>
           </NavLink>
         </>
       )}

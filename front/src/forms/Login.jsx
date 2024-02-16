@@ -71,6 +71,9 @@ function Login() {
               {isLoading ? "Logging in..." : "Login"}
             </button>
           </form>
+          <div>
+            <p>Don't have an account? <NavLink to="/register">Register</NavLink></p>
+          </div>
           {isLoading && <LoadingSpinner />} <ToastContainer />
         </div>
       ) : (

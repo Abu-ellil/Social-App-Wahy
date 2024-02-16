@@ -15,7 +15,7 @@ function SignupForm() {
     email: "",
     password: "",
   });
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,16 +30,13 @@ const [loading, setLoading] = useState(false);
     setLoading(true);
 
     try {
-  
       await dispatch(signupUser(formData));
       toast.success("Signup successful! Please log in.");
- navigate("/");
-    
+      navigate("/");
     } catch (error) {
-     
       toast.error(`Error: ${error.message}`, {
         position: "top-right",
-        autoClose: 5000, 
+        autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -47,41 +44,44 @@ const [loading, setLoading] = useState(false);
         progress: undefined,
       });
     } finally {
-      setLoading(false); 
-       navigate("/");
+      setLoading(false);
+      navigate("/");
     }
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        value={formData.username}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        required
-      />
-      <button type="submit" disabled={loading}>
-        {loading ? <LoadingSpinner /> : "Sign Up"}
-      </button>
-    </form>
+    <div>
+      <form className="form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={formData.username}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? <LoadingSpinner /> : "Sign Up"}
+        </button>
+      </form>
+      <p>Already have an account? <NavLink to="/login">Login</NavLink></p>
+    </div>
   );
 }
 
