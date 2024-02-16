@@ -3,7 +3,7 @@ import { thunk } from "redux-thunk";
 import axios from "axios";
 
 const token = localStorage.getItem("token");
-
+const apiUrl = import.meta.env.VITE_API_SERVER_URL;
 // Action Types
 const SIGNUP_USER_SUCCESS = "SIGNUP_USER_SUCCESS";
 const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
@@ -81,7 +81,7 @@ const getAllPosts = (page = 1) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `http://localhost:3030/api/posts?page=${page}`
+        `${apiUrl}/api/posts?page=${page}`
       );
 
       // Extract the total pages from the response headers
@@ -100,7 +100,7 @@ const updatePosts = (page = 1) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `http://localhost:3030/api/posts?page=${page}`
+        `${apiUrl}/api/posts?page=${page}`
       );
 
       // Extract the total pages from the response headers
@@ -121,7 +121,7 @@ const updateUser = (userData) => {
       dispatch(updateUserRequest()); // Dispatch loading action
 
       const response = await axios.patch(
-        `http://localhost:3030/users/me/${userData._id}`,
+        `${apiUrl}/users/me/${userData._id}`,
         userData,
         {
           headers: {
@@ -145,7 +145,7 @@ const signupUser = (userData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "http://localhost:3030/users/signup",
+        "${apiUrl}/users/signup",
         userData
       );
       dispatch(signupUserSuccess(response.data.user));
@@ -163,7 +163,7 @@ const loginUser = (credentials) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "http://localhost:3030/users/login",
+        "${apiUrl}/users/login",
         credentials
       );
       dispatch(loginUserSuccess(response.data.user));
@@ -181,7 +181,7 @@ const getUserAvatar = (userId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `http://localhost:3030/users/${userId}/avatar`
+        `${apiUrl}/users/${userId}/avatar`
       );
       const avatarData = response.data; // Assuming the image data is in the response
 
@@ -196,7 +196,7 @@ const likePost = (postId, userId, isLiked) => {
   return async (dispatch) => {
     try {
       // Make the API call to like/unlike the post
-      await axios.post(`http://localhost:3030/api/posts/${postId}/like`, {
+      await axios.post(`${apiUrl}/api/posts/${postId}/like`, {
         userId,
       });
 
@@ -218,7 +218,7 @@ const addPost = (postFormData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "http://localhost:3030/api/posts",
+        "${apiUrl}/api/posts",
         postFormData
       );
       dispatch(addPostSuccess(response.data));
@@ -233,7 +233,7 @@ const addComment = (postId, commentData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        `http://localhost:3030/api/posts/${postId}/comments`,
+        `${apiUrl}/api/posts/${postId}/comments`,
         commentData
       );
       dispatch(addCommentSuccess(response.data));
