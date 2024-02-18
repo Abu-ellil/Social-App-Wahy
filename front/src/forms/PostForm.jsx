@@ -1,10 +1,10 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next"; // Import the useTranslation hook
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
-import { useTranslation } from "react-i18next"; // Import the useTranslation hook
 import "react-toastify/dist/ReactToastify.css";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/isLoading/LoadingSpinner";
 import "./PostForm.css";
 
 function PostForm() {

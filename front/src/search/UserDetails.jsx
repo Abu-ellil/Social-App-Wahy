@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import Post from "../components/Post";
 
 const UserDetails = ({ user, userPosts, onCloseDetails }) => {
   const userDetailsRef = useRef(null);

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./Home.jsx";
-import EditProfile from "./components/EditProfile";
-import Navbar from "./components/Nav.jsx";
-import SideMenu from "./components/SideMenu.jsx";
-import UserPosts from "./components/UserPosts.jsx";
+import EditProfile from "./components/userStuff/EditProfile.jsx";
+import Navbar from "./components/header/Nav.jsx";
+import SideMenu from "./components/sideBar/SideMenu.jsx";
+import UserPosts from "./components/userStuff/UserPosts.jsx";
 import Login from "./forms/Login.jsx";
 import PostForm from "./forms/PostForm.jsx";
 import SignupForm from "./forms/SignupForm.jsx";
@@ -21,7 +21,6 @@ function App() {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
   const { theme, toggleTheme } = useTheme()
-  console.log(theme)
 
   const user = useSelector((state) => state.user);
   const [token, setToken] = useState(false);

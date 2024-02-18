@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
+import { FiSend } from "react-icons/fi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CiHeart } from "react-icons/ci";
-import { useGetUserId } from "../hooks/useGetUserId.js";
+import { useGetUserId } from "../../hooks/useGetUserId.js";
+import PostDetails from "../../search/PostDetails.jsx";
+import Comment from "../comment/Comment.jsx";
 import "./Post.css";
-import { FaHeart, FaTrash } from "react-icons/fa";
-import { FiSend } from "react-icons/fi";
-import Comment from "./Comment";
-import PostDetails from "../search/PostDetails.jsx";
 
-
-
-const Post = ({ post, onLike, onComment, onDeleteComment ,postUser}) => {
-  const userId = useGetUserId()
+const Post = ({ post, onLike, onComment, onDeleteComment, postUser }) => {
+  const userId = useGetUserId();
   const [showPostDetails, setShowPostDetails] = useState(false);
 
   const [showAllComments, setShowAllComments] = useState(false);
@@ -28,13 +26,13 @@ const Post = ({ post, onLike, onComment, onDeleteComment ,postUser}) => {
   useEffect(() => {
     post.likes;
   }, [post._id, isLiked]);
-const handlePostClick = () => {
-  setShowPostDetails(true);
-};
+  const handlePostClick = () => {
+    setShowPostDetails(true);
+  };
 
-const handleClosePostDetails = () => {
-  setShowPostDetails(false);
-};
+  const handleClosePostDetails = () => {
+    setShowPostDetails(false);
+  };
   const handleLike = async () => {
     try {
       await onLike(post._id, !isLiked);
@@ -172,7 +170,7 @@ const handleClosePostDetails = () => {
                   )
                 }
               >
-                {showAllComments ? "See Less" : "See More"}
+                {showAllComments ? "See Less" : "More..."}
               </button>
             )}
           </div>

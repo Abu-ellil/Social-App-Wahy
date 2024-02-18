@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaHome } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/isLoading/LoadingSpinner";
 import { useGetUserToken } from "../hooks/useGetUserToken";
 import { loginUser } from "../redux/redux";
-import { useTranslation } from "react-i18next";
-import LanguageToggle from "../languages/LanguageToggle";
 import "./Login.css";
 
 function Login() {

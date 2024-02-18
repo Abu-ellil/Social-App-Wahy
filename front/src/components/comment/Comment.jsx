@@ -14,10 +14,12 @@ const Comment = ({ comment, onDelete, user, timeDifference }) => {
       )}
       <div className="comment-text-time">
         <p>{comment.text}</p>
-        <p className="time-stamp">{timeDifference(comment.createdAt)} ago</p>
+        <p className="time-stamp">
+          <span>{timeDifference(comment.createdAt)}</span> ago
+        </p>
       </div>
       
-      {comment.user._id === user._id && (
+      {(comment.user._id == user._id) && (
         <button
           className="delete-comment-btn"
           onClick={() => handleDelete(comment._id)}

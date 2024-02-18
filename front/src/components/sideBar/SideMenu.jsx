@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FaHome,
   FaMoon,
@@ -11,11 +10,11 @@ import {
 import { RiLoginCircleLine, RiLogoutCircleLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { useGetUserToken } from "../hooks/useGetUserToken";
+import { useTheme } from "../../context/ThemeContext";
+import { useGetUserToken } from "../../hooks/useGetUserToken";
+import LanguageToggle from "../../languages/LanguageToggle";
 import "./sideMenu.css";
-import LanguageToggle from "../languages/LanguageToggle";
 import { useTranslation } from "react-i18next";
-import { ThemeProvider, useTheme } from "../context/ThemeContext";
 
 const SideMenu = () => {
   const { theme, toggleTheme } = useTheme();
@@ -88,9 +87,11 @@ const SideMenu = () => {
         </>
       )}
       <div className="theme-lang-container">
-        <LanguageToggle /><button onClick={toggleTheme}>{theme === 'light' ? <FaMoon/>:<FaSun/>}</button>
+        <LanguageToggle />
+        <button onClick={toggleTheme}>
+          {theme === "light" ? <FaMoon /> : <FaSun />}
+        </button>
       </div>
-      
     </div>
   );
 };

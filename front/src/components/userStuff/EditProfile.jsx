@@ -1,15 +1,13 @@
 // Import necessary libraries
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updateUser, updateUserRequest } from "../redux/redux";
 import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { updateUser, updateUserRequest } from "../../redux/redux";
 import "./EditProfile.css";
-import LanguageToggle from "../languages/LanguageToggle";
 
 import { useTranslation } from "react-i18next";
-
 
 const EditProfile = ({ token, userID }) => {
   const { t, i18n } = useTranslation();
@@ -23,20 +21,11 @@ const EditProfile = ({ token, userID }) => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
-
-
-
-
-
   const fileInputRef = useRef(null);
 
   const handleFileButtonClick = () => {
     fileInputRef.current.click();
   };
-
-
- 
-  
 
   useEffect(() => {
     if (user) {
@@ -123,17 +112,15 @@ const EditProfile = ({ token, userID }) => {
     }
   };
 
-
- useEffect(() => {
-   if (user) {
-     const { username, email } = user;
-     setUsername(username);
-     setEmail(email);
-   } else {
-     setError(t("userNotFound"));
-   }
- }, [user, t]);
-
+  useEffect(() => {
+    if (user) {
+      const { username, email } = user;
+      setUsername(username);
+      setEmail(email);
+    } else {
+      setError(t("userNotFound"));
+    }
+  }, [user, t]);
 
   return (
     <div className="edit-profile-container">
@@ -190,7 +177,7 @@ const EditProfile = ({ token, userID }) => {
                   className="custom-file-button"
                   onClick={handleFileButtonClick}
                 >
-                  {t("chooseAvatar")} 
+                  {t("chooseAvatar")}
                 </button>
                 <input
                   className="file-input"

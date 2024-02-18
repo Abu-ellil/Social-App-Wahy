@@ -1,12 +1,12 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { signupUser } from "../redux/redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingSpinner from "../components/LoadingSpinner";
-import { NavLink, useNavigate } from "react-router-dom";
+import LoadingSpinner from "../components/isLoading/LoadingSpinner";
+import { signupUser } from "../redux/redux";
 import "./Form.css";
-import { useTranslation } from "react-i18next";
 
 function SignupForm() {
   const { t, i18n } = useTranslation();

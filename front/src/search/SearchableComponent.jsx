@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { FaRegNewspaper, FaUser } from "react-icons/fa";
+import LoadingSpinner from "../components/isLoading/LoadingSpinner";
+import PostDetails from "./PostDetails";
 import Search from "./Search";
 import "./Search.css";
-import LoadingSpinner from "../components/LoadingSpinner";
-import PostDetails from "./PostDetails";
 import UserDetails from "./UserDetails";
-import { FaUser, FaRegNewspaper } from "react-icons/fa";
-import axios from "axios";
 
 const SearchableComponent = () => {
   const apiUrl = "https://wahy-social-app-api.onrender.com";
@@ -16,7 +16,6 @@ const SearchableComponent = () => {
   const [selectedItemType, setSelectedItemType] = useState(null);
   const [loadingUserPosts, setLoadingUserPosts] = useState(false);
   const [userPosts, setUserPosts] = useState([]); // Add userPosts state
-
 
   useEffect(() => {
     const fetchUserPosts = async () => {
@@ -41,7 +40,6 @@ const SearchableComponent = () => {
 
     fetchUserPosts();
   }, [apiUrl, selectedItem, selectedItemType]);
-
 
   const handleSearchResults = (results) => {
     setUserResults(results.userResults);

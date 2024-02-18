@@ -4,7 +4,8 @@ import axios from "axios";
 
 const token = localStorage.getItem("token");
 const storedLanguage = localStorage.getItem("language");
-const apiUrl = 'https://wahy-social-app-api.onrender.com';
+const apiUrl = "https://wahy-social-app-api.onrender.com";
+
 // Action Types
 const SIGNUP_USER_SUCCESS = "SIGNUP_USER_SUCCESS";
 const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
@@ -16,7 +17,6 @@ const GET_USER_AVATAR_SUCCESS = "GET_USER_AVATAR_SUCCESS";
 const GET_ALL_POSTS_SUCCESS = "GET_ALL_POSTS_SUCCESS";
 const LIKE_POST_SUCCESS = "LIKE_POST_SUCCESS";
 const SET_LANGUAGE = "SET_LANGUAGE";
-
 
 // Initial State
 const initialState = {
@@ -82,16 +82,11 @@ const likePostSuccess = (postId, isLiked) => ({
   payload: { postId, isLiked },
 });
 
-
-
-
 // Async Action Creator
 const getAllPosts = (page = 1) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        `${apiUrl}/api/posts?page=${page}`
-      );
+      const response = await axios.get(`${apiUrl}/api/posts?page=${page}`);
 
       // Extract the total pages from the response headers
       const totalPages = parseInt(response.headers["x-total-pages"], 10);
@@ -104,13 +99,10 @@ const getAllPosts = (page = 1) => {
   };
 };
 
-
 const updatePosts = (page = 1) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        `${apiUrl}/api/posts?page=${page}`
-      );
+      const response = await axios.get(`${apiUrl}/api/posts?page=${page}`);
 
       // Extract the total pages from the response headers
       const totalPages = parseInt(response.headers["x-total-pages"], 10);
@@ -148,15 +140,11 @@ const updateUser = (userData) => {
   };
 };
 
-
 // Async Action Creator
 const signupUser = (userData) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        `${apiUrl}/users/signup`,
-        userData
-      );
+      const response = await axios.post(`${apiUrl}/users/signup`, userData);
       dispatch(signupUserSuccess(response.data.user));
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -171,10 +159,7 @@ const signupUser = (userData) => {
 const loginUser = (credentials) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        `${apiUrl}/users/login`,
-        credentials
-      );
+      const response = await axios.post(`${apiUrl}/users/login`, credentials);
       dispatch(loginUserSuccess(response.data.user));
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user data in local storage
@@ -189,9 +174,7 @@ const loginUser = (credentials) => {
 const getUserAvatar = (userId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        `${apiUrl}/users/${userId}/avatar`
-      );
+      const response = await axios.get(`${apiUrl}/users/${userId}/avatar`);
       const avatarData = response.data; // Assuming the image data is in the response
 
       dispatch({ type: GET_USER_AVATAR_SUCCESS, payload: avatarData });
@@ -218,15 +201,11 @@ const likePost = (postId, userId, isLiked) => {
   };
 };
 
-
 // Reducer
 const addPost = (postFormData) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        `${apiUrl}/api/posts`,
-        postFormData
-      );
+      const response = await axios.post(`${apiUrl}/api/posts`, postFormData);
       dispatch(addPostSuccess(response.data));
     } catch (error) {
       console.error("Error adding post:", error);
@@ -253,7 +232,6 @@ const addComment = (postId, commentData) => {
 // Reducer
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    
     case "SIGNUP_USER_SUCCESS":
       return {
         ...state,
@@ -279,9 +257,9 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: action.payload.posts,
-        totalPages: action.payload.totalPages, 
+        totalPages: action.payload.totalPages,
       };
-    
+
     case "ADD_POST_SUCCESS":
       return { ...state, posts: [...state.posts, action.payload] };
     case "ADD_COMMENT_SUCCESS":
@@ -292,7 +270,7 @@ const rootReducer = (state = initialState, action) => {
         language: action.payload,
       };
     default:
-    return state;
+      return state;
   }
 };
 

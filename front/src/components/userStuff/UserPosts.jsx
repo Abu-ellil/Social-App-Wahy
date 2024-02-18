@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./UserPosts.css";
-import LoadingSpinner from "../components/LoadingSpinner";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next"; // Import the useTranslation hook
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { useTranslation } from "react-i18next"; // Import the useTranslation hook
+import LoadingSpinner from "../isLoading/LoadingSpinner";
+import "./UserPosts.css";
 
 const UserPosts = ({ userId }) => {
   const { t } = useTranslation(); // Initialize the useTranslation hook

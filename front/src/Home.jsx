@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Post from "./components/Post";
-import { getAllPosts, likePost, addComment } from "./redux/redux";
 import axios from "axios";
+import React, { useCallback, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoadingSpinner from "./components/isLoading/LoadingSpinner";
+import Post from "./components/posts/Post";
 import useInfinitScroll from "./hooks/useInfinitScroll";
-import LoadingSpinner from "./components/LoadingSpinner"; // Import the LoadingSpinner component
+import { addComment, likePost } from "./redux/redux";
 
 function Home() {
-  const apiUrl = "https://wahy-social-app-api.onrender.com"
+  const apiUrl = "https://wahy-social-app-api.onrender.com";
   const user = useSelector((state) => state.user);
   const [query, setQuery] = useState("");
   const [commentText, setCommentText] = useState("");
@@ -137,8 +137,7 @@ function Home() {
           );
         }
       })}
-      {loading && <LoadingSpinner />}{" "}
-      <ToastContainer />
+      {loading && <LoadingSpinner />} <ToastContainer />
     </div>
   );
 }
