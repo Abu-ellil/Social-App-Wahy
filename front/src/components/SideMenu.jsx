@@ -1,9 +1,11 @@
 import React from "react";
 import {
   FaHome,
+  FaMoon,
   FaPlusCircle,
   FaRegUser,
   FaSearch,
+  FaSun,
   FaWpexplorer,
 } from "react-icons/fa";
 import { RiLoginCircleLine, RiLogoutCircleLine } from "react-icons/ri";
@@ -86,7 +88,7 @@ const SideMenu = () => {
         </>
       )}
       <div className="theme-lang-container">
-        <LanguageToggle /><button onClick={toggleTheme}>Theme</button>
+        <LanguageToggle /><button onClick={toggleTheme}>{theme === 'light' ? <FaMoon/>:<FaSun/>}</button>
       </div>
       
     </div>

@@ -19,7 +19,7 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
-      setTheme(storedTheme); // Set the theme from local storage if available
+      setTheme(storedTheme);
     }
   }, []);
 
