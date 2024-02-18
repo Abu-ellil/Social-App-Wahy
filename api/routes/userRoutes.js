@@ -1,5 +1,7 @@
 const express = require("express");
 const User = require("../models/User.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const {
   authorize,
   uploadFile,
@@ -13,7 +15,7 @@ const {
   cloudinaryRemoveImage,
 } = require("../utils/cloudinary.js");
 const fs = require("fs");
-
+const secretKey = process.env.JWT_SECRET;
 const router = express.Router();
 
 // Signup route
@@ -45,7 +47,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).send("Invalid email or password");
     }
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET_KEY);
+    const token = jwt.sign({ userId: user._id }, secretKey);
     res.send({ token });
   } catch (error) {
     console.error("Error logging in:", error);
