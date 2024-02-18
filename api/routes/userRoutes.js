@@ -19,13 +19,14 @@ const router = express.Router();
 // Signup route
 router.post("/signup", async (req, res) => {
   try {
-    // Create a new user
-    const user = new User(req.body);
+    const { username, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ username, email, password: hashedPassword });
     await user.save();
-    const token = user.generateAuthToken();
-    res.status(201).send({ user, token });
+    res.status(201).send("User created successfully");
   } catch (error) {
-    res.status(400).send(error);
+    console.error("Error creating user:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
@@ -33,26 +34,25 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email }); // Corrected query
+    const user = await User.findOne({ email });
 
     if (!user) {
-      return res
-        .status(401)
-        .send({ error: "Login failed! Check authentication credentials" });
+      return res.status(401).send("Invalid email or password");
     }
-    // Assuming you have a method to check password validity, replace this with your actual implementation
-    const isPasswordValid = user.checkPassword(password);
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res
-        .status(401)
-        .send({ error: "Login failed! Check authentication credentials" });
+      return res.status(401).send("Invalid email or password");
     }
-    const token = user.generateAuthToken();
-    res.send({ user, token });
+
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET_KEY);
+    res.send({ token });
   } catch (error) {
-    res.status(400).send(error);
+    console.error("Error logging in:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
+
 
 // Update profile route  
 router.patch("/me/:id", async (req, res) => {
