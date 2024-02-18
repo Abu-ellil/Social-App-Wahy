@@ -14,24 +14,32 @@
 }
 
 
-body.light {
+body {
   font-family: Roboto, Tajawal;
   min-height: 100vh;
-  background-color: #ffffff;
-  color: #000000;
 }
 
-body.dark {
-  font-family: Roboto, Tajawal;
-  min-height: 100vh;
-  background-color: #1e1e1e;
-  color: #ffffff;
-}
 .app {
   display: flex;
   margin: 0 auto;
   text-align: center;
 }
+/* Light Theme */
+.app.light {
+  font-family: Roboto, Tajawal;
+  min-height: 100vh;
+  background-color: #d3effa;
+  color: #000000;
+}
+
+/* Dark Theme */
+.app.dark {
+  font-family: Roboto, Tajawal;
+  min-height: 100vh;
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
 
 .home {
   width: 550px;
@@ -45,13 +53,7 @@ section {
   flex-grow: 1;
   padding: 20px;
 }
-.lang-btn {
-  font-size: 28px;
-  color: #ffffff;
-  background-color: transparent;
-  border: none;
-  /* padding: 15px; */
-}
+
 .btn {
   color: #fff;
   background-color: #007bff;

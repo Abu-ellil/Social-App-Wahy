@@ -12,18 +12,17 @@
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
-.navbar-link:hover  .ico{
+.navbar-link:hover .ico {
   stroke-width: 20px;
   /* border-radius: 50%; */
 }
-.login-icon{
- border-radius: 50%;
+.login-icon {
+  border-radius: 50%;
 }
-.navbar-link:hover  .login-icon{
-
+.navbar-link:hover .login-icon {
 }
 .navbar-link:hover {
- background-color: #ffffff27;
+  background-color: #ffffff27;
 }
 .side-menu a {
   display: block;
@@ -35,17 +34,29 @@
   text-decoration: none;
   margin-bottom: 10px;
 }
-.navbar-link{
+.navbar-link {
   text-decoration: none;
   color: white;
   padding: 8px;
   border-radius: 5px;
   transition: background-color 0.3s;
 }
-.ico{
+.ico {
   color: #ffffff;
   font-size: 35px;
   transition: all 0.3s ease-in-out;
 }
 
-
+.theme-lang-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+}
+.theme-lang-container button {
+  border: none;
+  font-size: 28px;
+  color: #ffffff;
+  background-color: transparent;
+  border: none;
+}

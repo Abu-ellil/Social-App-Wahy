@@ -29,7 +29,6 @@ const SideMenu = () => {
 
   return (
     <div className="side-menu">
-      <LanguageToggle />
       <NavLink to="/" className="navbar-link">
         <FaHome className="ico" />
         <h2>{t("home")}</h2>
@@ -86,7 +85,10 @@ const SideMenu = () => {
           </NavLink>
         </>
       )}
-      <button onClick={toggleTheme}>Theme</button>
+      <div className="theme-lang-container">
+        <LanguageToggle /><button onClick={toggleTheme}>Theme</button>
+      </div>
+      
     </div>
   );
 };
