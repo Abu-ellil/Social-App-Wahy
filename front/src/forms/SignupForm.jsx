@@ -6,8 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Form.css";
+import { useTranslation } from "react-i18next";
 
 function SignupForm() {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -31,10 +33,10 @@ function SignupForm() {
 
     try {
       await dispatch(signupUser(formData));
-      toast.success("Signup successful! Please log in.");
+      toast.success(t("signupSuccessMessage"));
       navigate("/");
     } catch (error) {
-      toast.error(`Error: ${error.message}`, {
+      toast.error(`${t("errorMessage")}: ${error.message}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -51,37 +53,41 @@ function SignupForm() {
 
   return (
     <div className="login-container">
-      <h2>Sign Up</h2>
+      <h2>{t("signupTitle")}</h2>
       <form className="form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder={t("emailPlaceholder")}
           value={formData.email}
           onChange={handleChange}
           required
         />
         <input
+          type="text"
+          name="username"
+          placeholder={t("usernamePlaceholder")}
+          value={formData.username}
+          onChange={handleChange}
+          required
+        />
+
+        <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder={t("passwordPlaceholder")}
           value={formData.password}
           onChange={handleChange}
           required
         />
         <button type="submit" disabled={loading}>
-          {loading ? <LoadingSpinner /> : "Sign Up"}
+          {loading ? <LoadingSpinner /> : t("signupButton")}
         </button>
       </form>
-      <p>Already have an account? <NavLink to="/login">Login</NavLink></p>
+      <p>
+        {t("alreadyHaveAccountMessage")}{" "}
+        <NavLink to="/login">{t("loginLink")}</NavLink>
+      </p>
     </div>
   );
 }

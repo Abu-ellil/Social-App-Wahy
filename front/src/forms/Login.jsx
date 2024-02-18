@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaHome } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,10 +8,12 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { useGetUserToken } from "../hooks/useGetUserToken";
 import { loginUser } from "../redux/redux";
 import { useTranslation } from "react-i18next";
+import LanguageToggle from "../languages/LanguageToggle";
 import "./Login.css";
 
 function Login() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
   const token = useGetUserToken();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,7 +22,6 @@ function Login() {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -74,7 +75,10 @@ function Login() {
             </button>
           </form>
           <div>
-            <p>{t("noAccountMessage")} <NavLink to="/register">{t("registerLink")}</NavLink></p>
+            <p>
+              {t("noAccountMessage")}{" "}
+              <NavLink to="/register">{t("registerLink")}</NavLink>
+            </p>
           </div>
           {isLoading && <LoadingSpinner />} <ToastContainer />
         </div>

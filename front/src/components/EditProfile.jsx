@@ -1,22 +1,42 @@
 // Import necessary libraries
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, updateUserRequest } from "../redux/redux";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./EditProfile.css";
+import LanguageToggle from "../languages/LanguageToggle";
 
-import "./EditProfile.css"; // Import the CSS file
+import { useTranslation } from "react-i18next";
+
 
 const EditProfile = ({ token, userID }) => {
+  const { t, i18n } = useTranslation();
+
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState(null);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+
+
+
+
+
+
+  const fileInputRef = useRef(null);
+
+  const handleFileButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+
+ 
+  
 
   useEffect(() => {
     if (user) {
@@ -40,7 +60,7 @@ const EditProfile = ({ token, userID }) => {
   const handleUserInfoUpdate = async () => {
     try {
       dispatch(updateUserRequest());
-      setLoading(true); // Set loading to true during the update
+      setLoading(true);
       const response = await axios.patch(
         `https://wahy-social-app-api.onrender.com/users/me/${user._id}`,
         { username, email },
@@ -63,7 +83,7 @@ const EditProfile = ({ token, userID }) => {
       setError("Error updating username and email");
       toast.error("Error updating username and email");
     } finally {
-      setLoading(false); // Set loading back to false after the update or an error
+      setLoading(false);
     }
   };
 
@@ -75,7 +95,7 @@ const EditProfile = ({ token, userID }) => {
     try {
       const formData = new FormData();
       formData.append("avatar", avatar);
-setLoading(true);
+      setLoading(true);
       const response = await axios.patch(
         `https://wahy-social-app-api.onrender.com/users/${user._id}/avatar`,
         formData,
@@ -103,19 +123,38 @@ setLoading(true);
     }
   };
 
+
+ useEffect(() => {
+   if (user) {
+     const { username, email } = user;
+     setUsername(username);
+     setEmail(email);
+   } else {
+     setError(t("userNotFound"));
+   }
+ }, [user, t]);
+
+
   return (
     <div className="edit-profile-container">
-      <LanguageToggle/>
-      <h2>Edit Profile</h2>
+      <h2>{t("editProfileTitle")}</h2>
       <ToastContainer />
       {loading && <div className="loading-spinner"></div>}
-      {error && <p className="error">Error: {error}</p>}
-      {successMessage && <p className="success">Success: {successMessage}</p>}
+      {error && (
+        <p className="error">
+          {t("error")}: {error}
+        </p>
+      )}
+      {successMessage && (
+        <p className="success">
+          {t("success")}: {successMessage}
+        </p>
+      )}
       {!loading && !error && (
         <div>
           <form className="user-info-form" onSubmit={(e) => e.preventDefault()}>
             <label>
-              Username:
+              {t("usernameLabel")}:
               <input
                 type="text"
                 name="username"
@@ -125,7 +164,7 @@ setLoading(true);
             </label>
             <br />
             <label>
-              Email:
+              {t("emailLabel")}:
               <input
                 type="email"
                 name="email"
@@ -139,14 +178,27 @@ setLoading(true);
               type="button"
               onClick={handleUserInfoUpdate}
             >
-              Update User Information
+              {t("updateUserInfoButton")}
             </button>
           </form>
           <br />
           <form className="avatar-form" onSubmit={(e) => e.preventDefault()}>
             <label>
-              Avatar:
-              <input type="file" name="avatar" onChange={handleFileChange} />
+              {t("avatarLabel")}:
+              <div>
+                <button
+                  className="custom-file-button"
+                  onClick={handleFileButtonClick}
+                >
+                  {t("chooseAvatar")} 
+                </button>
+                <input
+                  className="file-input"
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
+              </div>
             </label>
             <br />
             {avatar ? (
@@ -156,7 +208,7 @@ setLoading(true);
                 alt="User Avatar"
               />
             ) : (
-              <p>No avatar available</p>
+              <p>{t("noAvatarAvailable")}</p>
             )}
             <br />
             <button
@@ -164,7 +216,7 @@ setLoading(true);
               type="button"
               onClick={handleAvatarUpdate}
             >
-              Update Avatar
+              {t("updateAvatarButton")}
             </button>
           </form>
         </div>

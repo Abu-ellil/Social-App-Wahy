@@ -3,6 +3,7 @@ import { thunk } from "redux-thunk";
 import axios from "axios";
 
 const token = localStorage.getItem("token");
+const storedLanguage = localStorage.getItem("language");
 const apiUrl = 'https://wahy-social-app-api.onrender.com';
 // Action Types
 const SIGNUP_USER_SUCCESS = "SIGNUP_USER_SUCCESS";
@@ -16,6 +17,15 @@ const GET_ALL_POSTS_SUCCESS = "GET_ALL_POSTS_SUCCESS";
 const LIKE_POST_SUCCESS = "LIKE_POST_SUCCESS";
 const SET_LANGUAGE = "SET_LANGUAGE";
 
+
+// Initial State
+const initialState = {
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  posts: [],
+  comments: [],
+  likes: [],
+  language: storedLanguage || "en",
+};
 
 // Action Creators
 const setLanguage = (language) => ({
@@ -72,14 +82,7 @@ const likePostSuccess = (postId, isLiked) => ({
   payload: { postId, isLiked },
 });
 
-// Initial State
-const initialState = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
-  posts: [],
-  comments: [],
-  likes: [],
-  language: "en",
-};
+
 
 
 // Async Action Creator
@@ -217,9 +220,6 @@ const likePost = (postId, userId, isLiked) => {
 
 
 // Reducer
-
-// Reducer
-
 const addPost = (postFormData) => {
   return async (dispatch) => {
     try {
@@ -250,7 +250,6 @@ const addComment = (postId, commentData) => {
   };
 };
 
-// Reducer
 // Reducer
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -287,7 +286,7 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, posts: [...state.posts, action.payload] };
     case "ADD_COMMENT_SUCCESS":
       return { ...state, comments: [...state.comments, action.payload] };
-    case SET_LANGUAGE:
+    case "SET_LANGUAGE":
       return {
         ...state,
         language: action.payload,

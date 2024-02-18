@@ -1,21 +1,33 @@
-// LanguageToggle.js
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLanguage } from './redux/redux';
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { setLanguage } from "../redux/redux";
 
 const LanguageToggle = () => {
+  const { i18n } = useTranslation();
   const dispatch = useDispatch();
-  const language = useSelector(state => state.language);
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("language");
+    if (savedLanguage) {
+      dispatch(setLanguage(savedLanguage));
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, []);
 
   const toggleLanguage = () => {
-    const newLanguage = language === 'en' ? 'ar' : 'en';
+    const newLanguage = i18n.language === "en" ? "ar" : "en";
+    localStorage.setItem("language", newLanguage);
     dispatch(setLanguage(newLanguage));
+    i18n.changeLanguage(newLanguage);
   };
 
   return (
-    <button onClick={toggleLanguage}>
-      {language === 'en' ? 'عربي' : 'English'}
-    </button>
+    <>
+      <button className="lang-btn" onClick={toggleLanguage}>
+        {i18n.language === "en" ? "ع" : "En"}
+      </button>
+    </>
   );
 };
 

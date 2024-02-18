@@ -4,8 +4,10 @@ import "./UserPosts.css";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { useTranslation } from "react-i18next"; // Import the useTranslation hook
 
 const UserPosts = ({ userId }) => {
+  const { t } = useTranslation(); // Initialize the useTranslation hook
   const user = useSelector((state) => state.user);
   const apiUrl = "https://wahy-social-app-api.onrender.com";
   const [userData, setUserData] = useState(null);
@@ -17,6 +19,10 @@ const UserPosts = ({ userId }) => {
     category: "",
     image: "",
   });
+
+  // Define translations for success and error messages
+  const successMessage = t("postUpdatedSuccess");
+  const errorMessage = t("errorEditingPost");
 
   const fetchUserData = async () => {
     try {
@@ -69,11 +75,11 @@ const UserPosts = ({ userId }) => {
         image: "",
       });
       // Show success toast
-      toast.success("Post updated successfully!");
+      toast.success(successMessage);
     } catch (error) {
       console.error("Error editing post:", error);
       // Show error toast
-      toast.error("Error editing post. Please try again.");
+      toast.error(errorMessage);
     }
   };
 
@@ -136,9 +142,9 @@ const UserPosts = ({ userId }) => {
                       onChange={handleInputChange}
                     />
                     <button onClick={() => handleSaveEdit(post._id)}>
-                      Save
+                      {t("save")}
                     </button>
-                    <button onClick={handleCancelEdit}>Cancel</button>
+                    <button onClick={handleCancelEdit}>{t("cancel")}</button>
                   </div>
                 ) : (
                   // Display post details
@@ -149,12 +155,18 @@ const UserPosts = ({ userId }) => {
                     <img src={post.image} alt={post.title} />
                     <div className="edite-del-container">
                       {/* Edit button */}
-                      <button className="btn" onClick={() => handleEdit(post._id, post)}>
-                        Edit
+                      <button
+                        className="btn"
+                        onClick={() => handleEdit(post._id, post)}
+                      >
+                        {t("edit")}
                       </button>
                       {/* Delete button */}
-                      <button className="btn" onClick={() => handleDelete(post._id)}>
-                        Delete
+                      <button
+                        className="btn"
+                        onClick={() => handleDelete(post._id)}
+                      >
+                        {t("delete")}
                       </button>
                     </div>
                   </>
@@ -164,7 +176,7 @@ const UserPosts = ({ userId }) => {
           </div>
         </>
       ) : (
-        <p>Error loading user posts.</p>
+        <p>{t("errorLoadingPosts")}</p>
       )}
       <ToastContainer />
     </div>

@@ -1,5 +1,5 @@
 .post-form {
-  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -25,7 +25,9 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
+.post-form textarea{
+  min-height: 300px;
+}
 .post-form button {
   background-color: #007bff;
   color: #fff;
@@ -43,4 +45,25 @@
 .post-form .error {
   color: #ff0000;
   margin-bottom: 10px;
+}
+
+.file-input-container {
+  position: relative;
+}
+
+.file-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.file-upload-label {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

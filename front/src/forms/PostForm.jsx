@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
+import { useTranslation } from "react-i18next"; // Import the useTranslation hook
 import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../components/LoadingSpinner";
 import "./PostForm.css";
 
 function PostForm() {
+  const { t } = useTranslation(); // Initialize the useTranslation hook
   const user = useSelector((state) => state.user);
 
   const [files, setFiles] = useState([]);
@@ -42,7 +44,7 @@ function PostForm() {
         formDataToSend
       );
 
-      toast.success("Post submitted successfully!", {
+      toast.success(t("postSubmittedSuccess"), {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -60,7 +62,7 @@ function PostForm() {
       setFiles([]);
       setLoading(false);
     } catch (error) {
-      toast.error(`Error: ${error.message}`, {
+      toast.error(`${t("error")}: ${error.message}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -77,9 +79,9 @@ function PostForm() {
   return (
     <>
       <form className="post-form" onSubmit={handleSubmit}>
-        <h2>Create a New Post</h2>
+        <h2>{t("createNewPost")}</h2>
         <div>
-          <label htmlFor="title">Title:</label>
+          <label htmlFor="title">{t("title")}:</label>
           <input
             type="text"
             id="title"
@@ -90,7 +92,7 @@ function PostForm() {
           />
         </div>
         <div>
-          <label htmlFor="description">Description:</label>
+          <label htmlFor="description">{t("description")}:</label>
           <textarea
             id="description"
             name="description"
@@ -100,7 +102,7 @@ function PostForm() {
           />
         </div>
         <div>
-          <label htmlFor="category">Category:</label>
+          <label htmlFor="category">{t("category")}:</label>
           <input
             type="text"
             id="category"
@@ -110,15 +112,20 @@ function PostForm() {
             required
           />
         </div>
-        <div>
+        <div className="file-input-container">
           <input
             type="file"
+            id="file-upload"
             onChange={(ev) => setFiles(ev.target.files)}
             accept="image/*"
+            className="file-input"
           />
+          <label htmlFor="file-upload" className="file-upload-label">
+            Choose File
+          </label>
         </div>
         <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Submit"}
+          {loading ? t("loading") : t("submit")}
         </button>
         {loading && <LoadingSpinner />}{" "}
         {/* Display LoadingSpinner while loading */}
