@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: start;
   border-radius: 12px;
- 
 }
 .comments {
   width: 100%;
@@ -29,7 +28,7 @@
   gap: 2rem;
 }
 
-.time-stamp span{
+.time-stamp span {
   color: brown;
 }
 
@@ -48,29 +47,35 @@
   color: red;
 }
 
-.comment-btn, .see-more-btn{
+.comment-btn,
+.see-more-btn {
   cursor: pointer;
 }
-.comment-btn{
+.comment-btn {
   padding: 8px;
   border-radius: 12px;
   background-color: #0878f8;
   margin-bottom: 12px;
 }
-.see-more-btn{
+.see-more-btn {
   background-color: #333;
   padding: 0 10px;
 }
-.add-comment-form{
+.add-comment-form input[type="text"],
+.comment-btn {
+  margin-bottom: 0;
+}
+.add-comment-form {
   width: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0px;
-    margin-bottom: 0px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    align-self: center;
+  gap: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  align-self: center;
 }
 .delete-comment-btn {
   background-color: #34db3400;
@@ -97,16 +102,16 @@
     font-weight: 500;
     line-height: 10px;
     padding: 0px;
-    gap: 0rem
+    gap: 0rem;
   }
   .post {
     margin: 3px;
     padding: 0px;
   }
-.comment-text-time {
+  .comment-text-time {
     display: flex;
     gap: 1rem;
-}
+  }
   .delete-comment-btn {
     padding: 6px 10px;
   }
