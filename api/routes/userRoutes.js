@@ -1,7 +1,6 @@
 const express = require("express");
 const User = require("../models/User.js");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const {
   authorize,
   uploadFile,
@@ -15,20 +14,26 @@ const {
   cloudinaryRemoveImage,
 } = require("../utils/cloudinary.js");
 const fs = require("fs");
-const secretKey = process.env.JWT_SECRET;
+
 const router = express.Router();
 
-// Signup route
 router.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user with hashed password
     const user = new User({ username, email, password: hashedPassword });
     await user.save();
-    res.status(201).send("User created successfully");
+
+    // Generate JWT token
+    const token = user.generateAuthToken();
+
+    res.status(201).send({ user, token });
   } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(400).send(error);
   }
 });
 
@@ -36,25 +41,33 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Find the user by email
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).send("Invalid email or password");
+      return res
+        .status(401)
+        .send({ error: "Login failed! Check authentication credentials" });
     }
 
+    // Compare entered password with hashed password
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
-      return res.status(401).send("Invalid email or password");
+      return res
+        .status(401)
+        .send({ error: "Login failed! Check authentication credentials" });
     }
 
-    const token = jwt.sign({ userId: user._id }, secretKey);
-    res.send({ token });
+    // Generate JWT token
+    const token = user.generateAuthToken();
+
+    res.send({ user, token });
   } catch (error) {
-    console.error("Error logging in:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(400).send(error);
   }
 });
-
 
 // Update profile route  
 router.patch("/me/:id", async (req, res) => {
