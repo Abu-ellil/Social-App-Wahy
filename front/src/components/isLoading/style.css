@@ -1,13 +1,17 @@
-
 .loader {
   position: fixed;
   top: 90%;
-  left: 60%;
-  transform: translate(-30%, -50%);
+  left: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease-in-out;
+}
+
+[dir="rtl"] .loader {
+  left: auto;
+  right: 50%;
+  transform: translate(-50%, -50%);
 }
 .circle {
   background-color: #007bff;

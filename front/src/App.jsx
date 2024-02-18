@@ -20,7 +20,7 @@ import { useTheme } from "./context/ThemeContext.jsx"; // Import useTheme hook
 function App() {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme();
 
   const user = useSelector((state) => state.user);
   const [token, setToken] = useState(false);
@@ -43,7 +43,10 @@ function App() {
   }, []);
 
   return (
-    <div className={`app ${theme}`}>
+    <div
+      dir={i18n.language === "ar" ? "rtl" : "ltr"}
+      className={`app ${theme}`}
+    >
       <I18nextProvider i18n={i18n}>
         <Router>
           <SideMenu />

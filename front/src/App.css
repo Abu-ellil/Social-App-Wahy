@@ -9,7 +9,7 @@
 }
 
 #root {
-  min-height: 100vh;
+  min-height: 98vh;
   width: 100%;
 }
 
@@ -17,6 +17,7 @@
 body {
   font-family: Roboto, Tajawal;
   min-height: 100vh;
+  transition: all .3s ease-in-out;
 }
 
 .app {
