@@ -29,7 +29,8 @@
   border-radius: 50%;
 }
 
-.navbar-link:hover .login-icon {
+.side-menu .logout-btn {
+  background-color: transparent;
 }
 
 .navbar-link:hover {

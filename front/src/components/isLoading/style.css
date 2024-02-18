@@ -1,17 +1,23 @@
 .loader {
   position: fixed;
   top: 90%;
-  left: 50%;
+  left: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: translate(-50%, -50%);
   transition: all 0.3s ease-in-out;
 }
 
 [dir="rtl"] .loader {
-  left: auto;
-  right: 50%;
+  position: fixed;
+  top: 90%;
+  left: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transform: translate(-50%, -50%);
+  transition: all 0.3s ease-in-out;
 }
 .circle {
   background-color: #007bff;
