@@ -108,7 +108,6 @@ router.patch("/me/:id", async (req, res) => {
 router
   .route("/:id/avatar")
   .patch(photoUpload.single("avatar"), async (req, res) => {
-     console.log(req.params);
     const userId = req.params.id;
     const user = await User.findById(userId);
 
