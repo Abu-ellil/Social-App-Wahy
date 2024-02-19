@@ -8,6 +8,8 @@ import LoadingSpinner from "../components/isLoading/LoadingSpinner";
 import "./PostForm.css";
 
 function PostForm() {
+  const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+
   const { t } = useTranslation(); // Initialize the useTranslation hook
   const user = useSelector((state) => state.user);
 
@@ -40,7 +42,7 @@ function PostForm() {
       formDataToSend.append("image", files[0]);
 
       const response = await axios.post(
-        "https://wahy-social-app-api.onrender.com/api/posts",
+        `${apiUrl}/api/posts`,
         formDataToSend
       );
 

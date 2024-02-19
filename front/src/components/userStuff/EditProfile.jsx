@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 const EditProfile = ({ token, userID }) => {
   const { t, i18n } = useTranslation();
+const apiUrl = import.meta.env.VITE_API_SERVER_URL;
 
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const EditProfile = ({ token, userID }) => {
       dispatch(updateUserRequest());
       setLoading(true);
       const response = await axios.patch(
-        `https://wahy-social-app-api.onrender.com/users/me/${user._id}`,
+        `${apiUrl}/users/me/${user._id}`,
         { username, email },
         {
           headers: {
@@ -86,7 +87,7 @@ const EditProfile = ({ token, userID }) => {
       formData.append("avatar", avatar);
       setLoading(true);
       const response = await axios.patch(
-        `https://wahy-social-app-api.onrender.com/users/${user._id}/avatar`,
+        `${apiUrl}/users/${user._id}/avatar`,
         formData,
         {
           headers: {

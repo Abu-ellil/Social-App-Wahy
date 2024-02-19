@@ -39,6 +39,7 @@ router.post("/signup", async (req, res) => {
 
 // Login route
 router.post("/login", async (req, res) => {
+ 
   try {
     const { email, password } = req.body;
 
@@ -107,6 +108,7 @@ router.patch("/me/:id", async (req, res) => {
 router
   .route("/:id/avatar")
   .patch(photoUpload.single("avatar"), async (req, res) => {
+     console.log(req.params);
     const userId = req.params.id;
     const user = await User.findById(userId);
 

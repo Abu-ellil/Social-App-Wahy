@@ -4,7 +4,9 @@ import axios from "axios";
 
 const token = localStorage.getItem("token");
 const storedLanguage = localStorage.getItem("language");
-const apiUrl = "https://wahy-social-app-api.onrender.com";
+const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+
+// const apiUrl = "https://wahy-social-app-api.onrender.com";
 
 // Action Types
 const SIGNUP_USER_SUCCESS = "SIGNUP_USER_SUCCESS";
@@ -162,10 +164,9 @@ const loginUser = (credentials) => {
       const response = await axios.post(`${apiUrl}/users/login`, credentials);
       dispatch(loginUserSuccess(response.data.user));
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user data in local storage
+      localStorage.setItem("user", JSON.stringify(response.data.user)); 
     } catch (error) {
       console.error("Error logging in:", error);
-      // Dispatch an action to handle login failure if needed
     }
   };
 };

@@ -9,7 +9,7 @@ import useInfinitScroll from "./hooks/useInfinitScroll";
 import { addComment, likePost } from "./redux/redux";
 
 function Home() {
-  const apiUrl = "https://wahy-social-app-api.onrender.com";
+  const apiUrl = import.meta.env.VITE_API_SERVER_URL;
   const user = useSelector((state) => state.user);
   const [query, setQuery] = useState("");
   const [commentText, setCommentText] = useState("");

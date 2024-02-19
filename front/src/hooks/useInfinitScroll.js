@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const useInfinitScroll = (query, pageNumber) => {
+  const apiUrl = import.meta.env.VITE_API_SERVER_URL;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -15,9 +16,10 @@ const useInfinitScroll = (query, pageNumber) => {
     let isMounted = true;
 
     const getPosts = async () => {
+      
       try {
         setLoading(true);
-        const apiUrl = "https://wahy-social-app-api.onrender.com";
+       
         const response = await axios.get(
           `${apiUrl}/api/posts?page=${pageNumber}&query=${query}`,
           {

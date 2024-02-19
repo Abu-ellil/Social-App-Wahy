@@ -9,7 +9,8 @@ import "./UserPosts.css";
 const UserPosts = ({ userId }) => {
   const { t } = useTranslation(); // Initialize the useTranslation hook
   const user = useSelector((state) => state.user);
-  const apiUrl = "https://wahy-social-app-api.onrender.com";
+  const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editPostId, setEditPostId] = useState(null);
