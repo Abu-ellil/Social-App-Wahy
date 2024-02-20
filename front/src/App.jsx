@@ -26,7 +26,7 @@ function App() {
   const [token, setToken] = useState(false);
 
   useEffect(() => {
-    // Initialize language preference from local storage
+    // Initialize language from local storage
     const storedLanguage = localStorage.getItem("language");
     const initialLanguage = storedLanguage || "en";
     i18n.changeLanguage(initialLanguage);
