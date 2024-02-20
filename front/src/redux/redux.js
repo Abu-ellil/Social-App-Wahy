@@ -152,10 +152,17 @@ const signupUser = (userData) => {
       localStorage.setItem("user", JSON.stringify(response.data.user));
     } catch (error) {
       console.error("Error signing up:", error);
-      // Handle signup failure if needed
+      if (error.response) {
+        // If there's a response from the server, extract and return the error message
+        throw new Error(error.response.data.error);
+      } else {
+        // If there's no response from the server, throw a generic error message
+        throw new Error("An error occurred during signup.");
+      }
     }
   };
 };
+
 
 // Async Action Creator
 const loginUser = (credentials) => {

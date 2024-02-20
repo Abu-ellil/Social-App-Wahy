@@ -20,6 +20,17 @@ const router = express.Router();
 router.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+
+    if (existingUser) {
+      let errorMessage = "";
+      if (existingUser.username === username) {
+        errorMessage = "Username already exists.";
+      } else {
+        errorMessage = "Email already exists.";
+      }
+      return res.status(400).send({ error: errorMessage });
+    }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -33,9 +44,10 @@ router.post("/signup", async (req, res) => {
 
     res.status(201).send({ user, token });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ error: error.message });
   }
 });
+
 
 // Login route
 router.post("/login", async (req, res) => {

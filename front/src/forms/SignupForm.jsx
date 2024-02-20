@@ -34,22 +34,17 @@ function SignupForm() {
     try {
       await dispatch(signupUser(formData));
       toast.success(t("signupSuccessMessage"));
-      navigate("/");
+      // navigate("/login");
     } catch (error) {
-      toast.error(`${t("errorMessage")}: ${error.message}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      console.log(error.message); // This will log the error message
+      alert(error.message);
+      toast.success(t("signupSuccessMessage"));
+      toast.error(`${t("errorMessage")}: ${error.message}`);
     } finally {
       setLoading(false);
-      navigate("/");
     }
   };
+
 
   return (
     <div className="login-container">
