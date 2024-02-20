@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes,Navigate } from "react-router-dom";
 import Home from "./Home.jsx";
 import EditProfile from "./components/userStuff/EditProfile.jsx";
 import Navbar from "./components/header/Nav.jsx";
@@ -71,7 +71,7 @@ function App() {
               />
               <Route path="/my-posts" element={<UserPosts />} />
               <Route path="/search" element={<SearchableComponent />} />
-              <Route path="*" element={<NotFound404 />} />
+              <Route path="*" element={<Navigate to={"/"} />} />
             </Routes>
           </section>
         </Router>
