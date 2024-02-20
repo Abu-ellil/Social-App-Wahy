@@ -17,9 +17,6 @@ const fs = require("fs");
 
 const router = express.Router();
 
-
-
-
 async function getPost(req, res, next) {
   let post;
   try {
@@ -37,13 +34,6 @@ async function getPost(req, res, next) {
   next();
 }
 
-
-
-
-
-
-
-
 // GET all posts with pagination
 router.get("/posts", async (req, res) => {
   const page = parseInt(req.query.page);
@@ -54,12 +44,13 @@ router.get("/posts", async (req, res) => {
       posts = await Post.find()
         .populate("user")
         .populate({
-  path: "comments",
-  populate: {
-    path: "user",
-    model: "User",
-  },
-}).sort({ createdAt: -1 })
+          path: "comments",
+          populate: {
+            path: "user",
+            model: "User",
+          },
+        })
+        .sort({ createdAt: -1 })
         .skip((page - 1) * perPage)
         .limit(perPage);
     } else {
@@ -82,7 +73,7 @@ router.get("/:id/posts", async (req, res) => {
           path: "comments",
           populate: {
             path: "user",
-          }, 
+          },
         },
       })
       .exec();
@@ -106,8 +97,6 @@ router.get("/:id/posts", async (req, res) => {
   }
 });
 
-
-
 // GET all posts
 router.get("/posts", async (req, res) => {
   try {
@@ -117,8 +106,6 @@ router.get("/posts", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
 
 // CREATE a new post
 router.post("/posts", photoUpload.single("image"), async (req, res) => {
@@ -173,9 +160,6 @@ router.patch("/posts/:id", getPost, async (req, res) => {
 
 // DELETE a post by ID
 router.delete("/posts/:id", async (req, res) => {
- 
- 
-  
   try {
     await Post.findByIdAndDelete(req.params.id);
     res.json({ message: "Deleted Post" });

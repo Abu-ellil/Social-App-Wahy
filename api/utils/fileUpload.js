@@ -49,7 +49,6 @@ async function uploadFile(authClient, fileBuffer, originalFilename) {
 
   return response.data;
 }
-
 async function fetchAvatarFile(authClient, fileId) {
   const drive = google.drive({ version: "v3", auth: authClient });
 
