@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../components/isLoading/LoadingSpinner";
 import { signupUser } from "../redux/redux";
@@ -34,14 +34,12 @@ function SignupForm() {
     try {
       await dispatch(signupUser(formData));
       toast.success(t("signupSuccessMessage"));
-      // navigate("/login");
+      navigate("/");
     } catch (error) {
-      console.log(error.message); // This will log the error message
-      alert(error.message);
-      toast.success(t("signupSuccessMessage"));
       toast.error(`${t("errorMessage")}: ${error.message}`);
     } finally {
       setLoading(false);
+       
     }
   };
 
@@ -83,6 +81,7 @@ function SignupForm() {
         {t("alreadyHaveAccountMessage")}{" "}
         <NavLink to="/login">{t("loginLink")}</NavLink>
       </p>
+      <ToastContainer />
     </div>
   );
 }

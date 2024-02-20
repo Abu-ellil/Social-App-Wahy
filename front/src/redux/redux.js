@@ -171,12 +171,14 @@ const loginUser = (credentials) => {
       const response = await axios.post(`${apiUrl}/users/login`, credentials);
       dispatch(loginUserSuccess(response.data.user));
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user)); 
+      localStorage.setItem("user", JSON.stringify(response.data.user));
     } catch (error) {
       console.error("Error logging in:", error);
+      throw error; 
     }
   };
 };
+
 
 // Async Action Creator
 const getUserAvatar = (userId) => {
