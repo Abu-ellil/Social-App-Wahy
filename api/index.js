@@ -3,7 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const chatRouter = require("./routes/chatRoute");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const connectToDatabase = require("./utils/mongoDbConnect");
@@ -53,6 +53,7 @@ const generateToken = (user) => {
 };
 
 app.use("/users", userRoutes.router);
+app.use("/api/chats", chatRouter);
 app.use("/api/", postRoutes.router);
 app.use("/api", commentRoutes);
 app.use("/", searchRoute);
