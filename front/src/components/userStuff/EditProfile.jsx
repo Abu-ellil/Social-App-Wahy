@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updateUser, updateUserRequest } from "../../redux/redux";
+import { FaCamera } from "react-icons/fa";
+
 import "./EditProfile.css";
 
 import { useTranslation } from "react-i18next";
@@ -130,7 +132,8 @@ const EditProfile = ({ token, userID }) => {
                 className="custom-file-button"
                 onClick={handleFileButtonClick}
               >
-                {t("chooseAvatar")}
+                <FaCamera/>
+                {/* {t("chooseAvatar")} */}
               </button>
               <input
                 className="file-input"
@@ -147,6 +150,10 @@ const EditProfile = ({ token, userID }) => {
             alt="User Avatar"
           />
 
+          <br />
+          <br />
+          <br />
+          <br />
           <br />
           <button
             className="btn btn-update"
