@@ -119,96 +119,101 @@ const EditProfile = ({ token, userID }) => {
   };
 
   return (
-    <div className="edit-profile-container">
+    <div className="main">
       <h2>{t("editProfileTitle")}</h2>
-      <ToastContainer />
-      {loading && <div className="loading-spinner"></div>}
-      {error && (
-        <p className="error">
-          {t("error")}: {error}
-        </p>
-      )}
-      {successMessage && (
-        <p className="success">
-          {t("success")}: {successMessage}
-        </p>
-      )}
-      {!loading && !error && (
-        <div>
-          <form className="user-info-form" onSubmit={(e) => e.preventDefault()}>
-            <label>
-              {t("usernameLabel")}:
+      <div className="edit-profile-container">
+        <form className="avatar-form" onSubmit={(e) => e.preventDefault()}>
+          <label>
+            {t("avatarLabel")}:
+            <div>
+              <button
+                className="custom-file-button"
+                onClick={handleFileButtonClick}
+              >
+                {t("chooseAvatar")}
+              </button>
               <input
-                type="text"
-                name="username"
-                value={username}
-                onChange={handleChange}
+                className="file-input"
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
               />
-            </label>
-            <br />
-            <label>
-              {t("emailLabel")}:
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={handleChange}
-              />
-            </label>
-            <br />
-            <label>
-              {t("bioLabel")}:
-              <textarea name="bio" value={bio} onChange={handleChange} />
-            </label>
-            <br />
-            <button
-              className="btn btn-update"
-              type="button"
-              onClick={handleUserInfoUpdate}
-            >
-              {t("updateUserInfoButton")}
-            </button>
-          </form>
+            </div>
+          </label>
+
+          <img
+            className="avatar-image"
+            src={user.profilePhoto.url}
+            alt="User Avatar"
+          />
+
           <br />
-          <form className="avatar-form" onSubmit={(e) => e.preventDefault()}>
-            <label>
-              {t("avatarLabel")}:
-              <div>
-                <button
-                  className="custom-file-button"
-                  onClick={handleFileButtonClick}
-                >
-                  {t("chooseAvatar")}
-                </button>
-                <input
-                  className="file-input"
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                />
-              </div>
-            </label>
-            <br />
-            {avatar ? (
-              <img
-                className="avatar-image"
-                src={user.profilePhoto.url}
-                alt="User Avatar"
-              />
-            ) : (
-              <p>{t("noAvatarAvailable")}</p>
-            )}
-            <br />
-            <button
-              className="btn btn-update"
-              type="button"
-              onClick={handleAvatarUpdate}
+          <button
+            className="btn btn-update"
+            type="button"
+            onClick={handleAvatarUpdate}
+          >
+            {t("updateAvatarButton")}
+          </button>
+        </form>
+        <br />
+        <hr />
+
+        <ToastContainer />
+        {loading && <div className="loading-spinner"></div>}
+        {error && (
+          <p className="error">
+            {t("error")}: {error}
+          </p>
+        )}
+        {successMessage && (
+          <p className="success">
+            {t("success")}: {successMessage}
+          </p>
+        )}
+        {!loading && !error && (
+          <div>
+            <form
+              className="user-info-form"
+              onSubmit={(e) => e.preventDefault()}
             >
-              {t("updateAvatarButton")}
-            </button>
-          </form>
-        </div>
-      )}
+              <label>
+                {t("usernameLabel")}:
+                <input
+                  type="text"
+                  name="username"
+                  value={username}
+                  onChange={handleChange}
+                />
+              </label>
+              <br />
+              <label>
+                {t("emailLabel")}:
+                <input
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={handleChange}
+                />
+              </label>
+              <br />
+              <label>
+                {t("bioLabel")}:
+                <textarea name="bio" value={bio} onChange={handleChange} />
+              </label>
+              <br />
+              <button
+                className="btn btn-update"
+                type="button"
+                onClick={handleUserInfoUpdate}
+              >
+                {t("updateUserInfoButton")}
+              </button>
+            </form>
+            <br />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

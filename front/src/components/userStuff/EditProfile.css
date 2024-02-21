@@ -1,6 +1,7 @@
 .edit-profile-container {
+  display: flex;
+  gap: 3rem;
   position: relative;
-  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
 }
