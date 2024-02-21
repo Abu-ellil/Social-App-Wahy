@@ -64,12 +64,14 @@ const SideMenu = () => {
             <h2>{t("profile")}</h2>
           </Link>
           <Link to="/my-posts" className="navbar-link">
+            <div>
             <img
               src={user && user.profilePhoto && user.profilePhoto.url}
               alt="User"
               className="user-image"
             />
-            <h3>{user.username}</h3>
+            <h3>{user.username}</h3></div>
+            
           </Link>
           <button onClick={handleLogout} className="logout-btn btn">
             <RiLogoutCircleLine className="ico" />

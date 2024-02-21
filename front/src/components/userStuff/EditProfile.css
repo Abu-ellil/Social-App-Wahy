@@ -34,9 +34,9 @@ input[type="file"] {
 .custom-file-button {
   position: absolute;
   background-color: transparent;
-  color: white;
+  color: rgb(6, 121, 167);
   font-size: 32px;
-  top: 40%;
+  top: 36%;
   border: none;
   cursor: pointer;
   z-index: 11;

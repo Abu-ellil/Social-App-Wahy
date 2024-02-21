@@ -25,6 +25,7 @@ const Navbar = () => {
               className="user-image"
             />
             <h6>{user.username && user.username}</h6>
+            <span>"{user?.bio}"</span>
           </div>
         </Link>
       </nav>
