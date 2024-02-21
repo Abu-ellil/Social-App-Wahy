@@ -16,6 +16,8 @@ import i18n from "./languages/i18n.js";
 import NotFound404 from "./NotFound404.jsx";
 import { setLanguage } from "./redux/redux.js";
 import { useTheme } from "./context/ThemeContext.jsx"; // Import useTheme hook
+import { ChateContextProvider } from "./context/chatContext.jsx";
+import Chat from "./components/chat/Chat.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,40 +45,46 @@ function App() {
   }, []);
 
   return (
-    <div
-      dir={i18n.language === "ar" ? "rtl" : "ltr"}
-      className={`app ${theme}`}
-    >
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <SideMenu />
-          <section className="home-container">
-            <Navbar />
-            <Routes>
-              <Route path="/login" element={!token ? <Login /> : null} />
-              <Route
-                path="/register"
-                element={!token ? <SignupForm /> : null}
-              />
-              <Route
-                path="/post-form"
-                element={token ? <PostForm token={token} /> : null}
-              />
-              <Route path="/" element={<Home />} />
-              <Route
-                path="/edit-profile"
-                element={
-                  token ? <EditProfile token={token} userID={user._id} /> : null
-                }
-              />
-              <Route path="/my-posts" element={<UserPosts />} />
-              <Route path="/search" element={<SearchableComponent />} />
-              <Route path="*" element={<Navigate to={"/"} />} />
-            </Routes>
-          </section>
-        </Router>
-      </I18nextProvider>
-    </div>
+    <ChateContextProvider user={user}>
+      <div
+        dir={i18n.language === "ar" ? "rtl" : "ltr"}
+        className={`app ${theme}`}
+      >
+        <I18nextProvider i18n={i18n}>
+          <Router>
+            <SideMenu />
+            <section className="home-container">
+              <Navbar />
+              <Routes>
+                <Route path="/samar" element={token ? <Chat /> : <Login />} />
+
+                <Route path="/login" element={!token ? <Login /> : null} />
+                <Route
+                  path="/register"
+                  element={!token ? <SignupForm /> : null}
+                />
+                <Route
+                  path="/post-form"
+                  element={token ? <PostForm token={token} /> : null}
+                />
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="/edit-profile"
+                  element={
+                    token ? (
+                      <EditProfile token={token} userID={user._id} />
+                    ) : null
+                  }
+                />
+                <Route path="/my-posts" element={<UserPosts />} />
+                <Route path="/search" element={<SearchableComponent />} />
+                <Route path="*" element={<Navigate to={"/"} />} />
+              </Routes>
+            </section>
+          </Router>
+        </I18nextProvider>
+      </div>
+    </ChateContextProvider>
   );
 }
 
