@@ -9,15 +9,18 @@ import UserPosts from "./components/userStuff/UserPosts.jsx";
 import Login from "./forms/Login.jsx";
 import PostForm from "./forms/PostForm.jsx";
 import SignupForm from "./forms/SignupForm.jsx";
-import { useGetUserToken } from "./hooks/useGetUserToken.jsx";
+import { useGetUserToken } from "./hooks/useGetUserToken.js";
 import SearchableComponent from "./search/SearchableComponent.jsx";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import i18n from "./languages/i18n.js";
 import NotFound404 from "./NotFound404.jsx";
 import { setLanguage } from "./redux/redux.js";
 import { useTheme } from "./context/ThemeContext.jsx"; // Import useTheme hook
-import { ChateContextProvider } from "./context/chatContext.jsx";
+import { ChatContextProvider } from "./context/chatContext.jsx";
 import Chat from "./components/chat/Chat.jsx";
+
+
+
 
 function App() {
   const dispatch = useDispatch();
@@ -45,7 +48,7 @@ function App() {
   }, []);
 
   return (
-    <ChateContextProvider user={user}>
+    <ChatContextProvider user={user}>
       <div
         dir={i18n.language === "ar" ? "rtl" : "ltr"}
         className={`app ${theme}`}
@@ -84,7 +87,7 @@ function App() {
           </Router>
         </I18nextProvider>
       </div>
-    </ChateContextProvider>
+    </ChatContextProvider>
   );
 }
 

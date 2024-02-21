@@ -2,6 +2,78 @@
 import axios from "axios";
 
 export const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+
+export const postRequest = async (url, bodyData) => {
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "An error occurred");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error making POST request:", error);
+    return { error: true, message: error.message };
+  }
+};
+
+
+
+export const getRequest = async (url) => {
+  const response = await fetch(url);
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    let message = "An error occured...";
+  }
+  if (data?.message) {
+    message = data.message;
+
+    return { error: true, message };
+  }
+
+  return data;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // export const getPosts = async (
 //   query,
 //   pageNumber,
@@ -36,20 +108,3 @@ export const apiUrl = import.meta.env.VITE_API_SERVER_URL;
 //     setLoading(false);
 //   }
 // };
-
-
-
-export const getRequest = async(url)=>{
-  const response = await axios(url)
-
-  if (!response.ok){
-    let message = "An error occured..."
-  }
-  if (response?.message){
-     message = response.message
-
-     return {error:true, message}
-  }
-
-  return response
-}

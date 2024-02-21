@@ -48,10 +48,8 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-
 // Login route
 router.post("/login", async (req, res) => {
- 
   try {
     const { email, password } = req.body;
 
@@ -82,7 +80,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Update profile route  
+// Update profile route
 router.patch("/me/:id", async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["username", "email", "password", "bio"];
@@ -135,11 +133,11 @@ router
 
     const result = await cloudinaryUploadImage(imagePath);
 
-  if (user.profilePhoto && user.profilePhoto.publicId) {
-    await cloudinaryRemoveImage(user.profilePhoto.publicId);
-    user.profilePhoto = { url: null, publicId: null };
-    await user.save();
-  }
+    if (user.profilePhoto && user.profilePhoto.publicId) {
+      await cloudinaryRemoveImage(user.profilePhoto.publicId);
+      user.profilePhoto = { url: null, publicId: null };
+      await user.save();
+    }
     user.profilePhoto = {
       url: result.secure_url,
       publicId: result.public_id,
@@ -168,15 +166,15 @@ router
         user.profilePhoto.url
       );
 
-      res.writeHead(200, { 
-        "Content-Type": "image/png", 
+      res.writeHead(200, {
+        "Content-Type": "image/png",
       });
 
       res.end(Buffer.from(avatarBuffer, "binary"));
     } catch (err) {
       console.error("Error fetching avatar:", err);
       res.status(500).json({ message: "file too larg" });
-    } 
+    }
   });
 
 router.route("/:id").get(async (req, res) => {
@@ -210,5 +208,44 @@ router.route("/:id").get(async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+router.route("/find/:id").get(async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId)
+      .select("-password")
+      .populate("posts");
 
-module.exports = {router};
+    if (!user) {
+      return res.status(404).send({ error: "User not found" });
+    }
+
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        username: user.username,  
+        email: user.email,
+        posts: user.posts,
+        profilePhoto: user.profilePhoto,
+      },
+    });
+  } catch (err) {
+    console.error("Error fetching user data:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find()
+    
+    res.status(200).json(users);
+  } catch (err) {
+    console.error("Error fetching user data:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+  
+
+ 
+    
+module.exports = { router };
