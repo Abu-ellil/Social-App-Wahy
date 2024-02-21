@@ -11,12 +11,13 @@ import { useTranslation } from "react-i18next";
 
 const EditProfile = ({ token, userID }) => {
   const { t, i18n } = useTranslation();
-const apiUrl = import.meta.env.VITE_API_SERVER_URL;
+  const apiUrl = import.meta.env.VITE_API_SERVER_URL;
 
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [bio, setBio] = useState(""); // Add state for bio
   const [avatar, setAvatar] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,9 +31,10 @@ const apiUrl = import.meta.env.VITE_API_SERVER_URL;
 
   useEffect(() => {
     if (user) {
-      const { username, email } = user;
+      const { username, email, bio } = user; // Include bio
       setUsername(username);
       setEmail(email);
+      setBio(bio); // Set bio state
     } else {
       setError("User not found");
     }
@@ -44,6 +46,9 @@ const apiUrl = import.meta.env.VITE_API_SERVER_URL;
       setUsername(value);
     } else if (name === "email") {
       setEmail(value);
+    } else if (name === "bio") {
+      // Handle bio change
+      setBio(value);
     }
   };
 
@@ -53,7 +58,7 @@ const apiUrl = import.meta.env.VITE_API_SERVER_URL;
       setLoading(true);
       const response = await axios.patch(
         `${apiUrl}/users/me/${user._id}`,
-        { username, email },
+        { username, email, bio }, // Include bio in the request
         {
           headers: {
             Authorization: token,
@@ -61,17 +66,17 @@ const apiUrl = import.meta.env.VITE_API_SERVER_URL;
         }
       );
       dispatch(updateUser(response.data));
-      setSuccessMessage("Username and email updated successfully");
+      setSuccessMessage("Username, email, and bio updated successfully"); // Update success message
       toast.success(
-        "Username and email updated successfully. Please log in again."
+        "Username, email, and bio updated successfully. Please log in again."
       );
     } catch (error) {
       console.error(
         "Error updating user information:",
         error.response?.data.message || "Unknown error"
       );
-      setError("Error updating username and email");
-      toast.error("Error updating username and email");
+      setError("Error updating username, email, and bio"); // Update error message
+      toast.error("Error updating username, email, and bio");
     } finally {
       setLoading(false);
     }
@@ -113,16 +118,6 @@ const apiUrl = import.meta.env.VITE_API_SERVER_URL;
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      const { username, email } = user;
-      setUsername(username);
-      setEmail(email);
-    } else {
-      setError(t("userNotFound"));
-    }
-  }, [user, t]);
-
   return (
     <div className="edit-profile-container">
       <h2>{t("editProfileTitle")}</h2>
@@ -159,6 +154,11 @@ const apiUrl = import.meta.env.VITE_API_SERVER_URL;
                 value={email}
                 onChange={handleChange}
               />
+            </label>
+            <br />
+            <label>
+              {t("bioLabel")}:
+              <textarea name="bio" value={bio} onChange={handleChange} />
             </label>
             <br />
             <button
