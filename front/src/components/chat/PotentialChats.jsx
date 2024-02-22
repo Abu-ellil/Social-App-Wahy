@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const PotentialChats = () => {
     const user = useSelector((state) => state.user);
   const { potentialChats, createChat } = useContext(ChatContext);
-  //   console.log("Potential Chats ", potentialChats);
+ 
   return (
     <div className="all-users">
       {potentialChats &&

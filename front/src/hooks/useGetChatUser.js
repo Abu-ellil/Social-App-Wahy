@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getRequest, apiUrl } from "../api/api";
 
-export const useGetUserData = ( chat, user ) => {
+export const useGetChatUser = ( chat, user ) => {
   const [secondUser, setSecondUSer] = useState(null);
   const [error, setError] = useState(null);
 
@@ -12,7 +12,7 @@ export const useGetUserData = ( chat, user ) => {
       if (!secondUserId) return null;
 
       const response = await getRequest(`${apiUrl}/users/find/${secondUserId}`);
-      
+
       if (response.error) {
         return setError(response);
       }
@@ -20,7 +20,6 @@ export const useGetUserData = ( chat, user ) => {
     };
 
     getUser();
-  }, []);
-
+  }, [secondUserId]);
   return { secondUser };
 };

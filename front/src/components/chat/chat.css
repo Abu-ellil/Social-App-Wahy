@@ -23,11 +23,25 @@ body {
 
 /* User Card */
 .user-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  justify-content: space-between;
   color: white;
   position: relative;
   border-bottom: 1px solid rgb(100, 100, 100);
   width: 380px;
 }
+
+.second-user-info{
+  display: flex;
+}
+.notification-info{
+  display: flex;
+    flex-direction: column;
+  align-items: end;
+}
+
 
 .user-card .text-content {
   width: 170px;
@@ -56,6 +70,14 @@ body {
 }
 
 /* Chat Box */
+.chat-container{
+  display: flex;
+  
+}
+.d-flex{
+  display: flex;
+  padding-bottom: 30px;
+}
 .chat-box {
   max-height: calc(100vh - 10rem);
   overflow-y: auto;
@@ -208,3 +230,5 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+

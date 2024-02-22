@@ -55,9 +55,9 @@ const generateToken = (user) => {
 
 app.use("/users", userRoutes.router);
 app.use("/api/", postRoutes.router);
-app.use("/chats", chatRouter);
-app.use("/api/messages", messageRoute);
 app.use("/api", commentRoutes);
+app.use("/chats", chatRouter);
+app.use("/messages", messageRoute);
 app.use("/", searchRoute);
 
 const PORT = process.env.PORT || 3030;
