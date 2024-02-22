@@ -14,9 +14,10 @@ const Chat = () => {
     return (
       <Container>
         <PotentialChats/>
+        <div>
         {userChats?.length < 1 ? null : (
-          <Stack direction="horizontal" gap={4}>
-            <Stack className="flex-grow-0" gap={3}>
+          <Stack direction="horizontal" gap={4} className='align-items-start'>
+            <Stack className="messages-box flex-grow-0 pe-3"  gap={3}>
               {loading && <LoadingSpinner/>}
               {userChats?.map((chat,index)=>{
                 return (
@@ -28,7 +29,7 @@ const Chat = () => {
             </Stack>
             <p>ChatBox</p>
           </Stack>
-        )}
+        )}</div>
       </Container>
     );
 }

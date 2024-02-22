@@ -59,7 +59,7 @@ function App() {
             <section className="home-container">
               <Navbar />
               <Routes>
-                <Route path="/samar" element={token ? <Chat /> : <Login />} />
+                <Route path="/samar" element={user && <Chat />} />
 
                 <Route path="/login" element={!token ? <Login /> : null} />
                 <Route
