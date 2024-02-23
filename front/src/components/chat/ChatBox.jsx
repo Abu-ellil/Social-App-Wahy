@@ -1,15 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { ChatContext } from "../../context/chatContext";
 import { useGetChatUser } from "../../hooks/useGetChatUser";
+import { FiSend } from "react-icons/fi";
 import { Stack } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import InputEmoji from "react-input-emoji";
 import moment from "moment";
 
 const ChatBox = () => {
   const user = useSelector((state) => state.user);
-  const { currentChat, messages, isMessagesLoading } = useContext(ChatContext);
+  const { currentChat, messages, isMessagesLoading, sendTextMessage } =
+    useContext(ChatContext);
   const { secondUser } = useGetChatUser(currentChat, user);
+  const [textMessage, setTextMessage] = useState("");
+
 
   if (!secondUser) {
     return (
@@ -47,6 +52,17 @@ const ChatBox = () => {
               </span>
             </Stack>
           ))}
+      </Stack>
+      <Stack gap={3} direction="horizontal" className="chat-input flex-grow-0">
+        <InputEmoji
+          value={textMessage}
+          onChange={setTextMessage}
+          fontFamily="Roboto, Tajawal"
+          borderColor="rgba(72,112,223,0.2"
+        />
+        <button className="send-btn" onClick={() => sendTextMessage(textMessage,user,currentChat._id,sendTextMessage)}>
+          <FiSend />
+        </button>
       </Stack>
     </Stack>
   );
