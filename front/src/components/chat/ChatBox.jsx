@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { ChatContext } from "../../context/chatContext";
 import { useGetChatUser } from "../../hooks/useGetChatUser";
@@ -14,6 +14,12 @@ const ChatBox = () => {
     useContext(ChatContext);
   const { secondUser } = useGetChatUser(currentChat, user);
   const [textMessage, setTextMessage] = useState("");
+
+  const scroll = useRef()
+
+useEffect(() => {
+  scroll.current?.scrollIntoView({ behavior: "smooth" });
+}, [messages]);
 
 
   if (!secondUser) {
@@ -38,7 +44,7 @@ const ChatBox = () => {
       <Stack gap={3} className="messages">
         {messages &&
           messages.map((message, index) => (
-            <Stack
+            <Stack ref={scroll}
               key={index}
               className={`${
                 message.senderId === user?._id

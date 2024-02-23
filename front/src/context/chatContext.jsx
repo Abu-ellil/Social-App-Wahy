@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import { apiUrl, getRequest, postRequest } from "../api/api";
-import {io} from "socket.io-client"
+import { io } from "socket.io-client";
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children, user }) => {
@@ -19,25 +19,46 @@ export const ChatContextProvider = ({ children, user }) => {
 
   console.log("online:", onlineUsers);
 
+  useEffect(() => {
+    const newSocket = io("http://localhost:3003");
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [user]);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3003")
-    setSocket(newSocket)
-
-    return ()=>{
-      newSocket.disconnect()
+    if (socket !== null) {
+      const secondUserId = currentChat?.members.find((id) => id !== user?._id);
+      socket.emit("sendMessage", { ...newMessage, secondUserId });
     }
-  },[user]);
+  }, [socket, currentChat, newMessage, user]);
 
+  // send message
 
   useEffect(() => {
     if (socket !== null) {
       socket.emit("addNewUser", user?.id);
-      socket.on("getOnlineUsers", (res) =>{
-        setOnlineUsers(res)
+      socket.on("getOnlineUsers", (res) => {
+        setOnlineUsers(res);
       });
     }
-  }, [socket]);
+  }, [socket, user]);
+
+
+
+  // receive message
+
+useEffect(() => {
+  if (socket !== null) {
+    socket.on("getMessage", (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+  }
+}, [socket]);
+
+
 
 
   useEffect(() => {
@@ -119,11 +140,10 @@ export const ChatContextProvider = ({ children, user }) => {
 
       setNewMessage(response);
       setMessages((prev) => [...prev, response]);
-      setTextMessage(""); 
+      setTextMessage("");
     },
     []
   );
-
 
   const updateCurrentChat = useCallback((chat) => {
     setCurrentChat(chat);
@@ -166,6 +186,7 @@ export const ChatContextProvider = ({ children, user }) => {
         messagesError,
         isMessagesLoading,
         sendTextMessage,
+        onlineUsers,
       }}
     >
       {children}
