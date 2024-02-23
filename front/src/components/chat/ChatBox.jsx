@@ -60,7 +60,12 @@ const ChatBox = () => {
           fontFamily="Roboto, Tajawal"
           borderColor="rgba(72,112,223,0.2"
         />
-        <button className="send-btn" onClick={() => sendTextMessage(textMessage,user,currentChat._id,sendTextMessage)}>
+        <button
+          className="send-btn"
+          onClick={() =>
+            sendTextMessage(textMessage, user, currentChat._id, setTextMessage)
+          }
+        >
           <FiSend />
         </button>
       </Stack>

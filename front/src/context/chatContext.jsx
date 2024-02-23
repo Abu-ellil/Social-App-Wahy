@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import { apiUrl, getRequest, postRequest } from "../api/api";
-
+import {io} from "socket.io-client"
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children, user }) => {
@@ -14,8 +14,20 @@ export const ChatContextProvider = ({ children, user }) => {
   const [messagesError, setMessagesError] = useState(null);
   const [sendTextmessagesError, setSendTextmessagesError] = useState(null);
   const [newMessage, setNewMessage] = useState(null);
+  const [socket, setSocket] = useState(null);
 
   // console.log("messages:", messages);
+
+
+  useEffect(() => {
+    const newSocket = io("http://localhost:3003")
+    setSocket(newSocket)
+
+    return ()=>{
+      newSocket.disconnect()
+    }
+  },[user]);
+
 
   useEffect(() => {
     const getUsers = async () => {
@@ -80,33 +92,27 @@ export const ChatContextProvider = ({ children, user }) => {
 
   const sendTextMessage = useCallback(
     async (textMessage, sender, currentChatId, setTextMessage) => {
-
-      
       if (!textMessage) {
         return console.log("You must type anything😊...");
       }
 
-      const response = await postRequest(
-        `${apiUrl}/messages`,
-        {
-          chatId: currentChatId,
-          senderId: sender._id,
-          text: textMessage,
-        }
-      );
+      const response = await postRequest(`${apiUrl}/messages`, {
+        chatId: currentChatId,
+        senderId: sender._id,
+        text: textMessage,
+      });
 
-
-      if(response.error){
-        return setSendTextmessagesError(response)
+      if (response.error) {
+        return setSendTextmessagesError(response);
       }
 
-      setNewMessage(response)
-      setMessages((prev)=>[...prev, response])
-      setTextMessage("")
-
+      setNewMessage(response);
+      setMessages((prev) => [...prev, response]);
+      setTextMessage(""); 
     },
     []
   );
+
 
   const updateCurrentChat = useCallback((chat) => {
     setCurrentChat(chat);
