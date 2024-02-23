@@ -8,13 +8,15 @@ const createMessage = async (req, res) => {
     chatId,
     senderId,
     text,
-  }); 
+  });
+
   try {
-    const newMessage = await message.save();
-    await newMessage.populate("senderId").execPopulate();
-    res.status(200).json(newMessage);
+    const response = await message.save();
+   
+    res.status(200).json(response);
   } catch (err) {
-    res.status(500).json(err);
+    console.error("Error saving message:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -22,13 +24,33 @@ const getMessages = async (req, res) => {
   const { chatId } = req.params;
 
   try {
-    // Find messages and populate the 'senderId' field with the user
-    const messages = await messageModel.find({ chatId }).populate("senderId");
+
+    const messages = await messageModel.find({ chatId });
+    
     res.status(200).json(messages);
   } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
+    console.log("Error fetching messages:", error);
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", message: error.message });
   }
 };
 
-module.exports = { createMessage, getMessages };
+
+const depugg = async (req, res) => {
+  const { chatId } = req.params;
+const messagesForChat = await messageModel.find({
+  chatId: "65d7c0f79bb18667f1fb9b30",
+});
+console.log("Messages for chatId '65d7c0f79bb18667f1fb9b30':", messagesForChat);
+  try {
+    const messagesForChat = await messageModel.find({ chatId });
+    console.log("Messages for chatId:", chatId, ":", messagesForChat);
+    res.status(200).json(messagesForChat);
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { createMessage, getMessages, depugg };

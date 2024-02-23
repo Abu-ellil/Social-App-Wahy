@@ -1,5 +1,5 @@
 const chatModel = require("../models/chatModel");
-const user = require("../models/User"); // Import your User model
+const user = require("../models/User");
 
 const createChat = async (req, res) => {
   const { firstId, secondId } = req.body;
@@ -32,7 +32,7 @@ const findUserChats = async (req, res) => {
       .find({
         members: { $in: [userId] },
       })
-      .populate("members"); // Populate the 'members' field with users
+      .populate("members"); 
 
     res.status(200).json(chats);
   } catch (error) {
@@ -49,7 +49,7 @@ const findChat = async (req, res) => {
       .findOne({
         members: { $all: [firstId, secondId] },
       })
-      .populate("members"); // Populate the 'members' field with users
+      .populate("members");
 
     res.status(200).json(chat);
   } catch (error) {
@@ -57,5 +57,6 @@ const findChat = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
 
 module.exports = { createChat, findUserChats, findChat };

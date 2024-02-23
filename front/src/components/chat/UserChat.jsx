@@ -14,10 +14,10 @@ const UserChat = ({ chat, user }) => {
     >
       <div className="second-user-info">
         <div className="">
-          <img src={secondUser?.user.profilePhoto.url} alt="" height="33px" />
+          <img src={secondUser?.profilePhoto.url} alt="" height="33px" />
         </div>
         <div className="text-content">
-          <div className="name">{secondUser?.user.username}</div>
+          <div className="name">{secondUser?.username}</div>
           <div className="text">Text Message</div>
         </div>
       </div>

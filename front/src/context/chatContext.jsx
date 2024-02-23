@@ -13,7 +13,7 @@ export const ChatContextProvider = ({ children, user }) => {
   const [isMessagesLoading, setIsMessagesLoading] = useState(false);
   const [messagesError, setMessagesError] = useState(null);
 
-  
+  // console.log("messages:", messages);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -64,6 +64,7 @@ export const ChatContextProvider = ({ children, user }) => {
       const response = await getRequest(
         `${apiUrl}/messages/${currentChat?._id}`
       );
+
       setIsMessagesLoading(false);
 
       if (error) {
@@ -74,6 +75,7 @@ export const ChatContextProvider = ({ children, user }) => {
     };
     getMessages();
   }, [currentChat]);
+  
 
   const updateCurrentChat = useCallback((chat) => {
     setCurrentChat(chat);
@@ -111,6 +113,7 @@ export const ChatContextProvider = ({ children, user }) => {
         potentialChats,
         createChat,
         updateCurrentChat,
+        currentChat,
         messages,
         messagesError,
         isMessagesLoading,
