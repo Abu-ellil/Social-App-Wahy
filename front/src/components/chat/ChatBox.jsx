@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { ChatContext } from "../../context/chatContext";
 import { useGetChatUser } from "../../hooks/useGetChatUser";
 import { Stack } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import moment from "moment";
 
 const ChatBox = () => {
