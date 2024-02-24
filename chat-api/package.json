@@ -4,13 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "server": "nodemon index.js"
   },
+  "keywords": [],
   "engines": {
     "node": "20.10.0"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
