@@ -4,17 +4,17 @@ import { useGetChatUser } from "../../hooks/useGetChatUser";
 import { ChatContext } from "../../context/chatContext";
 import { unreadNotificationsFun } from "../../api/unreadNotifications";
 import { useSelector } from "react-redux";
+import { useFetchLatestMessage } from "../../hooks/useFetchLatestMessage";
+import moment from "moment";
 
 const UserChat = ({ chat }) => {
   const loggedInUser = useSelector((state) => state.user);
   const { secondUser } = useGetChatUser(chat, loggedInUser);
 
-  const {
-    notifications,
-    markNotificationAsRead,
-    onlineUsers,
-    markThisUserNotesAsRead,
-  } = useContext(ChatContext);
+  const { notifications, onlineUsers, markThisUserNotesAsRead } =
+    useContext(ChatContext);
+
+  const { latestMessage } = useFetchLatestMessage(chat);
 
   const unreadNotifications = unreadNotificationsFun(notifications);
   const thisuserNotifications = unreadNotifications?.filter(
@@ -29,6 +29,14 @@ const UserChat = ({ chat }) => {
     }
   }, [thisuserNotifications, notifications, markThisUserNotesAsRead]);
 
+  const truncatetext = (text) => {
+    let shortText = text.substring(0, 20);
+
+    if (text.length > 20) {
+      shortText += "...";
+    }
+    return shortText;
+  };
   return (
     <Stack
       onClick={handleClick}
@@ -43,11 +51,17 @@ const UserChat = ({ chat }) => {
         </div>
         <div className="text-content">
           <div className="name">{secondUser?.username}</div>
-          <div className="text">Text Message</div>
+          <div className="text">
+            {latestMessage?.text && (
+              <span>{truncatetext(latestMessage?.text)}</span>
+            )}
+          </div>
         </div>
       </div>
       <div className="notification-info">
-        <div className="date">12/12/2022</div>
+        <div className="date">
+          {moment(latestMessage?.createdAt).calendar()}
+        </div>
         <div
           className={
             thisuserNotifications && thisuserNotifications.length > 0

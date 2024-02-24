@@ -126,7 +126,7 @@ useEffect(() => {
       }
     };
     fetchUserChats();
-  }, [user]);
+  }, [user,notifications]);
 
   useEffect(() => {
     const getMessages = async () => {
