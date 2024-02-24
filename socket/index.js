@@ -2,7 +2,7 @@ const { Server } = require("socket.io");
 const express = require("express");
 
 const app = express();
-const PORT = 3003;
+const PORT =  process.env.PORT || 3003 ;
 
 const server = app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
