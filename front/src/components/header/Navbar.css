@@ -2,6 +2,7 @@
 .navbar {
   display: flex;
   text-align: center;
+  gap: 3rem;
 }
 
 .navbar-list {

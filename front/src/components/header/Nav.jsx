@@ -15,7 +15,7 @@ const Navbar = () => {
         <Link to="/samar">
           {" "}
           {/* Specify the route to the Chat component */}
-          <AiOutlineMessage size={24} />{" "}
+          <AiOutlineMessage size={42} />{" "}
         </Link>
 
         <Link to="/my-posts">
