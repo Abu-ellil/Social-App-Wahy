@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AiOutlineMessage } from "react-icons/ai"; // Import the message icon
 import "./Navbar.css"; // Import the CSS file
+import Notifications from "../chat/Notifications";
 
 const Navbar = () => {
   const user = useSelector((state) => state.user);
@@ -10,6 +11,7 @@ const Navbar = () => {
   return (
     user && (
       <nav className="navbar">
+        <Notifications/>
         <Link to="/samar">
           {" "}
           {/* Specify the route to the Chat component */}

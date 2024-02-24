@@ -41,6 +41,11 @@ io.on("connection", (socket) => {
    );
    if (user) {
      io.to(user.socketId).emit("getMessage", message);
+     io.to(user.socketId).emit("getNotifications", {
+      senderId:message.senderId,
+      isRead:false,
+      date:new Date()
+     });
    }
  });
 
@@ -51,8 +56,5 @@ io.on("connection", (socket) => {
     io.emit("getOnlineUsers", onlineUsers);
   });
 
-  // socket.on("disconnect", () => {
-  //   onlineUsers = onlineUsers.filter((user) =>user.socketId !== socket.id)
-  //   io.emit("getOnlineUsers", onlineUsers);
-  // })
+
 });
