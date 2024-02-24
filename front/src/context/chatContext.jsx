@@ -22,7 +22,7 @@ export const ChatContextProvider = ({ children, user }) => {
   // console.log("notifications:", notifications);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3003");
+    const newSocket = io("https://chat-api-tkn4.onrender.com");
     setSocket(newSocket);
 
     return () => {
