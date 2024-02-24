@@ -9,7 +9,7 @@ const server = app.listen(PORT, () => {
 });
 
 // Create a Socket.IO server instance
-const io = new Server(server, { cors: "http://localhost:5173" });
+const io = new Server(server, { cors: "https://wahy.vercel.app" });
 
 let onlineUsers = [];
 
