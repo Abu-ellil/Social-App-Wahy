@@ -19,7 +19,7 @@ export const ChatContextProvider = ({ children, user }) => {
   const [notifications, setNotifications] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
 
-  console.log("notifications:", notifications);
+  // console.log("notifications:", notifications);
 
   useEffect(() => {
     const newSocket = io("http://localhost:3003");
@@ -30,14 +30,19 @@ export const ChatContextProvider = ({ children, user }) => {
     };
   }, [user]);
 
+// send message
+
+
   useEffect(() => {
-    if (socket !== null) {
+    if (socket === null) return
+      
       const secondUserId = currentChat?.members.find((id) => id !== user?._id);
       socket.emit("sendMessage", { ...newMessage, secondUserId });
-    }
-  }, [socket, currentChat, newMessage, user]);
+    
+  }, [socket, newMessage, user]);
 
-  // send message
+
+  
 
   useEffect(() => {
     if (socket !== null) {
@@ -46,7 +51,7 @@ export const ChatContextProvider = ({ children, user }) => {
         setOnlineUsers(res);
       });
     }
-  }, [socket]);
+  }, [socket, user]);
 
 
 
@@ -231,8 +236,22 @@ setNotifications(markNotification)
 },[])
  
 
-
-
+const markThisUserNotesAsRead = useCallback(
+  (thisuserNotifications, notifications) => {
+    const updatedNotifications = notifications.map((notification) => {
+      const isNotificationRead = thisuserNotifications.some(
+        (n) => n.senderId === notification.senderId
+      );
+      if (isNotificationRead) {
+        return { ...notification, isRead: true };
+      } else {
+        return notification;
+      }
+    });
+    setNotifications(updatedNotifications);
+  },
+  []
+);
 
 return (
   <ChatContext.Provider
@@ -253,6 +272,7 @@ return (
       allUsers,
       markAllNotificationsAsRead,
       markNotificationAsRead,
+      markThisUserNotesAsRead,
     }}
   >
     {children}

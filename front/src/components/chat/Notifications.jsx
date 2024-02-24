@@ -12,6 +12,7 @@ const Notifications = () => {
     useContext(ChatContext);
 
   const unreadNotifications = unreadNotificationsFun(notifications);
+  
   const modifiedNotifications = notifications.map((n) => {
     const sender = allUsers.find((user) => user.id === n.senderId);
 
@@ -61,8 +62,9 @@ const Notifications = () => {
                   className={
                     n.isRead ? "notification" : "notification not-read"
                   }
-                  onClick={() =>
+                  onClick={() =>{
                     markNotificationAsRead(n, userChats, user, notifications)
+                    setIsOpen(false)}
                   }
                 >
                   <span>{`${n.sender} sent you new message`}</span>

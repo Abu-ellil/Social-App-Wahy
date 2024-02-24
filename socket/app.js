@@ -18,7 +18,7 @@ let onlineUsers = [];
 
 
 io.on("connection", (socket) => {
-  console.log("A user connected", socket.id);
+ 
 
   socket.on("addNewUser", (userId) => {
     // Check if the user is already in the onlineUsers array
@@ -27,14 +27,13 @@ io.on("connection", (socket) => {
         userId,
         socketId: socket.id,
       });
-      console.log(onlineUsers);
 
       io.emit("getOnlineUsers", onlineUsers);
     }
   });
 
   // add message`
-  
+
  socket.on("sendMessage", (message) => {
    const user = onlineUsers.find(
      (user) => user.userId === message.secondUserId
