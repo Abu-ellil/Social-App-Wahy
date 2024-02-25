@@ -41,6 +41,10 @@ body {
   color: #ffffff;
 }
 
+.side-menu {
+  border-left: #a1a1a1 solid 1px;
+  border-right: #fdfdfd8f solid 1px;
+}
 
 .home {
   width: 550px;
