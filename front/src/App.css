@@ -140,9 +140,7 @@ input {
 }
 
 @media only screen and (max-width: 600px) {
-  body {
-    padding-bottom: 100px;
-  }
+ 
   .home {
     width: 100%;
   }
@@ -190,5 +188,17 @@ input {
   .form,
   .login-form {
     width: 100%;
+  }
+  .all-users{
+    display: flex;
+    flex-direction: column;
+   
+  }
+  .single-user{
+     margin-bottom: 10px;
+  }
+  .chat-container{
+    display: flex;
+    flex-direction: column;
   }
 }
