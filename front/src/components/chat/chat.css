@@ -1,11 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
 
-body {
-  font-family: "Nunito", sans-serif;
-  background: rgb(40, 40, 40);
-}
-
-/* All users */
 .all-users {
   display: flex;
   margin-bottom: 1rem;
@@ -83,6 +77,7 @@ body {
   overflow-y: auto;
   background: rgb(25, 25, 25);
   border-radius: 10px;
+  padding-bottom: 5rem;
 }
 
 .messages-box {
