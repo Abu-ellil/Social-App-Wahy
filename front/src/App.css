@@ -243,19 +243,7 @@ input {
     width: 100%;
   }
 
-  .all-users {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .single-user {
-    margin-bottom: 10px;
-  }
-
-  .chat-container {
-    display: flex;
-    flex-direction: column;
-  }
+  
   .main{
     width: 100%;
   }
