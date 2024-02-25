@@ -1,22 +1,16 @@
 /* src/components/Navbar.css */
-.navbar {
-  display: flex;
-  text-align: center;
-  gap: 3rem;
-}
-
-.navbar-list {
+.header-navbar {
   width: 100%;
-  list-style-type: none;
   display: flex;
   align-items: center;
   justify-content: space-around;
+  text-align: center;
+  gap: 3rem;
+  border: #555 solid 1px;
+  padding: 12px;
+  border-radius: 12px;
 }
 
-.navbar-item {
-  padding: 1rem;
-  margin: 0;
-}
 .user-status {
   display: flex;
   align-items: center;
@@ -42,4 +36,21 @@
   border-radius: 50%;
   height: 50px;
   width: 50px;
+}
+.navbar-link h2 {
+  font-size: 18px;
+}
+.navbar-link:hover .ico {
+  stroke-width: 20px;
+}
+.navbar-link:hover {
+  background-color: #7f838634;
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 8px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }

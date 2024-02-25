@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     user && (
-      <nav className="navbar">
+      <div className="header-navbar">
         <Notifications/>
         <Link to="/samar">
           {" "}
@@ -30,7 +30,7 @@ const Navbar = () => {
             <span>"{user?.bio}"</span>
           </div>
         </Link>
-      </nav>
+      </div>
     )
   );
 };

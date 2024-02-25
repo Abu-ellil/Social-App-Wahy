@@ -57,9 +57,15 @@ section {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 20px;
+  padding: 12px;
 }
-
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
 .btn {
   color: #fff;
   background-color: #007bff;
@@ -93,13 +99,6 @@ section {
   padding: 2em;
 }
 
-.home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-}
 .btn-update {
   background-color: #007bff;
   padding: 20px 50px;

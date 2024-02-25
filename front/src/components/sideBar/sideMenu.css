@@ -20,12 +20,7 @@
   background-color: #1e1e1e;
   color: #ffffff;
 }
-.navbar-link h2{
-  font-size: 18px;
-}
-.navbar-link:hover .ico {
-  stroke-width: 20px;
-}
+
 
 .login-icon {
   border-radius: 50%;
@@ -35,9 +30,6 @@
   background-color: transparent;
 }
 
-.navbar-link:hover {
-  background-color: #7f838634;
-}
 
 .side-menu a {
   display: block;
@@ -50,13 +42,6 @@
   margin-bottom: 10px;
 }
 
-.navbar-link {
-  text-decoration: none;
-  color: inherit;
-  padding: 8px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
 
 .ico {
   color: inherit;
