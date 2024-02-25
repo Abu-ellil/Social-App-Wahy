@@ -1,16 +1,23 @@
 .side-menu {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  align-items: start;
+  justify-content: space-between;
   height: 100vh;
   position: sticky;
   left: 0;
   top: 0;
   width: 280px;
-  padding: 20px;
+  padding:4% 20px;
  box-shadow: 0px 0px 8px 5px rgba(0, 0, 0, 0.1);
 }
-
+.side-menu-links{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+gap: 2rem;
+  /* min-height: 100%; */
+}
 .side-menu.light {
   background-color: #19b7e7;
   color: #fff;
@@ -20,17 +27,29 @@
   background-color: #1e1e1e;
   color: #ffffff;
 }
-
-
 .login-icon {
   border-radius: 50%;
 }
-
+.logo{
+  width: 100%;
+}
 .side-menu .logout-btn {
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.side-menu .logout-btn h2{
+  
+font-size: 20px;
 }
 
-
+  
 .side-menu a {
   display: block;
   display: flex;
@@ -40,26 +59,4 @@
   color: inherit;
   text-decoration: none;
   margin-bottom: 10px;
-}
-
-
-.ico {
-  color: inherit;
-  font-size: 35px;
-  transition: all 0.3s ease-in-out;
-}
-
-.theme-lang-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  gap: 10px;
-}
-
-.theme-lang-container button {
-  border: none;
-  font-size: 28px;
-  color: inherit;
-  background-color: transparent;
-  cursor: pointer;
 }

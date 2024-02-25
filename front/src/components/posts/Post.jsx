@@ -38,7 +38,7 @@ const Post = ({ post, onLike, onComment, onDeleteComment, postUser }) => {
       await onLike(post._id, !isLiked);
       setIsLiked((prevIsLiked) => !prevIsLiked);
       const updatedLikes = isLiked
-        ? post.likes.filter((userId) => userId !== user._id)
+        ? post?.likes.filter((userId) => userId !== user?._id)
         : [...post.likes, user._id];
       post.likes = updatedLikes;
 
