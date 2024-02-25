@@ -15,12 +15,18 @@ const ChatBox = () => {
   const { secondUser } = useGetChatUser(currentChat, user);
   const [textMessage, setTextMessage] = useState("");
 
-  const scroll = useRef()
+  const scroll = useRef();
 
-useEffect(() => {
-  scroll.current?.scrollIntoView({ behavior: "smooth" });
-}, [messages]);
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // Prevents adding new line
+      sendTextMessage(textMessage, user, currentChat._id, setTextMessage);
+    }
+  };
 
   if (!secondUser) {
     return (
@@ -44,7 +50,8 @@ useEffect(() => {
       <Stack gap={3} className="messages">
         {messages &&
           messages.map((message, index) => (
-            <Stack ref={scroll}
+            <Stack
+              ref={scroll}
               key={index}
               className={`${
                 message.senderId === user?._id
@@ -65,6 +72,7 @@ useEffect(() => {
           onChange={setTextMessage}
           fontFamily="Roboto, Tajawal"
           borderColor="rgba(72,112,223,0.2"
+          onKeyDown={handleKeyDown} // Added key down event listener
         />
         <button
           className="send-btn"

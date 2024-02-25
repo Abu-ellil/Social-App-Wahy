@@ -3,13 +3,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
 
 /* Define root colors */
+/* Define root colors */
 :root {
+  --primary-color: #007bff;
+  --primary-hover-color: #5fa8f7;
   --light-background-color: #d3effa;
   --light-text-color: #292525;
   --dark-background-color: #171b19;
   --dark-text-color: #ffffff;
-  --primary-color: #007bff;
-  --primary-hover-color: #5fa8f7;
+  --user-card-background-color: rgb(0, 213, 255);
+  --user-card-text-color: white;
+  --chat-box-background-color: rgb(25, 25, 25);
+  --message-background-color: #282828;
+  --self-message-background-color: #00bd9b;
+  --notification-background-color: #181d31;
+  --notification-border-color: rgb(207, 207, 207);
+  --notification-not-read-background-color: #263159;
+  --notification-count-background-color: #00bd9b;
 }
 
 /* Reset CSS */

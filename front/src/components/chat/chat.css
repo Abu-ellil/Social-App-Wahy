@@ -1,13 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
+/* Define root colors */
+:root {
+  --primary-color: #007bff;                    /* Main color for primary elements */
+  --text-color: #343a40;                        /* Text color for content */
+  --notification-color: #dc3545;           /* Color for notifications */
+  --background-color: #aacef1;              /* Background color */
+  --message-background-color: #282828;   /* Background color for messages */
+  --self-message-background-color: #00bd9b; /* Background color for self messages */
+  --notification-border-color: rgb(207, 207, 207); /* Border color for notifications */
+  --notification-not-read-background-color: #263159; /* Background color for unread notifications */
+  --notification-count-background-color: #00bd9b;   /* Background color for notification count */
+}
 
+/* All Users */
 .all-users {
   display: flex;
   margin-bottom: 1rem;
 }
 
 .single-user {
-  background: rgb(0, 213, 255);
-  color: white;
+  background: var(--primary-color);            /* Using primary color for user card background */
+  color: var(--text-color);                          /* Using text color for user card text */
   cursor: pointer;
   padding: 5px 7px;
   border-radius: 10px;
@@ -21,63 +33,39 @@
   align-items: center;
   padding: 1rem;
   justify-content: space-between;
-  color: white;
   position: relative;
-  border-bottom: 1px solid rgb(100, 100, 100);
-  width: 380px;
+  border-bottom: 1px solid var(--notification-border-color); /* Using notification border color */
+  width: 100%; /* Adjusted width to fit container */
 }
 
-.second-user-info{
+.second-user-info {
   display: flex;
 }
-.notification-info{
+
+.notification-info {
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
   align-items: end;
 }
 
-
-.user-card .text-content {
-  width: 170px;
-}
-
-.user-card .name {
-  font-weight: 700;
-}
-
-.user-card .text,
-.user-card .date {
-  font-size: 14px;
-  color: rgb(180, 180, 180);
-}
-
-.user-online {
-  display: inline-block;
-  height: 12px;
-  width: 12px;
-  border-radius: 50%;
-  background: rgb(0, 219, 0);
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  z-index: 2;
-}
-
 /* Chat Box */
-.chat-container{
+.chat-container {
   display: flex;
-  
+  flex-direction: column; /* Adjusted for responsiveness */
 }
-.d-flex{
+
+.d-flex {
   display: flex;
   padding-bottom: 30px;
 }
+
 .chat-box {
   max-height: calc(100vh - 10rem);
   overflow-y: auto;
-  background: rgb(25, 25, 25);
+  background: var(--background-color);           /* Using background color */
   border-radius: 10px;
   padding-bottom: 5rem;
+  width: 100%; /* Adjusted width to fit container */
 }
 
 .messages-box {
@@ -90,8 +78,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
-  color: white;
-  background: rgb(30, 30, 30);
+  background: var(--background-color);      /* Using background color */
 }
 
 /* Messages */
@@ -103,15 +90,15 @@
 
 .message {
   color: white;
-  background: #282828;
+  background: var(--message-background-color);
   padding: 0.75rem;
   border-radius: 5px;
-  max-width: 50%;
+  max-width: 100%; /* Adjusted width to fit container */
 }
 
 .message.self {
   color: white;
-  background: #00bd9b;
+  background: var(--self-message-background-color);
 }
 
 .message-footer {
@@ -120,15 +107,16 @@
   font-weight: 400;
 }
 
-/* Chat Input  */
+/* Chat Input */
 .chat-input {
   width: 100%;
-  background: rgb(30, 30, 30);
+  background: var(--background-color);      /* Using background color */
   padding: 1rem;
 }
+
 .send-btn {
   border: none;
-  background: rgba(72, 112, 223, 1);
+  background: var(--primary-color);           /* Using primary color for send button */
   color: white;
   height: 40px;
   width: 40px;
@@ -154,9 +142,8 @@
   top: 3rem;
   right: 0;
   left: 0;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  background: #181d31;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  background: var(--notification-background-color);
   color: white;
   z-index: 5;
 }
@@ -183,7 +170,7 @@
   font-size: 14px;
   margin: 1rem 0;
   padding-bottom: 0.2rem;
-  border-bottom: 1px solid rgb(207, 207, 207);
+  border-bottom: 1px solid var(--notification-border-color);
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -191,7 +178,7 @@
 }
 
 .notification.not-read {
-  background: #263159;
+  background: var(--notification-not-read-background-color);
 }
 
 .notification-time {
@@ -202,7 +189,7 @@
 
 .notification-count {
   display: flex;
-  background: #00bd9b;
+  background: var(--notification-count-background-color);
   height: 25px;
   width: 25px;
   font-size: 14px;
@@ -217,7 +204,7 @@
 
 .this-user-notifications {
   display: flex;
-  background: #00bd9b;
+  background: var(--notification-count-background-color);
   height: 20px;
   width: 20px;
   font-size: 12px;
@@ -227,4 +214,17 @@
   justify-content: center;
 }
 
-
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+  .user-card {
+    width: 100%; /* Adjusting width for responsiveness */
+  }
+  
+  .chat-box {
+    width: 100%; /* Adjusting width for responsiveness */
+  }
+  
+  .message {
+    max-width: 100%; /* Adjusting width for responsiveness */
+  }
+}
