@@ -1,4 +1,14 @@
-/* src/components/Navbar.css */
+/* Define root colors */
+:root {
+  --navbar-background-color: #ffffff;
+  --navbar-border-color: #55555557;
+  --navbar-hover-background-color: #7f838634;
+  --navbar-link-hover-background-color: #555;
+  --navbar-link-color: inherit;
+  --navbar-link-hover-color: #646cffaa;
+}
+
+/* Header Navbar */
 .header-navbar {
   width: 100%;
   display: flex;
@@ -6,16 +16,18 @@
   justify-content: space-around;
   text-align: center;
   gap: 3rem;
-  border: #55555557 solid 1px;
+  border: var(--navbar-border-color) solid 1px;
   padding: 12px;
   border-radius: 12px;
 }
+
 .header-navbar.logo {
   height: 4em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo {
   height: 4em;
   padding: 1.5em;
@@ -24,13 +36,10 @@
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em var(--navbar-link-hover-color));
 }
 
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
+/* User Status */
 .user-status {
   display: flex;
   align-items: center;
@@ -38,58 +47,75 @@
   justify-content: center;
 }
 
+/* Navigation User Image */
 .nav-user-image {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   margin-right: 30px;
 }
+
+/* Navbar Item Hover */
 .navbar-item:hover {
-  background-color: #555;
+  background-color: var(--navbar-link-hover-background-color);
 }
 
+/* Navbar Link Logout Button */
 .navbar-link.logout-button {
   cursor: pointer;
 }
 
+/* User Image */
 .user-image {
   border-radius: 50%;
   height: 50px;
   width: 50px;
 }
+
+/* Navbar Link */
 .navbar-link h2 {
   font-size: 18px;
 }
+
 .navbar-link:hover .ico {
   stroke-width: 20px;
 }
+
 .navbar-link:hover {
-  background-color: #7f838634;
+  background-color: var(--navbar-hover-background-color);
 }
 
+/* Header Navbar Anchor */
 .header-navbar a {
-
   text-decoration: none;
-  /* color: inherit; */
   padding: 8px;
   border-radius: 5px;
   transition: background-color 0.3s;
+  color: var(--navbar-link-color);
 }
+
+/* Icon */
 .ico {
   color: inherit;
   font-size: 35px;
   transition: all 0.3s ease-in-out;
 }
+
+/* Theme Language Container */
 .theme-lang-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
 }
+
 .theme-lang-container button {
   border: none;
   font-size: 28px;
-  color: inherit;
+  color: var(--navbar-link-color);
   background-color: transparent;
   cursor: pointer;
+}
+.header-navbar .notifications:hover, a:hover{
+  background-color: var(--navbar-link-hover-color);
 }
