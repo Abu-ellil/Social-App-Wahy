@@ -35,7 +35,7 @@ const useInfinitScroll = (query, pageNumber) => {
             const uniquePosts = new Map(
               prevPosts.map((post) => [post.id, post])
             );
-            response.data.forEach((post) => {
+            response?.data.forEach((post) => {
               uniquePosts.set(post.id, post);
             });
             return [...uniquePosts.values()];
