@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { ChatContext } from "../../context/chatContext";
 import { useGetChatUser } from "../../hooks/useGetChatUser";
 import { FiSend } from "react-icons/fi";
+import { IoCall, IoVideocam } from "react-icons/io5";
 import { Stack } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import InputEmoji from "react-input-emoji";
@@ -10,8 +11,13 @@ import moment from "moment";
 
 const ChatBox = () => {
   const user = useSelector((state) => state.user);
-  const { currentChat, messages, isMessagesLoading, sendTextMessage } =
-    useContext(ChatContext);
+  const {
+    currentChat,
+    messages,
+    isMessagesLoading,
+    sendTextMessage,
+    startCall,
+  } = useContext(ChatContext);
   const { secondUser } = useGetChatUser(currentChat, user);
   const [textMessage, setTextMessage] = useState("");
 
@@ -23,7 +29,7 @@ const ChatBox = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // Prevents adding new line
+      e.preventDefault();
       sendTextMessage(textMessage, user, currentChat._id, setTextMessage);
     }
   };
@@ -42,10 +48,26 @@ const ChatBox = () => {
     );
   }
 
+const handleStartVoiceCall = () => {
+  startCall(secondUser._id, "voice");
+};
+
+const handleStartVideoCall = () => {
+  startCall(secondUser._id, "video");
+};
+
+
+
   return (
     <Stack gap={4} className="chat-box">
       <div className="chat-header">
         <strong>{secondUser?.username}</strong>
+        <button onClick={handleStartVoiceCall}>
+          <IoCall />
+        </button>
+        <button onClick={handleStartVideoCall}>
+          <IoVideocam />
+        </button>
       </div>
       <Stack gap={3} className="messages">
         {messages &&
@@ -72,7 +94,7 @@ const ChatBox = () => {
           onChange={setTextMessage}
           fontFamily="Roboto, Tajawal"
           borderColor="rgba(72,112,223,0.2"
-          onKeyDown={handleKeyDown} // Added key down event listener
+          onKeyDown={handleKeyDown}
         />
         <button
           className="send-btn"

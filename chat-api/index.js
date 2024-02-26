@@ -9,17 +9,14 @@ const server = app.listen(PORT, () => {
 });
 
 // Create a Socket.IO server instance
-const io = new Server(server, { cors: "https://wahy.vercel.app" });
+const io = new Server(server, { cors: "*" });
 
 let onlineUsers = [];
 
 // listen to connection
 
-
-
 io.on("connection", (socket) => {
  
-
   socket.on("addNewUser", (userId) => {
     // Check if the user is already in the onlineUsers array
     if (!onlineUsers.some((user) => user.userId === userId)) {
@@ -55,5 +52,23 @@ io.on("connection", (socket) => {
     io.emit("getOnlineUsers", onlineUsers);
   });
 
+
+  // START CALL
+
+socket.on("startCall", (data) => {
+  const { calleeId, callType } = data;
+  const callee = onlineUsers.find((user) => user.userId === calleeId);
+  if (callee) {
+    io.to(callee.socketId).emit("receiveCall", {
+      callerId: socket.userId,
+      callerSocketId: socket.id,
+      callType,
+    });
+  }
+});
+
+
+io.emit("getOnlineUsers", onlineUsers);
+console.log("Current online users:", onlineUsers);
 
 });
