@@ -10,7 +10,12 @@ import InputEmoji from "react-input-emoji";
 import moment from "moment";
 import { io } from "socket.io-client";
 
+
 const ChatBox = () => {
+
+const chatAPI = import.meta.env.VITE_CHAT_API_SERVER_URL;
+
+
   const user = useSelector((state) => state.user);
   const {
     currentChat,
@@ -75,7 +80,7 @@ const ChatBox = () => {
 
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3003");
+    const newSocket = io(`${chatAPI}`);
     setSocket(newSocket);
 
     return () => {

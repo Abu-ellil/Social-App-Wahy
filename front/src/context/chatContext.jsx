@@ -6,6 +6,9 @@ import Peer from "peerjs";
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children, user }) => {
+
+const chatAPI = import.meta.env.VITE_CHAT_API_SERVER_URL;
+
   const [userChats, setUserChats] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -238,7 +241,7 @@ export const ChatContextProvider = ({ children, user }) => {
   );
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3003");
+    const newSocket = io(`${chatAPI}`);
     setSocket(newSocket);
 
     return () => {
