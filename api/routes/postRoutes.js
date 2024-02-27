@@ -17,6 +17,30 @@ const fs = require("fs");
 
 const router = express.Router();
 
+// CREATE a new post
+router.post("/posts", photoUpload.single("image"), async (req, res) => {
+  console.log(req.body);
+  if (!req.file) {
+    return res.status(400).json({ message: "no file provided" });
+  }
+  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+  const url = await cloudinaryUploadImage(imagePath);
+  const post = new Post({
+    title: req.body.title,
+    description: req.body.description,
+    user: req.body.user,
+    category: req.body.category,
+    image: url.secure_url,
+  });
+
+  try {
+    const newPost = await post.save();
+    res.status(201).json(newPost);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 async function getPost(req, res, next) {
   let post;
   try {
@@ -104,35 +128,6 @@ router.get("/posts", async (req, res) => {
     res.json(posts);
   } catch (err) {
     res.status(500).json({ message: err.message });
-  }
-});
-
-// CREATE a new post
-router.post("/posts", photoUpload.single("image"), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "no file provided" });
-  }
-  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
-  const url = await cloudinaryUploadImage(imagePath);
-  // user.profilePhoto = {
-  //   url: result.secure_url,
-  //   publicId: result.public_id,
-  // };
-  // await user.save();
-
-  const post = new Post({
-    title: req.body.title,
-    description: req.body.description,
-    user: req.body.user,
-    category: req.body.category,
-    image: url.secure_url,
-  });
-
-  try {
-    const newPost = await post.save();
-    res.status(201).json(newPost);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
   }
 });
 

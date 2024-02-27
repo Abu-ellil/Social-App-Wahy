@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next"; // Import the useTranslation hook
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,7 +10,7 @@ import "./PostForm.css";
 function PostForm() {
   const apiUrl = import.meta.env.VITE_API_SERVER_URL;
 
-  const { t } = useTranslation(); // Initialize the useTranslation hook
+  const { t } = useTranslation(); 
   const user = useSelector((state) => state.user);
 
   const [files, setFiles] = useState([]);
@@ -73,11 +73,13 @@ function PostForm() {
         draggable: true,
         progress: undefined,
       });
-
       setLoading(false);
     }
   };
 
+
+
+  
   return (
     <>
       <form className="post-form" onSubmit={handleSubmit}>
