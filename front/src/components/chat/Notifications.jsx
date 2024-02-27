@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from "react";
-import { IoChatbubblesOutline } from "react-icons/io5";
 import { ChatContext } from "../../context/chatContext";
 import { useSelector } from "react-redux";
 import { unreadNotificationsFun } from "../../api/unreadNotifications";
@@ -7,6 +6,7 @@ import moment from "moment";
 
 // Import your notification sound file
 import notificationSoundFile from "../../assets/notification.mp3";
+import { FaRegBell } from "react-icons/fa";
 
 const Notifications = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,10 +47,9 @@ const Notifications = () => {
   return (
     <div className="notifications">
       <div className="notifications-icon" onClick={() => setIsOpen(!isOpen)}>
-        <IoChatbubblesOutline
+        <FaRegBell
           style={{
             fontSize: "42px",
-            color: "#fff",
           }}
         />
         {unreadNotifications?.length === 0 ? null : (

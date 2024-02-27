@@ -1,22 +1,17 @@
+// server.js
+
 const { Server } = require("socket.io");
 const express = require("express");
-
 const app = express();
-const PORT =  process.env.PORT || 3003 ;
-
+const PORT = process.env.PORT || 3003;
 const server = app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
-
-// Create a Socket.IO server instance
 const io = new Server(server, { cors: "*" });
 
 let onlineUsers = [];
 
-// listen to connection
-
 io.on("connection", (socket) => {
- 
   socket.on("addNewUser", (userId) => {
     // Check if the user is already in the onlineUsers array
     if (!onlineUsers.some((user) => user.userId === userId)) {
@@ -31,44 +26,69 @@ io.on("connection", (socket) => {
 
   // add message`
 
- socket.on("sendMessage", (message) => {
-   const user = onlineUsers.find(
-     (user) => user.userId === message.secondUserId
-   );
-   if (user) {
-     io.to(user.socketId).emit("getMessage", message);
-     io.to(user.socketId).emit("getNotifications", {
-      senderId:message.senderId,
-      isRead:false,
-      date:new Date()
-     });
-   }
- });
-
-
+  socket.on("sendMessage", (message) => {
+    const user = onlineUsers.find(
+      (user) => user.userId === message.secondUserId
+    );
+    if (user) {
+      io.to(user.socketId).emit("getMessage", message);
+      io.to(user.socketId).emit("getNotifications", {
+        senderId: message.senderId,
+        isRead: false,
+        date: new Date(),
+      });
+    }
+  });
 
   socket.on("disconnect", () => {
     onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
     io.emit("getOnlineUsers", onlineUsers);
   });
 
+  // CALLING THIS
 
-  // START CALL
 
-socket.on("startCall", (data) => {
-  const { calleeId, callType } = data;
-  const callee = onlineUsers.find((user) => user.userId === calleeId);
-  if (callee) {
-    io.to(callee.socketId).emit("receiveCall", {
-      callerId: socket.userId,
-      callerSocketId: socket.id,
-      callType,
-    });
-  }
+
+ socket.on("callUser", (data) => {
+    const calleeSocketId = onlineUsers[data.calleeId];
+    if (calleeSocketId) {
+      io.to(calleeSocketId).emit("incomingCall", {
+        signalData: data.signalData,
+        from: data.from,
+        callType: data.callType,
+      });
+    }
+  });
+
+  socket.on("answerCall", (data) => {
+    const callerSocketId = onlineUsers[data.from];
+    if (callerSocketId) {
+      io.to(callerSocketId).emit("callAccepted", data.signal);
+    }
+  });
 });
 
 
-io.emit("getOnlineUsers", onlineUsers);
-console.log("Current online users:", onlineUsers);
+ 
 
-});
+
+
+
+
+
+
+ 
+  // socket.on("startCall", (data) => {
+  //   console.log(data);
+  //   io.to(data.userToCall).emit("startCall", {
+  //     signal: data.signalData,
+  //     from: data.from,
+  //     name: data.name,
+  //   });
+ 
+
+  // socket.on("answerCall", (data) => {
+  //   console.log(data);
+  //   io.to(data.to).emit("callAccepted", data.signal);
+  // });
+// });

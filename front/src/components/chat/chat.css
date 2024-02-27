@@ -80,9 +80,6 @@
   width: 100%; /* Adjusted width to fit container */
 }
 
-.messages-box {
-  /* height: 85vh; */
-}
 
 /* Chat Header */
 .chat-header {
@@ -141,10 +138,10 @@
 }
 
 .notifications-icon {
-  color: white;
   cursor: pointer;
   position: relative;
   margin-right: 1rem;
+  padding: 10px;
 }
 
 .notifications-box {

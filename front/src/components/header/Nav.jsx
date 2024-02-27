@@ -25,6 +25,7 @@ const Navbar = () => {
           {theme === "light" ? <FaMoon /> : <FaSun />}
         </button>
       </div>
+      
       {user && (
         <div className="header-navbar">
           <Notifications />
@@ -37,13 +38,14 @@ const Navbar = () => {
           <Link to="/my-posts">
             <div className="user-status">
               {/* Adjust size as needed */}
+             
+              {/* <h6>{user.username && user.username}</h6> */}
+              {/* <span>"{user?.bio}"</span>  */}
               <img
                 src={user.profilePhoto && user.profilePhoto.url}
                 alt="User"
                 className="user-image"
               />
-              <h6>{user.username && user.username}</h6>
-              <span>"{user?.bio}"</span>
             </div>
           </Link>
         </div>

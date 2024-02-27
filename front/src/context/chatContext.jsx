@@ -1,6 +1,8 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import { apiUrl, getRequest, postRequest } from "../api/api";
 import { io } from "socket.io-client";
+import Peer from "peerjs";
+
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children, user }) => {
@@ -18,17 +20,8 @@ export const ChatContextProvider = ({ children, user }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
+  const [peerConnection, setPeerConnection] = useState(null);
 
-  // console.log("notifications:", notifications);
-
-  useEffect(() => {
-    const newSocket = io("http://localhost:3003");
-    setSocket(newSocket);
-
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [user]);
 
   // send message
 
@@ -244,15 +237,113 @@ export const ChatContextProvider = ({ children, user }) => {
     []
   );
 
+  useEffect(() => {
+    const newSocket = io("http://localhost:3003");
+    setSocket(newSocket);
 
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [user]);
 
+  useEffect(() => {
+    if (socket !== null && !peerConnection) {
+      const newPeerConnection = new RTCPeerConnection();
+      setPeerConnection(newPeerConnection);
 
+      newPeerConnection.onicecandidate = (event) => {
+        if (event.candidate) {
+          // send the candidate to the remote peer
+          socket.emit("ice-candidate", {
+            target: currentChat?.members.find((id) => id !== user?._id),
+            candidate: event.candidate,
+          });
+        }
+      };
 
-const startCall = (calleeId, callType) => {
-  // Emit a socket event to start a call
-  socket.emit("startCall", { calleeId, callType });
-};
+      socket.on("ice-candidate", (data) => {
+        // add the remote ICE candidate
+        newPeerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+      });
 
+      // handle the negotiation needed event
+      newPeerConnection.onnegotiationneeded = async () => {
+        const offer = await newPeerConnection.createOffer();
+        await newPeerConnection.setLocalDescription(offer);
+
+        // send the offer to the remote peer
+        socket.emit("offer", {
+          target: currentChat?.members.find((id) => id !== user?._id),
+          offer: offer,
+        });
+      };
+
+      // handle the offer event
+      socket.on("offer", async (data) => {
+        // set the remote description
+        await newPeerConnection.setRemoteDescription(
+          new RTCSessionDescription(data.offer)
+        );
+
+        // create an answer
+        const answer = await newPeerConnection.createAnswer();
+        await newPeerConnection.setLocalDescription(answer);
+
+        // send the answer to the remote peer
+        socket.emit("answer", {
+          target: currentChat?.members.find((id) => id !== user?._id),
+          answer: answer,
+        });
+      });
+
+      // handle the answer event
+      socket.on("answer", (data) => {
+        // set the remote description
+        newPeerConnection.setRemoteDescription(
+          new RTCSessionDescription(data.answer)
+        );
+      });
+    }
+  });
+
+  const startCall = useCallback(
+    async (calleeId) => {
+      console.log("Calling user with ID:", calleeId);
+
+      try {
+        const offer = await peerConnection.createOffer();
+        await peerConnection.setLocalDescription(offer);
+
+        // Send the offer to the callee using your signaling server (socket)
+        socket.emit("offer", {
+          target: calleeId,
+          offer: offer,
+        });
+      } catch (error) {
+        console.error("Error creating offer:", error);
+      }
+    },
+    [peerConnection, socket]
+  );
+
+  const acceptCall = useCallback(
+    async (callerId) => {
+      try {
+        // Create an answer
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+
+        // Send the answer to the caller using your signaling server (socket)
+        socket.emit("answer", {
+          target: callerId,
+          answer: answer,
+        });
+      } catch (error) {
+        console.error("Error creating answer:", error);
+      }
+    },
+    [peerConnection, socket]
+  );
 
   return (
     <ChatContext.Provider
@@ -275,6 +366,7 @@ const startCall = (calleeId, callType) => {
         markNotificationAsRead,
         markThisUserNotesAsRead,
         startCall,
+        acceptCall,
       }}
     >
       {children}
