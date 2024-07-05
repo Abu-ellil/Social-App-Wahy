@@ -74,11 +74,14 @@ router.post("/login", async (req, res) => {
     // Generate JWT token
     const token = user.generateAuthToken();
 
+    // Send response with user data and token
     res.send({ user, token });
   } catch (error) {
-    res.status(400).send(error);
+    console.error("Login error:", error);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
+
 
 // Update profile route
 router.patch("/me/:id", async (req, res) => {
